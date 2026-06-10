@@ -165,6 +165,7 @@ exports.Prisma.SubfolderScalarFieldEnum = {
   description: 'description',
   order: 'order',
   termId: 'termId',
+  parentId: 'parentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

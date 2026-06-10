@@ -1,42 +1,57 @@
 import { useState } from 'react';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { ChevronDown, ChevronRight, GripVertical, Plus, Edit2, Trash2, FileText, Video, ExternalLink, StickyNote, Highlighter } from 'lucide-react';
+import { ChevronDown, ChevronRight, Plus, Edit2, Trash2, FileText, Video, ExternalLink, StickyNote, Highlighter } from 'lucide-react';
+
+type EvidenceItem = {
+  id: number;
+  title: string;
+  type: string;
+  fileType: string;
+  description: string;
+  thumbnail: string;
+  fileUrl: string;
+  filePath: string | null;
+  highlightedSection: string;
+  memoNote: string;
+  date: string;
+  subfolderId: number | null;
+};
+
+type SubfolderItem = {
+  id: number;
+  name: string;
+  description: string | null;
+  order: number;
+  termId: number;
+  parentId: number | null;
+  evidence: EvidenceItem[];
+  children: SubfolderItem[];
+};
+
+function countEvidence(subfolders: SubfolderItem[]): number {
+  return subfolders.reduce((acc, sf) => acc + sf.evidence.length + countEvidence(sf.children), 0);
+}
+
+function countSubfolders(subfolders: SubfolderItem[]): number {
+  return subfolders.reduce((acc, sf) => acc + 1 + countSubfolders(sf.children), 0);
+}
 
 interface SubfolderSectionProps {
-  subfolder: {
-    id: number;
-    name: string;
-    description: string | null;
-    order: number;
-    termId: number;
-    evidence: Array<{
-      id: number;
-      title: string;
-      type: string;
-      fileType: string;
-      description: string;
-      thumbnail: string;
-      fileUrl: string;
-      filePath: string | null;
-      highlightedSection: string;
-      memoNote: string;
-      date: string;
-      subfolderId: number | null;
-    }>;
-  };
+  subfolder: SubfolderItem;
   isEditMode: boolean;
   onEdit: () => void;
   onDelete: () => void;
+  onCreateSubfolder: (termId: number, parentId?: number | null) => void;
+  onEditSubfolder: (subfolder: { id: number; name: string; description: string | null; termId: number }) => void;
+  onDeleteSubfolder: (subfolderId: number) => void;
   onCreateEvidence: () => void;
-  onEditEvidence: (evidence: SubfolderSectionProps['subfolder']['evidence'][0]) => void;
+  onEditEvidence: (evidence: EvidenceItem) => void;
   onDeleteEvidence: (evidenceId: number) => void;
 }
 
 function EvidenceCard({ evidence, isEditMode, onEdit, onDelete }: {
-  evidence: SubfolderSectionProps['subfolder']['evidence'][0];
+  evidence: EvidenceItem;
   isEditMode: boolean;
-  onEdit: (evidence: SubfolderSectionProps['subfolder']['evidence'][0]) => void;
+  onEdit: (evidence: EvidenceItem) => void;
   onDelete: (evidenceId: number) => void;
 }) {
   const [showMemo, setShowMemo] = useState(false);
@@ -133,46 +148,21 @@ export function SubfolderSection({
   isEditMode,
   onEdit,
   onDelete,
+  onCreateSubfolder,
+  onEditSubfolder,
+  onDeleteSubfolder,
   onCreateEvidence,
   onEditEvidence,
   onDeleteEvidence,
 }: SubfolderSectionProps) {
   const [isExpanded, setIsExpanded] = useState(true);
-
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: subfolder.id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
+  const totalEvidence = subfolder.evidence.length + countEvidence(subfolder.children);
+  const totalSubfolders = countSubfolders(subfolder.children);
 
   return (
     <>
-      <div
-        ref={setNodeRef}
-        style={style}
-        className={`subfolder-section ${isExpanded ? 'expanded' : ''} ${isDragging ? 'dragging' : ''}`}
-      >
+      <div className={`subfolder-section depth-${Math.min(subfolder.parentId ? 1 : 0, 2)}`}>
         <div className="subfolder-header">
-          {isEditMode && (
-            <button
-              className="drag-handle"
-              {...attributes}
-              {...listeners}
-              type="button"
-            >
-              <GripVertical size={14} />
-            </button>
-          )}
-
           <button
             className="subfolder-toggle"
             onClick={() => setIsExpanded(!isExpanded)}
@@ -187,12 +177,21 @@ export function SubfolderSection({
               <p className="subfolder-description">{subfolder.description}</p>
             )}
             <span className="subfolder-count">
-              {subfolder.evidence.length} evidence items
+              {totalSubfolders > 0 && `${totalSubfolders} subfolders, `}
+              {totalEvidence} evidence items
             </span>
           </div>
 
           {isEditMode && (
             <div className="subfolder-actions">
+              <button
+                className="action-btn add-nested"
+                onClick={() => onCreateSubfolder(subfolder.termId, subfolder.id)}
+                type="button"
+                title="Add nested subfolder"
+              >
+                <Plus size={12} />
+              </button>
               <button
                 className="action-btn edit"
                 onClick={onEdit}
@@ -215,6 +214,26 @@ export function SubfolderSection({
 
         {isExpanded && (
           <div className="subfolder-content">
+            {subfolder.children.length > 0 && (
+              <div className="nested-subfolders">
+                {subfolder.children.map((child) => (
+                  <SubfolderSection
+                    key={child.id}
+                    subfolder={child}
+                    isEditMode={isEditMode}
+                    onEdit={() => onEditSubfolder(child)}
+                    onDelete={() => onDeleteSubfolder(child.id)}
+                    onCreateSubfolder={onCreateSubfolder}
+                    onEditSubfolder={onEditSubfolder}
+                    onDeleteSubfolder={onDeleteSubfolder}
+                    onCreateEvidence={() => onCreateEvidence()}
+                    onEditEvidence={onEditEvidence}
+                    onDeleteEvidence={onDeleteEvidence}
+                  />
+                ))}
+              </div>
+            )}
+
             <div className="evidence-grid">
               {subfolder.evidence.map((evidence) => (
                 <EvidenceCard
@@ -251,9 +270,8 @@ export function SubfolderSection({
         .subfolder-section.expanded {
           background: var(--color-card-bg);
         }
-        .subfolder-section.dragging {
-          box-shadow: var(--shadow-lg);
-          z-index: 5;
+        .subfolder-section.depth-1 {
+          border-left: 3px solid var(--color-accent);
         }
         .subfolder-header {
           display: flex;
@@ -265,26 +283,6 @@ export function SubfolderSection({
         }
         .subfolder-section.expanded .subfolder-header {
           border-bottom: 1px solid var(--color-border);
-        }
-        .drag-handle {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 24px;
-          height: 24px;
-          border: none;
-          background: none;
-          color: var(--color-text-muted);
-          cursor: grab;
-          border-radius: var(--radius-sm);
-          transition: all var(--duration-fast) var(--ease-in-out);
-        }
-        .drag-handle:hover {
-          background: var(--color-border);
-          color: var(--color-text-primary);
-        }
-        .drag-handle:active {
-          cursor: grabbing;
         }
         .subfolder-toggle {
           display: flex;
@@ -298,6 +296,7 @@ export function SubfolderSection({
           cursor: pointer;
           border-radius: var(--radius-sm);
           transition: all var(--duration-fast) var(--ease-in-out);
+          flex-shrink: 0;
         }
         .subfolder-toggle:hover {
           background: var(--color-border);
@@ -346,11 +345,23 @@ export function SubfolderSection({
           background: #fee2e2;
           color: #dc2626;
         }
+        .action-btn.add-nested {
+          background: #dbeafe;
+          color: #2563eb;
+        }
         .action-btn:hover {
           transform: scale(1.05);
         }
         .subfolder-content {
           padding: var(--space-4);
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-4);
+        }
+        .nested-subfolders {
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-3);
         }
         .evidence-grid {
           display: grid;
@@ -540,7 +551,6 @@ export function SubfolderSection({
           font-weight: var(--weight-medium);
           cursor: pointer;
           transition: all var(--duration-fast) var(--ease-in-out);
-          margin-top: var(--space-4);
         }
         .add-evidence-btn:hover {
           border-color: var(--color-accent);

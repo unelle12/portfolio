@@ -3,6 +3,66 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { unlink, stat } from "fs/promises";
 import { join } from "path";
 
+type SubfolderWithChildren = {
+  id: number;
+  name: string;
+  description: string | null;
+  order: number;
+  termId: number;
+  parentId: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+  evidence: {
+    id: number;
+    title: string;
+    type: string;
+    fileType: string;
+    description: string;
+    thumbnail: string;
+    fileUrl: string;
+    filePath: string | null;
+    highlightedSection: string;
+    memoNote: string;
+    date: string;
+    subfolderId: number | null;
+    createdAt: Date;
+    updatedAt: Date;
+  }[];
+  children: SubfolderWithChildren[];
+};
+
+type FlatSubfolderRow = {
+  id: number;
+  name: string;
+  description: string | null;
+  order: number;
+  termId: number;
+  parentId: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+  evidence: SubfolderWithChildren["evidence"];
+};
+
+function buildSubfolderTree(flat: FlatSubfolderRow[]): SubfolderWithChildren[] {
+  const map = new Map<number, SubfolderWithChildren>();
+  const roots: SubfolderWithChildren[] = [];
+
+  for (const sf of flat) {
+    map.set(sf.id, { ...sf, children: [] });
+  }
+
+  for (const sf of flat) {
+    const node = map.get(sf.id)!;
+    if (sf.parentId && map.has(sf.parentId)) {
+      map.get(sf.parentId)!.children.push(node);
+    } else {
+      roots.push(node);
+    }
+  }
+
+  return roots;
+}
+
 export const evidenceRouter = createTRPCRouter({
   // Get all terms with nested subfolders and evidence
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -19,7 +79,11 @@ export const evidenceRouter = createTRPCRouter({
         },
       },
     });
-    return terms;
+
+    return terms.map((term) => ({
+      ...term,
+      subfolders: buildSubfolderTree(term.subfolders),
+    }));
   }),
 
   // Get single evidence item
@@ -31,7 +95,7 @@ export const evidenceRouter = createTRPCRouter({
 
   // Term CRUD
   getTerms: publicProcedure.query(async ({ ctx }) => {
-    return ctx.db.term.findMany({
+    const terms = await ctx.db.term.findMany({
       orderBy: { order: "asc" },
       include: {
         subfolders: {
@@ -39,6 +103,13 @@ export const evidenceRouter = createTRPCRouter({
         },
       },
     });
+
+    return terms.map((term) => ({
+      ...term,
+      subfolders: buildSubfolderTree(
+        term.subfolders.map((sf) => ({ ...sf, evidence: [] as SubfolderWithChildren["evidence"] }))
+      ),
+    }));
   }),
 
   createTerm: publicProcedure
@@ -107,12 +178,15 @@ export const evidenceRouter = createTRPCRouter({
         termId: z.number(),
         name: z.string(),
         description: z.string().optional(),
+        parentId: z.number().nullable().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      // Get max order value for this term
+      const parentId = input.parentId ?? null;
+
+      // Get max order value scoped to parent
       const maxOrder = await ctx.db.subfolder.aggregate({
-        where: { termId: input.termId },
+        where: { termId: input.termId, parentId },
         _max: { order: true },
       });
       const newOrder = (maxOrder._max.order ?? -1) + 1;
@@ -122,6 +196,7 @@ export const evidenceRouter = createTRPCRouter({
           name: input.name,
           description: input.description,
           termId: input.termId,
+          parentId,
           order: newOrder,
         },
       });
@@ -151,7 +226,7 @@ export const evidenceRouter = createTRPCRouter({
     }),
 
   reorderSubfolders: publicProcedure
-    .input(z.object({ subfolderIds: z.array(z.number()) }))
+    .input(z.object({ subfolderIds: z.array(z.number()), parentId: z.number().nullable() }))
     .mutation(async ({ ctx, input }) => {
       const updates = input.subfolderIds.map((id, index) =>
         ctx.db.subfolder.update({

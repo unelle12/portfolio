@@ -249,18 +249,46 @@ function EvidenceSkeleton() {
                 </div>
                 <Bar width="100px" height="12px" />
               </div>
-              <div className="skeleton-evidence-grid">
-                {[1, 2, 3].map((card) => (
-                  <div key={card} className="skeleton-evidence-card">
-                    <div style={{ height: '120px', background: 'var(--color-bg-secondary)', borderRadius: 'var(--radius-md) var(--radius-md) 0 0' }} />
-                    <div style={{ padding: 'var(--space-3)' }}>
-                      <Bar width="60px" height="10px" />
-                      <Bar width="80%" height="14px" style={{ marginTop: 'var(--space-2)' }} />
-                      <Bar width="100%" height="10px" style={{ marginTop: 'var(--space-2)' }} />
-                      <Bar width="70%" height="10px" style={{ marginTop: 'var(--space-1)' }} />
+              <div style={{ padding: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+                <div className="skeleton-subfolder">
+                  <div className="skeleton-subfolder-header">
+                    <Bar width="16px" height="16px" radius="var(--radius-sm)" />
+                    <div style={{ flex: 1 }}>
+                      <Bar width="100px" height="14px" />
+                      <Bar width="140px" height="10px" style={{ marginTop: 'var(--space-1)' }} />
                     </div>
                   </div>
-                ))}
+                  <div className="skeleton-evidence-grid">
+                    {[1, 2, 3].map((card) => (
+                      <div key={card} className="skeleton-evidence-card">
+                        <div style={{ height: '120px', background: 'var(--color-bg-secondary)', borderRadius: 'var(--radius-md) var(--radius-md) 0 0' }} />
+                        <div style={{ padding: 'var(--space-3)' }}>
+                          <Bar width="60px" height="10px" />
+                          <Bar width="80%" height="14px" style={{ marginTop: 'var(--space-2)' }} />
+                          <Bar width="100%" height="10px" style={{ marginTop: 'var(--space-2)' }} />
+                          <Bar width="70%" height="10px" style={{ marginTop: 'var(--space-1)' }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="skeleton-nested-subfolder" style={{ marginLeft: 'var(--space-6)' }}>
+                    <div className="skeleton-subfolder-header">
+                      <Bar width="12px" height="12px" radius="var(--radius-sm)" />
+                      <Bar width="80px" height="12px" />
+                    </div>
+                    <div className="skeleton-evidence-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+                      {[1, 2].map((card) => (
+                        <div key={card} className="skeleton-evidence-card">
+                          <div style={{ height: '80px', background: 'var(--color-bg-secondary)', borderRadius: 'var(--radius-md) var(--radius-md) 0 0' }} />
+                          <div style={{ padding: 'var(--space-2)' }}>
+                            <Bar width="60%" height="12px" />
+                            <Bar width="80%" height="8px" style={{ marginTop: 'var(--space-1)' }} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
@@ -285,6 +313,27 @@ function EvidenceSkeleton() {
           gap: var(--space-3);
           padding: var(--space-4) var(--space-6);
           background: var(--color-bg-secondary);
+        }
+        .skeleton-subfolder {
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          background: var(--color-bg-secondary);
+          overflow: hidden;
+        }
+        .skeleton-subfolder-header {
+          display: flex;
+          align-items: center;
+          gap: var(--space-2);
+          padding: var(--space-3) var(--space-4);
+          background: var(--color-bg-secondary);
+          border-bottom: 1px solid var(--color-border);
+        }
+        .skeleton-nested-subfolder {
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          background: var(--color-card-bg);
+          overflow: hidden;
+          border-left: 3px solid var(--color-accent);
         }
         .skeleton-evidence-grid {
           display: grid;

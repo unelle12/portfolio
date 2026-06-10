@@ -3,44 +3,56 @@ import { CSS } from '@dnd-kit/utilities';
 import { ChevronDown, ChevronRight, GripVertical, Plus, Edit2, Trash2 } from 'lucide-react';
 import { SubfolderSection } from './SubfolderSection';
 
+type SubfolderItem = {
+  id: number;
+  name: string;
+  description: string | null;
+  order: number;
+  termId: number;
+  parentId: number | null;
+  evidence: Array<{
+    id: number;
+    title: string;
+    type: string;
+    fileType: string;
+    description: string;
+    thumbnail: string;
+    fileUrl: string;
+    filePath: string | null;
+    highlightedSection: string;
+    memoNote: string;
+    date: string;
+    subfolderId: number | null;
+  }>;
+  children: SubfolderItem[];
+};
+
+function countEvidence(subfolders: SubfolderItem[]): number {
+  return subfolders.reduce((acc, sf) => acc + sf.evidence.length + countEvidence(sf.children), 0);
+}
+
+function countSubfolders(subfolders: SubfolderItem[]): number {
+  return subfolders.reduce((acc, sf) => acc + 1 + countSubfolders(sf.children), 0);
+}
+
 interface TermAccordionProps {
   term: {
     id: number;
     name: string;
     description: string | null;
     order: number;
-    subfolders: Array<{
-      id: number;
-      name: string;
-      description: string | null;
-      order: number;
-      termId: number;
-      evidence: Array<{
-        id: number;
-        title: string;
-        type: string;
-        fileType: string;
-        description: string;
-        thumbnail: string;
-        fileUrl: string;
-        filePath: string | null;
-        highlightedSection: string;
-        memoNote: string;
-        date: string;
-        subfolderId: number | null;
-      }>;
-    }>;
+    subfolders: SubfolderItem[];
   };
   isEditMode: boolean;
   isExpanded: boolean;
   onToggle: () => void;
   onEditTerm: (term: TermAccordionProps['term']) => void;
   onDeleteTerm: (termId: number) => void;
-  onCreateSubfolder: (termId: number) => void;
-  onEditSubfolder: (subfolder: TermAccordionProps['term']['subfolders'][0]) => void;
+  onCreateSubfolder: (termId: number, parentId?: number | null) => void;
+  onEditSubfolder: (subfolder: { id: number; name: string; description: string | null; termId: number }) => void;
   onDeleteSubfolder: (subfolderId: number) => void;
   onCreateEvidence: (subfolderId: number) => void;
-  onEditEvidence: (evidence: TermAccordionProps['term']['subfolders'][0]['evidence'][0]) => void;
+  onEditEvidence: (evidence: SubfolderItem['evidence'][0]) => void;
   onDeleteEvidence: (evidenceId: number) => void;
 }
 
@@ -73,7 +85,8 @@ export function TermAccordion({
     opacity: isDragging ? 0.5 : 1,
   };
 
-  const totalEvidence = term.subfolders.reduce((acc, sf) => acc + sf.evidence.length, 0);
+  const totalEvidence = countEvidence(term.subfolders);
+  const totalSubfolders = countSubfolders(term.subfolders);
 
   return (
     <div
@@ -107,7 +120,7 @@ export function TermAccordion({
             <p className="term-description">{term.description}</p>
           )}
           <span className="term-count">
-            {term.subfolders.length} subfolders, {totalEvidence} evidence items
+            {totalSubfolders} subfolders, {totalEvidence} evidence items
           </span>
         </div>
 
@@ -142,6 +155,9 @@ export function TermAccordion({
               isEditMode={isEditMode}
               onEdit={() => onEditSubfolder(subfolder)}
               onDelete={() => onDeleteSubfolder(subfolder.id)}
+              onCreateSubfolder={onCreateSubfolder}
+              onEditSubfolder={onEditSubfolder}
+              onDeleteSubfolder={onDeleteSubfolder}
               onCreateEvidence={() => onCreateEvidence(subfolder.id)}
               onEditEvidence={onEditEvidence}
               onDeleteEvidence={onDeleteEvidence}

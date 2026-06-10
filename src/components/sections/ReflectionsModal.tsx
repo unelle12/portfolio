@@ -8,14 +8,39 @@ interface ReflectionsModalProps {
   onClose: () => void;
 }
 
+type FlatEvidence = {
+  id: number;
+  title: string;
+  type: string;
+  fileType: string;
+  description: string;
+  thumbnail: string;
+  fileUrl: string;
+  filePath: string | null;
+  highlightedSection: string;
+  memoNote: string;
+  date: string;
+  subfolderId: number | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type FlatSubfolder = {
+  evidence: FlatEvidence[];
+  children: FlatSubfolder[];
+};
+
+function flattenEvidence(subfolders: FlatSubfolder[]): FlatEvidence[] {
+  return subfolders.flatMap((sf) => [...sf.evidence, ...flattenEvidence(sf.children)]);
+}
+
 export function ReflectionsModal({ isOpen, onClose }: ReflectionsModalProps) {
   const { content, updateReflection } = useContent();
   const reflections = (content.reflections as Array<{ evidenceId: string; paragraphs: string[] }>) ?? [];
   const { data: terms = [] } = api.evidence.getAll.useQuery();
-  
-  // Flatten the nested structure to get all evidence items
-  const evidenceItems = terms.flatMap((term) =>
-    term.subfolders.flatMap((sf) => sf.evidence)
+
+  const evidenceItems: FlatEvidence[] = terms.flatMap((term) =>
+    flattenEvidence(term.subfolders as FlatSubfolder[])
   );
 
   const [selectedIdx, setSelectedIdx] = useState(0);

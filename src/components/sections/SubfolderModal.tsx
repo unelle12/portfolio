@@ -6,6 +6,7 @@ interface SubfolderModalProps {
   onClose: () => void;
   mode: 'create' | 'edit';
   termId: number;
+  parentId?: number | null;
   subfolder?: {
     id: number;
     name: string;
@@ -15,7 +16,7 @@ interface SubfolderModalProps {
   onSave: (data: { id?: number; termId: number; name: string; description: string }) => void;
 }
 
-export function SubfolderModal({ isOpen, onClose, mode, termId, subfolder, onSave }: SubfolderModalProps) {
+export function SubfolderModal({ isOpen, onClose, mode, termId, parentId, subfolder, onSave }: SubfolderModalProps) {
   const [form, setForm] = useState({
     name: subfolder?.name ?? '',
     description: subfolder?.description ?? '',
@@ -44,9 +45,15 @@ export function SubfolderModal({ isOpen, onClose, mode, termId, subfolder, onSav
     <SectionModal
       isOpen={isOpen}
       onClose={onClose}
-      title={mode === 'create' ? 'Add New Subfolder' : 'Edit Subfolder'}
+      title={mode === 'create' ? (parentId ? 'Add Nested Subfolder' : 'Add New Subfolder') : 'Edit Subfolder'}
       onSave={handleSave}
     >
+      {parentId && (
+        <div className="modal-field" style={{ marginBottom: 'var(--space-3)', padding: 'var(--space-2) var(--space-3)', background: 'var(--color-bg-secondary)', borderRadius: 'var(--radius-md)', fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)' }}>
+          Nesting inside a subfolder
+        </div>
+      )}
+
       <div className="modal-field">
         <label>Subfolder Name *</label>
         <input

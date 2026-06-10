@@ -53,17 +53,20 @@ model Term {
 }
 
 model Subfolder {
-    id          Int        @id @default(autoincrement())
-    name        String     // e.g., "Module 1", "Project", "Assignments"
+    id          Int         @id @default(autoincrement())
+    name        String      // e.g., "Module 1", "Project", "Assignments"
     description String?
-    order       Int        @default(0)
+    order       Int         @default(0)
     termId      Int
-    term        Term       @relation(fields: [termId], references: [id], onDelete: Cascade)
+    term        Term        @relation(fields: [termId], references: [id], onDelete: Cascade)
+    parentId    Int?
+    parent      Subfolder?  @relation("SubfolderTree", fields: [parentId], references: [id], onDelete: Cascade)
+    children    Subfolder[] @relation("SubfolderTree")
     evidence    Evidence[]
-    createdAt   DateTime   @default(now())
-    updatedAt   DateTime   @updatedAt
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
 
-    @@index([termId, order])
+    @@index([termId, parentId, order])
 }
 
 model Evidence {

@@ -1620,10 +1620,12 @@ export namespace Prisma {
    */
 
   export type SubfolderCountOutputType = {
+    children: number
     evidence: number
   }
 
   export type SubfolderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    children?: boolean | SubfolderCountOutputTypeCountChildrenArgs
     evidence?: boolean | SubfolderCountOutputTypeCountEvidenceArgs
   }
 
@@ -1636,6 +1638,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the SubfolderCountOutputType
      */
     select?: SubfolderCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SubfolderCountOutputType without action
+   */
+  export type SubfolderCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubfolderWhereInput
   }
 
   /**
@@ -5939,12 +5948,14 @@ export namespace Prisma {
     id: number | null
     order: number | null
     termId: number | null
+    parentId: number | null
   }
 
   export type SubfolderSumAggregateOutputType = {
     id: number | null
     order: number | null
     termId: number | null
+    parentId: number | null
   }
 
   export type SubfolderMinAggregateOutputType = {
@@ -5953,6 +5964,7 @@ export namespace Prisma {
     description: string | null
     order: number | null
     termId: number | null
+    parentId: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5963,6 +5975,7 @@ export namespace Prisma {
     description: string | null
     order: number | null
     termId: number | null
+    parentId: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5973,6 +5986,7 @@ export namespace Prisma {
     description: number
     order: number
     termId: number
+    parentId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -5983,12 +5997,14 @@ export namespace Prisma {
     id?: true
     order?: true
     termId?: true
+    parentId?: true
   }
 
   export type SubfolderSumAggregateInputType = {
     id?: true
     order?: true
     termId?: true
+    parentId?: true
   }
 
   export type SubfolderMinAggregateInputType = {
@@ -5997,6 +6013,7 @@ export namespace Prisma {
     description?: true
     order?: true
     termId?: true
+    parentId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6007,6 +6024,7 @@ export namespace Prisma {
     description?: true
     order?: true
     termId?: true
+    parentId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6017,6 +6035,7 @@ export namespace Prisma {
     description?: true
     order?: true
     termId?: true
+    parentId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -6114,6 +6133,7 @@ export namespace Prisma {
     description: string | null
     order: number
     termId: number
+    parentId: number | null
     createdAt: Date
     updatedAt: Date
     _count: SubfolderCountAggregateOutputType | null
@@ -6143,9 +6163,12 @@ export namespace Prisma {
     description?: boolean
     order?: boolean
     termId?: boolean
+    parentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     term?: boolean | TermDefaultArgs<ExtArgs>
+    parent?: boolean | Subfolder$parentArgs<ExtArgs>
+    children?: boolean | Subfolder$childrenArgs<ExtArgs>
     evidence?: boolean | Subfolder$evidenceArgs<ExtArgs>
     _count?: boolean | SubfolderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subfolder"]>
@@ -6156,9 +6179,11 @@ export namespace Prisma {
     description?: boolean
     order?: boolean
     termId?: boolean
+    parentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     term?: boolean | TermDefaultArgs<ExtArgs>
+    parent?: boolean | Subfolder$parentArgs<ExtArgs>
   }, ExtArgs["result"]["subfolder"]>
 
   export type SubfolderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6167,9 +6192,11 @@ export namespace Prisma {
     description?: boolean
     order?: boolean
     termId?: boolean
+    parentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     term?: boolean | TermDefaultArgs<ExtArgs>
+    parent?: boolean | Subfolder$parentArgs<ExtArgs>
   }, ExtArgs["result"]["subfolder"]>
 
   export type SubfolderSelectScalar = {
@@ -6178,27 +6205,34 @@ export namespace Prisma {
     description?: boolean
     order?: boolean
     termId?: boolean
+    parentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type SubfolderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "order" | "termId" | "createdAt" | "updatedAt", ExtArgs["result"]["subfolder"]>
+  export type SubfolderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "order" | "termId" | "parentId" | "createdAt" | "updatedAt", ExtArgs["result"]["subfolder"]>
   export type SubfolderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     term?: boolean | TermDefaultArgs<ExtArgs>
+    parent?: boolean | Subfolder$parentArgs<ExtArgs>
+    children?: boolean | Subfolder$childrenArgs<ExtArgs>
     evidence?: boolean | Subfolder$evidenceArgs<ExtArgs>
     _count?: boolean | SubfolderCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SubfolderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     term?: boolean | TermDefaultArgs<ExtArgs>
+    parent?: boolean | Subfolder$parentArgs<ExtArgs>
   }
   export type SubfolderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     term?: boolean | TermDefaultArgs<ExtArgs>
+    parent?: boolean | Subfolder$parentArgs<ExtArgs>
   }
 
   export type $SubfolderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Subfolder"
     objects: {
       term: Prisma.$TermPayload<ExtArgs>
+      parent: Prisma.$SubfolderPayload<ExtArgs> | null
+      children: Prisma.$SubfolderPayload<ExtArgs>[]
       evidence: Prisma.$EvidencePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -6207,6 +6241,7 @@ export namespace Prisma {
       description: string | null
       order: number
       termId: number
+      parentId: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["subfolder"]>
@@ -6604,6 +6639,8 @@ export namespace Prisma {
   export interface Prisma__SubfolderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     term<T extends TermDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TermDefaultArgs<ExtArgs>>): Prisma__TermClient<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    parent<T extends Subfolder$parentArgs<ExtArgs> = {}>(args?: Subset<T, Subfolder$parentArgs<ExtArgs>>): Prisma__SubfolderClient<$Result.GetResult<Prisma.$SubfolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    children<T extends Subfolder$childrenArgs<ExtArgs> = {}>(args?: Subset<T, Subfolder$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubfolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     evidence<T extends Subfolder$evidenceArgs<ExtArgs> = {}>(args?: Subset<T, Subfolder$evidenceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EvidencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6639,6 +6676,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Subfolder", 'String'>
     readonly order: FieldRef<"Subfolder", 'Int'>
     readonly termId: FieldRef<"Subfolder", 'Int'>
+    readonly parentId: FieldRef<"Subfolder", 'Int'>
     readonly createdAt: FieldRef<"Subfolder", 'DateTime'>
     readonly updatedAt: FieldRef<"Subfolder", 'DateTime'>
   }
@@ -7034,6 +7072,49 @@ export namespace Prisma {
      * Limit how many Subfolders to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Subfolder.parent
+   */
+  export type Subfolder$parentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderInclude<ExtArgs> | null
+    where?: SubfolderWhereInput
+  }
+
+  /**
+   * Subfolder.children
+   */
+  export type Subfolder$childrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderInclude<ExtArgs> | null
+    where?: SubfolderWhereInput
+    orderBy?: SubfolderOrderByWithRelationInput | SubfolderOrderByWithRelationInput[]
+    cursor?: SubfolderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SubfolderScalarFieldEnum | SubfolderScalarFieldEnum[]
   }
 
   /**
@@ -11390,6 +11471,7 @@ export namespace Prisma {
     description: 'description',
     order: 'order',
     termId: 'termId',
+    parentId: 'parentId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -11790,9 +11872,12 @@ export namespace Prisma {
     description?: StringNullableFilter<"Subfolder"> | string | null
     order?: IntFilter<"Subfolder"> | number
     termId?: IntFilter<"Subfolder"> | number
+    parentId?: IntNullableFilter<"Subfolder"> | number | null
     createdAt?: DateTimeFilter<"Subfolder"> | Date | string
     updatedAt?: DateTimeFilter<"Subfolder"> | Date | string
     term?: XOR<TermScalarRelationFilter, TermWhereInput>
+    parent?: XOR<SubfolderNullableScalarRelationFilter, SubfolderWhereInput> | null
+    children?: SubfolderListRelationFilter
     evidence?: EvidenceListRelationFilter
   }
 
@@ -11802,9 +11887,12 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     order?: SortOrder
     termId?: SortOrder
+    parentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     term?: TermOrderByWithRelationInput
+    parent?: SubfolderOrderByWithRelationInput
+    children?: SubfolderOrderByRelationAggregateInput
     evidence?: EvidenceOrderByRelationAggregateInput
   }
 
@@ -11817,9 +11905,12 @@ export namespace Prisma {
     description?: StringNullableFilter<"Subfolder"> | string | null
     order?: IntFilter<"Subfolder"> | number
     termId?: IntFilter<"Subfolder"> | number
+    parentId?: IntNullableFilter<"Subfolder"> | number | null
     createdAt?: DateTimeFilter<"Subfolder"> | Date | string
     updatedAt?: DateTimeFilter<"Subfolder"> | Date | string
     term?: XOR<TermScalarRelationFilter, TermWhereInput>
+    parent?: XOR<SubfolderNullableScalarRelationFilter, SubfolderWhereInput> | null
+    children?: SubfolderListRelationFilter
     evidence?: EvidenceListRelationFilter
   }, "id">
 
@@ -11829,6 +11920,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     order?: SortOrder
     termId?: SortOrder
+    parentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SubfolderCountOrderByAggregateInput
@@ -11847,6 +11939,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Subfolder"> | string | null
     order?: IntWithAggregatesFilter<"Subfolder"> | number
     termId?: IntWithAggregatesFilter<"Subfolder"> | number
+    parentId?: IntNullableWithAggregatesFilter<"Subfolder"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Subfolder"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Subfolder"> | Date | string
   }
@@ -12359,6 +12452,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     term: TermCreateNestedOneWithoutSubfoldersInput
+    parent?: SubfolderCreateNestedOneWithoutChildrenInput
+    children?: SubfolderCreateNestedManyWithoutParentInput
     evidence?: EvidenceCreateNestedManyWithoutSubfolderInput
   }
 
@@ -12368,8 +12463,10 @@ export namespace Prisma {
     description?: string | null
     order?: number
     termId: number
+    parentId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    children?: SubfolderUncheckedCreateNestedManyWithoutParentInput
     evidence?: EvidenceUncheckedCreateNestedManyWithoutSubfolderInput
   }
 
@@ -12380,6 +12477,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     term?: TermUpdateOneRequiredWithoutSubfoldersNestedInput
+    parent?: SubfolderUpdateOneWithoutChildrenNestedInput
+    children?: SubfolderUpdateManyWithoutParentNestedInput
     evidence?: EvidenceUpdateManyWithoutSubfolderNestedInput
   }
 
@@ -12389,8 +12488,10 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     termId?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: SubfolderUncheckedUpdateManyWithoutParentNestedInput
     evidence?: EvidenceUncheckedUpdateManyWithoutSubfolderNestedInput
   }
 
@@ -12400,6 +12501,7 @@ export namespace Prisma {
     description?: string | null
     order?: number
     termId: number
+    parentId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12418,6 +12520,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     termId?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12941,9 +13044,25 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type TermScalarRelationFilter = {
     is?: TermWhereInput
     isNot?: TermWhereInput
+  }
+
+  export type SubfolderNullableScalarRelationFilter = {
+    is?: SubfolderWhereInput | null
+    isNot?: SubfolderWhereInput | null
   }
 
   export type EvidenceListRelationFilter = {
@@ -12962,6 +13081,7 @@ export namespace Prisma {
     description?: SortOrder
     order?: SortOrder
     termId?: SortOrder
+    parentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -12970,6 +13090,7 @@ export namespace Prisma {
     id?: SortOrder
     order?: SortOrder
     termId?: SortOrder
+    parentId?: SortOrder
   }
 
   export type SubfolderMaxOrderByAggregateInput = {
@@ -12978,6 +13099,7 @@ export namespace Prisma {
     description?: SortOrder
     order?: SortOrder
     termId?: SortOrder
+    parentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -12988,6 +13110,7 @@ export namespace Prisma {
     description?: SortOrder
     order?: SortOrder
     termId?: SortOrder
+    parentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -12996,9 +13119,10 @@ export namespace Prisma {
     id?: SortOrder
     order?: SortOrder
     termId?: SortOrder
+    parentId?: SortOrder
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -13006,12 +13130,12 @@ export namespace Prisma {
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type SubfolderNullableScalarRelationFilter = {
-    is?: SubfolderWhereInput | null
-    isNot?: SubfolderWhereInput | null
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type EvidenceCountOrderByAggregateInput = {
@@ -13073,22 +13197,6 @@ export namespace Prisma {
   export type EvidenceSumOrderByAggregateInput = {
     id?: SortOrder
     subfolderId?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type ReflectionCountOrderByAggregateInput = {
@@ -13237,11 +13345,31 @@ export namespace Prisma {
     connect?: TermWhereUniqueInput
   }
 
+  export type SubfolderCreateNestedOneWithoutChildrenInput = {
+    create?: XOR<SubfolderCreateWithoutChildrenInput, SubfolderUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: SubfolderCreateOrConnectWithoutChildrenInput
+    connect?: SubfolderWhereUniqueInput
+  }
+
+  export type SubfolderCreateNestedManyWithoutParentInput = {
+    create?: XOR<SubfolderCreateWithoutParentInput, SubfolderUncheckedCreateWithoutParentInput> | SubfolderCreateWithoutParentInput[] | SubfolderUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: SubfolderCreateOrConnectWithoutParentInput | SubfolderCreateOrConnectWithoutParentInput[]
+    createMany?: SubfolderCreateManyParentInputEnvelope
+    connect?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+  }
+
   export type EvidenceCreateNestedManyWithoutSubfolderInput = {
     create?: XOR<EvidenceCreateWithoutSubfolderInput, EvidenceUncheckedCreateWithoutSubfolderInput> | EvidenceCreateWithoutSubfolderInput[] | EvidenceUncheckedCreateWithoutSubfolderInput[]
     connectOrCreate?: EvidenceCreateOrConnectWithoutSubfolderInput | EvidenceCreateOrConnectWithoutSubfolderInput[]
     createMany?: EvidenceCreateManySubfolderInputEnvelope
     connect?: EvidenceWhereUniqueInput | EvidenceWhereUniqueInput[]
+  }
+
+  export type SubfolderUncheckedCreateNestedManyWithoutParentInput = {
+    create?: XOR<SubfolderCreateWithoutParentInput, SubfolderUncheckedCreateWithoutParentInput> | SubfolderCreateWithoutParentInput[] | SubfolderUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: SubfolderCreateOrConnectWithoutParentInput | SubfolderCreateOrConnectWithoutParentInput[]
+    createMany?: SubfolderCreateManyParentInputEnvelope
+    connect?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
   }
 
   export type EvidenceUncheckedCreateNestedManyWithoutSubfolderInput = {
@@ -13259,6 +13387,30 @@ export namespace Prisma {
     update?: XOR<XOR<TermUpdateToOneWithWhereWithoutSubfoldersInput, TermUpdateWithoutSubfoldersInput>, TermUncheckedUpdateWithoutSubfoldersInput>
   }
 
+  export type SubfolderUpdateOneWithoutChildrenNestedInput = {
+    create?: XOR<SubfolderCreateWithoutChildrenInput, SubfolderUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: SubfolderCreateOrConnectWithoutChildrenInput
+    upsert?: SubfolderUpsertWithoutChildrenInput
+    disconnect?: SubfolderWhereInput | boolean
+    delete?: SubfolderWhereInput | boolean
+    connect?: SubfolderWhereUniqueInput
+    update?: XOR<XOR<SubfolderUpdateToOneWithWhereWithoutChildrenInput, SubfolderUpdateWithoutChildrenInput>, SubfolderUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type SubfolderUpdateManyWithoutParentNestedInput = {
+    create?: XOR<SubfolderCreateWithoutParentInput, SubfolderUncheckedCreateWithoutParentInput> | SubfolderCreateWithoutParentInput[] | SubfolderUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: SubfolderCreateOrConnectWithoutParentInput | SubfolderCreateOrConnectWithoutParentInput[]
+    upsert?: SubfolderUpsertWithWhereUniqueWithoutParentInput | SubfolderUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: SubfolderCreateManyParentInputEnvelope
+    set?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    disconnect?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    delete?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    connect?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    update?: SubfolderUpdateWithWhereUniqueWithoutParentInput | SubfolderUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: SubfolderUpdateManyWithWhereWithoutParentInput | SubfolderUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: SubfolderScalarWhereInput | SubfolderScalarWhereInput[]
+  }
+
   export type EvidenceUpdateManyWithoutSubfolderNestedInput = {
     create?: XOR<EvidenceCreateWithoutSubfolderInput, EvidenceUncheckedCreateWithoutSubfolderInput> | EvidenceCreateWithoutSubfolderInput[] | EvidenceUncheckedCreateWithoutSubfolderInput[]
     connectOrCreate?: EvidenceCreateOrConnectWithoutSubfolderInput | EvidenceCreateOrConnectWithoutSubfolderInput[]
@@ -13271,6 +13423,28 @@ export namespace Prisma {
     update?: EvidenceUpdateWithWhereUniqueWithoutSubfolderInput | EvidenceUpdateWithWhereUniqueWithoutSubfolderInput[]
     updateMany?: EvidenceUpdateManyWithWhereWithoutSubfolderInput | EvidenceUpdateManyWithWhereWithoutSubfolderInput[]
     deleteMany?: EvidenceScalarWhereInput | EvidenceScalarWhereInput[]
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type SubfolderUncheckedUpdateManyWithoutParentNestedInput = {
+    create?: XOR<SubfolderCreateWithoutParentInput, SubfolderUncheckedCreateWithoutParentInput> | SubfolderCreateWithoutParentInput[] | SubfolderUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: SubfolderCreateOrConnectWithoutParentInput | SubfolderCreateOrConnectWithoutParentInput[]
+    upsert?: SubfolderUpsertWithWhereUniqueWithoutParentInput | SubfolderUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: SubfolderCreateManyParentInputEnvelope
+    set?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    disconnect?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    delete?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    connect?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    update?: SubfolderUpdateWithWhereUniqueWithoutParentInput | SubfolderUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: SubfolderUpdateManyWithWhereWithoutParentInput | SubfolderUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: SubfolderScalarWhereInput | SubfolderScalarWhereInput[]
   }
 
   export type EvidenceUncheckedUpdateManyWithoutSubfolderNestedInput = {
@@ -13301,14 +13475,6 @@ export namespace Prisma {
     delete?: SubfolderWhereInput | boolean
     connect?: SubfolderWhereUniqueInput
     update?: XOR<XOR<SubfolderUpdateToOneWithWhereWithoutEvidenceInput, SubfolderUpdateWithoutEvidenceInput>, SubfolderUncheckedUpdateWithoutEvidenceInput>
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -13480,6 +13646,8 @@ export namespace Prisma {
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    parent?: SubfolderCreateNestedOneWithoutChildrenInput
+    children?: SubfolderCreateNestedManyWithoutParentInput
     evidence?: EvidenceCreateNestedManyWithoutSubfolderInput
   }
 
@@ -13488,8 +13656,10 @@ export namespace Prisma {
     name: string
     description?: string | null
     order?: number
+    parentId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    children?: SubfolderUncheckedCreateNestedManyWithoutParentInput
     evidence?: EvidenceUncheckedCreateNestedManyWithoutSubfolderInput
   }
 
@@ -13528,6 +13698,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Subfolder"> | string | null
     order?: IntFilter<"Subfolder"> | number
     termId?: IntFilter<"Subfolder"> | number
+    parentId?: IntNullableFilter<"Subfolder"> | number | null
     createdAt?: DateTimeFilter<"Subfolder"> | Date | string
     updatedAt?: DateTimeFilter<"Subfolder"> | Date | string
   }
@@ -13552,6 +13723,67 @@ export namespace Prisma {
   export type TermCreateOrConnectWithoutSubfoldersInput = {
     where: TermWhereUniqueInput
     create: XOR<TermCreateWithoutSubfoldersInput, TermUncheckedCreateWithoutSubfoldersInput>
+  }
+
+  export type SubfolderCreateWithoutChildrenInput = {
+    name: string
+    description?: string | null
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    term: TermCreateNestedOneWithoutSubfoldersInput
+    parent?: SubfolderCreateNestedOneWithoutChildrenInput
+    evidence?: EvidenceCreateNestedManyWithoutSubfolderInput
+  }
+
+  export type SubfolderUncheckedCreateWithoutChildrenInput = {
+    id?: number
+    name: string
+    description?: string | null
+    order?: number
+    termId: number
+    parentId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    evidence?: EvidenceUncheckedCreateNestedManyWithoutSubfolderInput
+  }
+
+  export type SubfolderCreateOrConnectWithoutChildrenInput = {
+    where: SubfolderWhereUniqueInput
+    create: XOR<SubfolderCreateWithoutChildrenInput, SubfolderUncheckedCreateWithoutChildrenInput>
+  }
+
+  export type SubfolderCreateWithoutParentInput = {
+    name: string
+    description?: string | null
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    term: TermCreateNestedOneWithoutSubfoldersInput
+    children?: SubfolderCreateNestedManyWithoutParentInput
+    evidence?: EvidenceCreateNestedManyWithoutSubfolderInput
+  }
+
+  export type SubfolderUncheckedCreateWithoutParentInput = {
+    id?: number
+    name: string
+    description?: string | null
+    order?: number
+    termId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: SubfolderUncheckedCreateNestedManyWithoutParentInput
+    evidence?: EvidenceUncheckedCreateNestedManyWithoutSubfolderInput
+  }
+
+  export type SubfolderCreateOrConnectWithoutParentInput = {
+    where: SubfolderWhereUniqueInput
+    create: XOR<SubfolderCreateWithoutParentInput, SubfolderUncheckedCreateWithoutParentInput>
+  }
+
+  export type SubfolderCreateManyParentInputEnvelope = {
+    data: SubfolderCreateManyParentInput | SubfolderCreateManyParentInput[]
+    skipDuplicates?: boolean
   }
 
   export type EvidenceCreateWithoutSubfolderInput = {
@@ -13623,6 +13855,56 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SubfolderUpsertWithoutChildrenInput = {
+    update: XOR<SubfolderUpdateWithoutChildrenInput, SubfolderUncheckedUpdateWithoutChildrenInput>
+    create: XOR<SubfolderCreateWithoutChildrenInput, SubfolderUncheckedCreateWithoutChildrenInput>
+    where?: SubfolderWhereInput
+  }
+
+  export type SubfolderUpdateToOneWithWhereWithoutChildrenInput = {
+    where?: SubfolderWhereInput
+    data: XOR<SubfolderUpdateWithoutChildrenInput, SubfolderUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type SubfolderUpdateWithoutChildrenInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    term?: TermUpdateOneRequiredWithoutSubfoldersNestedInput
+    parent?: SubfolderUpdateOneWithoutChildrenNestedInput
+    evidence?: EvidenceUpdateManyWithoutSubfolderNestedInput
+  }
+
+  export type SubfolderUncheckedUpdateWithoutChildrenInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    termId?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    evidence?: EvidenceUncheckedUpdateManyWithoutSubfolderNestedInput
+  }
+
+  export type SubfolderUpsertWithWhereUniqueWithoutParentInput = {
+    where: SubfolderWhereUniqueInput
+    update: XOR<SubfolderUpdateWithoutParentInput, SubfolderUncheckedUpdateWithoutParentInput>
+    create: XOR<SubfolderCreateWithoutParentInput, SubfolderUncheckedCreateWithoutParentInput>
+  }
+
+  export type SubfolderUpdateWithWhereUniqueWithoutParentInput = {
+    where: SubfolderWhereUniqueInput
+    data: XOR<SubfolderUpdateWithoutParentInput, SubfolderUncheckedUpdateWithoutParentInput>
+  }
+
+  export type SubfolderUpdateManyWithWhereWithoutParentInput = {
+    where: SubfolderScalarWhereInput
+    data: XOR<SubfolderUpdateManyMutationInput, SubfolderUncheckedUpdateManyWithoutParentInput>
+  }
+
   export type EvidenceUpsertWithWhereUniqueWithoutSubfolderInput = {
     where: EvidenceWhereUniqueInput
     update: XOR<EvidenceUpdateWithoutSubfolderInput, EvidenceUncheckedUpdateWithoutSubfolderInput>
@@ -13666,6 +13948,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     term: TermCreateNestedOneWithoutSubfoldersInput
+    parent?: SubfolderCreateNestedOneWithoutChildrenInput
+    children?: SubfolderCreateNestedManyWithoutParentInput
   }
 
   export type SubfolderUncheckedCreateWithoutEvidenceInput = {
@@ -13674,8 +13958,10 @@ export namespace Prisma {
     description?: string | null
     order?: number
     termId: number
+    parentId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    children?: SubfolderUncheckedCreateNestedManyWithoutParentInput
   }
 
   export type SubfolderCreateOrConnectWithoutEvidenceInput = {
@@ -13701,6 +13987,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     term?: TermUpdateOneRequiredWithoutSubfoldersNestedInput
+    parent?: SubfolderUpdateOneWithoutChildrenNestedInput
+    children?: SubfolderUpdateManyWithoutParentNestedInput
   }
 
   export type SubfolderUncheckedUpdateWithoutEvidenceInput = {
@@ -13709,8 +13997,10 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     termId?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: SubfolderUncheckedUpdateManyWithoutParentNestedInput
   }
 
   export type SubfolderCreateManyTermInput = {
@@ -13718,6 +14008,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     order?: number
+    parentId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13728,6 +14019,8 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parent?: SubfolderUpdateOneWithoutChildrenNestedInput
+    children?: SubfolderUpdateManyWithoutParentNestedInput
     evidence?: EvidenceUpdateManyWithoutSubfolderNestedInput
   }
 
@@ -13736,8 +14029,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: SubfolderUncheckedUpdateManyWithoutParentNestedInput
     evidence?: EvidenceUncheckedUpdateManyWithoutSubfolderNestedInput
   }
 
@@ -13746,8 +14041,19 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubfolderCreateManyParentInput = {
+    id?: number
+    name: string
+    description?: string | null
+    order?: number
+    termId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type EvidenceCreateManySubfolderInput = {
@@ -13764,6 +14070,39 @@ export namespace Prisma {
     date?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type SubfolderUpdateWithoutParentInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    term?: TermUpdateOneRequiredWithoutSubfoldersNestedInput
+    children?: SubfolderUpdateManyWithoutParentNestedInput
+    evidence?: EvidenceUpdateManyWithoutSubfolderNestedInput
+  }
+
+  export type SubfolderUncheckedUpdateWithoutParentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    termId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: SubfolderUncheckedUpdateManyWithoutParentNestedInput
+    evidence?: EvidenceUncheckedUpdateManyWithoutSubfolderNestedInput
+  }
+
+  export type SubfolderUncheckedUpdateManyWithoutParentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    termId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type EvidenceUpdateWithoutSubfolderInput = {

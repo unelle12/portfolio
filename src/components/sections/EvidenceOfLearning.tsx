@@ -23,6 +23,36 @@ import { TermModal } from './TermModal';
 import { SubfolderModal } from './SubfolderModal';
 import { EvidenceModal } from './EvidenceModal';
 
+type EvidenceItem = {
+  id: number;
+  title: string;
+  type: string;
+  fileType: string;
+  description: string;
+  thumbnail: string;
+  fileUrl: string;
+  filePath: string | null;
+  highlightedSection: string;
+  memoNote: string;
+  date: string;
+  subfolderId: number | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type SubfolderItem = {
+  id: number;
+  name: string;
+  description: string | null;
+  order: number;
+  termId: number;
+  parentId: number | null;
+  createdAt: string;
+  updatedAt: string;
+  evidence: EvidenceItem[];
+  children: SubfolderItem[];
+};
+
 type Term = {
   id: number;
   name: string;
@@ -30,42 +60,27 @@ type Term = {
   order: number;
   createdAt: string;
   updatedAt: string;
-  subfolders: {
-    id: number;
-    name: string;
-    description: string | null;
-    order: number;
-    termId: number;
-    createdAt: string;
-    updatedAt: string;
-    evidence: {
-      id: number;
-      title: string;
-      type: string;
-      fileType: string;
-      description: string;
-      thumbnail: string;
-      fileUrl: string;
-      filePath: string | null;
-      highlightedSection: string;
-      memoNote: string;
-      date: string;
-      subfolderId: number | null;
-      createdAt: string;
-      updatedAt: string;
-    }[];
-  }[];
+  subfolders: SubfolderItem[];
 };
+
+function countEvidence(subfolders: SubfolderItem[]): number {
+  return subfolders.reduce((acc, sf) => acc + sf.evidence.length + countEvidence(sf.children), 0);
+}
+
+function countSubfolders(subfolders: SubfolderItem[]): number {
+  return subfolders.reduce((acc, sf) => acc + 1 + countSubfolders(sf.children), 0);
+}
 
 export function EvidenceOfLearning() {
   const [expandedTermIds, setExpandedTermIds] = useState<Set<number>>(new Set());
   const [editingTerm, setEditingTerm] = useState<Term | null>(null);
   const [editingSubfolder, setEditingSubfolder] = useState<{ id: number; name: string; description: string | null; termId: number } | null>(null);
-  const [editingEvidence, setEditingEvidence] = useState<Term['subfolders'][0]['evidence'][0] | null>(null);
+  const [editingEvidence, setEditingEvidence] = useState<EvidenceItem | null>(null);
   const [termModalMode, setTermModalMode] = useState<'create' | 'edit' | null>(null);
   const [subfolderModalMode, setSubfolderModalMode] = useState<'create' | 'edit' | null>(null);
   const [evidenceModalMode, setEvidenceModalMode] = useState<'create' | 'edit' | null>(null);
   const [creatingSubfolderForTermId, setCreatingSubfolderForTermId] = useState<number | null>(null);
+  const [creatingSubfolderForParentId, setCreatingSubfolderForParentId] = useState<number | null>(null);
   const [creatingEvidenceForSubfolderId, setCreatingEvidenceForSubfolderId] = useState<number | null>(null);
 
   const { isEditMode } = useContent();
@@ -78,7 +93,6 @@ export function EvidenceOfLearning() {
 
   const createTermMutation = api.evidence.createTerm.useMutation({
     onSuccess: () => void refetchTerms(),
-    onError: (error) => console.error('createTerm error:', error.message, error),
   });
 
   const updateTermMutation = api.evidence.updateTerm.useMutation({
@@ -164,7 +178,6 @@ export function EvidenceOfLearning() {
   };
 
   const handleSaveTerm = (data: { id?: number; name: string; description: string }) => {
-    console.log('handleSaveTerm called with:', data, 'mode:', termModalMode);
     if (termModalMode === 'create') {
       createTermMutation.mutate(data);
     } else if (data.id) {
@@ -172,8 +185,9 @@ export function EvidenceOfLearning() {
     }
   };
 
-  const handleCreateSubfolder = (termId: number) => {
+  const handleCreateSubfolder = (termId: number, parentId?: number | null) => {
     setCreatingSubfolderForTermId(termId);
+    setCreatingSubfolderForParentId(parentId ?? null);
     setEditingSubfolder(null);
     setSubfolderModalMode('create');
   };
@@ -191,10 +205,11 @@ export function EvidenceOfLearning() {
 
   const handleSaveSubfolder = (data: { id?: number; termId: number; name: string; description: string }) => {
     if (subfolderModalMode === 'create') {
-      const payload = { termId: data.termId, name: data.name, description: data.description || undefined };
-      console.log('createSubfolder payload:', payload);
-      createSubfolderMutation.mutate(payload, {
-        onError: (error) => console.error('createSubfolder error:', error.message),
+      createSubfolderMutation.mutate({
+        termId: data.termId,
+        name: data.name,
+        description: data.description || undefined,
+        parentId: creatingSubfolderForParentId,
       });
     } else if (data.id) {
       updateSubfolderMutation.mutate({ id: data.id, name: data.name, description: data.description });
@@ -207,7 +222,7 @@ export function EvidenceOfLearning() {
     setEvidenceModalMode('create');
   };
 
-  const handleEditEvidence = (evidence: Term['subfolders'][0]['evidence'][0]) => {
+  const handleEditEvidence = (evidence: EvidenceItem) => {
     setEditingEvidence(evidence);
     setEvidenceModalMode('edit');
   };
@@ -251,9 +266,8 @@ export function EvidenceOfLearning() {
     }
   };
 
-  const totalEvidence = terms.reduce((acc, term) =>
-    acc + term.subfolders.reduce((acc2, sf) => acc2 + sf.evidence.length, 0), 0
-  );
+  const totalEvidence = terms.reduce((acc, term) => acc + countEvidence(term.subfolders as SubfolderItem[]), 0);
+  const totalSubfolders = terms.reduce((acc, term) => acc + countSubfolders(term.subfolders as SubfolderItem[]), 0);
 
   return (
     <section id="evidence" className="section" style={{ background: 'var(--section-even-bg)', position: 'relative' }}>
@@ -303,7 +317,7 @@ export function EvidenceOfLearning() {
 
         <div className="evidence-count">
           <Text size="sm" muted>
-            {terms.length} terms, {totalEvidence} evidence items
+            {terms.length} terms, {totalSubfolders} subfolders, {totalEvidence} evidence items
           </Text>
         </div>
       </Container>
@@ -328,9 +342,11 @@ export function EvidenceOfLearning() {
             setEditingSubfolder(null);
             setSubfolderModalMode(null);
             setCreatingSubfolderForTermId(null);
+            setCreatingSubfolderForParentId(null);
           }}
           mode={subfolderModalMode}
           termId={creatingSubfolderForTermId ?? editingSubfolder?.termId ?? 1}
+          parentId={creatingSubfolderForParentId}
           subfolder={editingSubfolder ?? undefined}
           onSave={handleSaveSubfolder}
         />
