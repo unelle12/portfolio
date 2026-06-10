@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- Main illustration elements -->
+  <rect x="760" y="340" width="400" height="400" rx="32" fill="#4F252E" opacity="0.15"/>
+  <rect x="780" y="360" width="360" height="360" rx="24" fill="#FFF7C5" opacity="0.3"/>
+  <circle cx="960" cy="540" r="120" fill="#F4AE52" opacity="0.2"/>
+  <text x="960" y="560" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="48" font-weight="600" fill="#4F252E" opacity="0.6">Portfolio</text>
+</svg>

@@ -1,0 +1,89 @@
+{
+  "outcomes": [
+    {
+      "id": "outcome-1",
+      "title": "Critical Thinking & Problem Solving",
+      "shortTitle": "Critical Thinking",
+      "description": "Ability to analyze complex problems, evaluate evidence, and develop effective solutions using logical reasoning and creative approaches.",
+      "score": 4.2,
+      "maxScore": 5,
+      "interpretation": "Demonstrates strong analytical skills with consistent application of critical thinking in academic tasks. Shows ability to evaluate multiple perspectives and form evidence-based conclusions.",
+      "indicators": [
+        { "id": "ind-1-1", "text": "Analyzes complex problems using appropriate strategies", "rating": 4 },
+        { "id": "ind-1-2", "text": "Evaluates evidence and sources critically", "rating": 5 },
+        { "id": "ind-1-3", "text": "Develops creative and logical solutions", "rating": 4 },
+        { "id": "ind-1-4", "text": "Communicates reasoning clearly", "rating": 4 },
+        { "id": "ind-1-5", "text": "Applies learning to new situations", "rating": 4 },
+        { "id": "ind-1-6", "text": "Demonstrates intellectual curiosity", "rating": 4 }
+      ]
+    },
+    {
+      "id": "outcome-2",
+      "title": "Communication & Collaboration",
+      "shortTitle": "Communication",
+      "description": "Ability to convey ideas effectively through various mediums and work productively with diverse teams to achieve common goals.",
+      "score": 4.0,
+      "maxScore": 5,
+      "interpretation": "Shows solid communication skills in both written and verbal forms. Works well in team settings and demonstrates respect for diverse perspectives.",
+      "indicators": [
+        { "id": "ind-2-1", "text": "Expresses ideas clearly in written form", "rating": 4 },
+        { "id": "ind-2-2", "text": "Communicates effectively in presentations", "rating": 4 },
+        { "id": "ind-2-3", "text": "Listens actively and responds appropriately", "rating": 4 },
+        { "id": "ind-2-4", "text": "Collaborates effectively in team settings", "rating": 4 },
+        { "id": "ind-2-5", "text": "Adapts communication style for different audiences", "rating": 4 },
+        { "id": "ind-2-6", "text": "Provides and receives constructive feedback", "rating": 4 }
+      ]
+    },
+    {
+      "id": "outcome-3",
+      "title": "Leadership & Social Responsibility",
+      "shortTitle": "Leadership",
+      "description": "Ability to lead by example, take initiative, and contribute positively to community welfare and social development.",
+      "score": 3.8,
+      "maxScore": 5,
+      "interpretation": "Demonstrates emerging leadership qualities with growing awareness of social responsibility. Shows willingness to take initiative and contribute to group efforts.",
+      "indicators": [
+        { "id": "ind-3-1", "text": "Takes initiative in group activities", "rating": 4 },
+        { "id": "ind-3-2", "text": "Demonstrates responsibility and accountability", "rating": 4 },
+        { "id": "ind-3-3", "text": "Shows awareness of social issues", "rating": 4 },
+        { "id": "ind-3-4", "text": "Contributes to community welfare", "rating": 3 },
+        { "id": "ind-3-5", "text": "Inspires and motivates others", "rating": 4 },
+        { "id": "ind-3-6", "text": "Leads by positive example", "rating": 4 }
+      ]
+    },
+    {
+      "id": "outcome-4",
+      "title": "Lifelong Learning & Adaptability",
+      "shortTitle": "Lifelong Learning",
+      "description": "Commitment to continuous personal and professional growth, with ability to adapt to changing circumstances and embrace new challenges.",
+      "score": 4.5,
+      "maxScore": 5,
+      "interpretation": "Exceptional commitment to continuous learning. Demonstrates high adaptability and shows proactive approach to acquiring new skills and knowledge.",
+      "indicators": [
+        { "id": "ind-4-1", "text": "Seeks learning opportunities independently", "rating": 5 },
+        { "id": "ind-4-2", "text": "Adapts to new situations effectively", "rating": 5 },
+        { "id": "ind-4-3", "text": "Embraces challenges as learning opportunities", "rating": 4 },
+        { "id": "ind-4-4", "text": "Reflects on experiences for growth", "rating": 5 },
+        { "id": "ind-4-5", "text": "Stays current with developments in field", "rating": 4 },
+        { "id": "ind-4-6", "text": "Demonstrates resilience and persistence", "rating": 4 }
+      ]
+    },
+    {
+      "id": "outcome-5",
+      "title": "Research & Innovation",
+      "shortTitle": "Research",
+      "description": "Ability to conduct quality research, think innovatively, and apply research findings to address real-world problems.",
+      "score": 3.9,
+      "maxScore": 5,
+      "interpretation": "Shows developing research skills with growing understanding of research methodology. Demonstrates creative thinking and application of research to practical problems.",
+      "indicators": [
+        { "id": "ind-5-1", "text": "Identifies research problems effectively", "rating": 4 },
+        { "id": "ind-5-2", "text": "Uses appropriate research methods", "rating": 4 },
+        { "id": "ind-5-3", "text": "Analyzes data accurately", "rating": 4 },
+        { "id": "ind-5-4", "text": "Draws evidence-based conclusions", "rating": 4 },
+        { "id": "ind-5-5", "text": "Applies research findings practically", "rating": 4 },
+        { "id": "ind-5-6", "text": "Demonstrates innovative thinking", "rating": 4 }
+      ]
+    }
+  ]
+}

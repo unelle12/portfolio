@@ -1,0 +1,21 @@
+{
+  "formspreeId": "YOUR_FORMSPREE_ID",
+  "socialLinks": [
+    {
+      "platform": "LinkedIn",
+      "url": "https://linkedin.com/in/yourprofile",
+      "icon": "linkedin"
+    },
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/yourprofile",
+      "icon": "github"
+    },
+    {
+      "platform": "Email",
+      "url": "mailto:email@example.com",
+      "icon": "mail"
+    }
+  ],
+  "message": "Feel free to reach out for academic inquiries, collaboration opportunities, or just to connect!"
+}

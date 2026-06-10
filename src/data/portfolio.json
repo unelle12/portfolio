@@ -1,0 +1,26 @@
+{
+  "personal": {
+    "name": "Your Name",
+    "title": "Student, Philippine Normal University",
+    "tagline": "Documenting my growth journey through Year 1",
+    "email": "email@example.com",
+    "linkedin": "https://linkedin.com/in/yourprofile",
+    "github": "https://github.com/yourprofile"
+  },
+  "introduction": {
+    "greeting": "Hello, I'm",
+    "bio": [
+      "I am a first-year student at Philippine Normal University (PNU), pursuing my passion for education and personal development. This portfolio serves as a comprehensive documentation of my learning journey, growth milestones, and professional development throughout my first year.",
+      "Through this portfolio, I aim to present not just what I have learned, but how I have grown as an individual and as an aspiring professional. Each piece of evidence reflects my commitment to excellence and my dedication to continuous improvement.",
+      "This collection represents my authentic self — the challenges I have faced, the lessons I have learned, and the progress I have made. It is a testament to the transformative power of education and the importance of self-reflection in the learning process."
+    ],
+    "purpose": "This portfolio is designed to document and showcase my personal growth journey during Year 1 at PNU. It serves as a living record of my achievements, reflections, and development across the institution's five core outcomes.",
+    "guidingPrinciples": [
+      "Excellence in Everything: I strive to give my best effort in all academic and personal endeavors, continuously raising the bar for myself.",
+      "Lifelong Learning: I embrace learning as a continuous process that extends beyond the classroom, seeking knowledge and skills that will serve me throughout my life.",
+      "Integrity and Authenticity: I value honesty and transparency in all my work, presenting my genuine experiences, growth, and areas for improvement.",
+      "Collaboration and Community: I recognize the importance of working with others and contributing positively to the communities I belong to.",
+      "Reflective Practice: I commit to regularly examining my experiences, learning from my mistakes, and using insights to guide my future actions."
+    ]
+  }
+}

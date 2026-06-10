@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+    output   = "../generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Hero {
+    id              Int    @id @default(1)
+    giantText       String @default("PORTFOLIO")
+    badge           String @default("Year 1 at PNU")
+    headline        String @default("Welcome to My")
+    headlineAccent  String @default("Growth Journey")
+    description     String @default("Documenting my personal and professional development through evidence-based learning at Philippine Normal University.")
+    ctaText         String @default("Explore My Work")
+}
+
+model Introduction {
+    id                Int    @id @default(1)
+    name              String @default("")
+    title             String @default("")
+    tagline           String @default("")
+    email             String @default("")
+    linkedin          String @default("")
+    github            String @default("")
+    greeting          String @default("Hello, I'm")
+    bio               String @default("[]")
+    purpose           String @default("")
+    guidingPrinciples String @default("[]")
+}
+
+model SelfAssessment {
+    id       Int    @id @default(1)
+    outcomes String @default("[]")
+}
+
+model Evidence {
+    id                 Int     @id @default(autoincrement())
+    outcomeId          String
+    indicatorId        String
+    title              String
+    type               String  @default("document")
+    fileType           String  @default("pdf")
+    description        String  @default("")
+    thumbnail          String  @default("/assets/parallax/hero-placeholder.svg")
+    fileUrl            String  @default("")
+    highlightedSection String  @default("")
+    memoNote           String  @default("")
+    date               String  @default("")
+    filePath           String?
+}
+
+model Reflection {
+    id         Int     @id @default(autoincrement())
+    evidenceId String
+    paragraphs String  @default("[]")
+}
+
+model Retrospection {
+    id         Int    @id @default(1)
+    paragraphs String @default("[]")
+}
+
+model Contact {
+    id          Int    @id @default(1)
+    formspreeId String @default("")
+    socialLinks String @default("[]")
+    message     String @default("")
+}

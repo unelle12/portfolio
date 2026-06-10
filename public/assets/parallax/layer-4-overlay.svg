@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <!-- Subtle texture overlay -->
+  <defs>
+    <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="2" fill="#4F252E" opacity="0.05"/>
+    </pattern>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#dots)"/>
+</svg>
