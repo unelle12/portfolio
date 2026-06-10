@@ -21,13 +21,37 @@ interface EvidenceModalProps {
     date: string;
     thumbnail: string;
   };
+  preselectedSubfolderId?: number | null;
   onSave: (data: Record<string, unknown>) => void;
 }
 
-export function EvidenceModal({ isOpen, onClose, mode, evidence, onSave }: EvidenceModalProps) {
+type FlatSubfolder = {
+  id: number;
+  name: string;
+  termId: number;
+  depth: number;
+};
+
+type RawSubfolder = {
+  id: number;
+  name: string;
+  termId: number;
+  children?: RawSubfolder[];
+};
+
+function flattenSubfolders(subfolders: RawSubfolder[], depth = 0): FlatSubfolder[] {
+  return subfolders.flatMap((sf) => [
+    { id: sf.id, name: sf.name, termId: sf.termId, depth },
+    ...flattenSubfolders(sf.children ?? [], depth + 1),
+  ]);
+}
+
+export function EvidenceModal({ isOpen, onClose, mode, evidence, preselectedSubfolderId, onSave }: EvidenceModalProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { data: terms = [] } = api.evidence.getTerms.useQuery();
+
+  const effectiveSubfolderId = evidence?.subfolderId ?? preselectedSubfolderId ?? null;
 
   const [form, setForm] = useState({
     title: evidence?.title ?? '',
@@ -36,7 +60,7 @@ export function EvidenceModal({ isOpen, onClose, mode, evidence, onSave }: Evide
     memoNote: evidence?.memoNote ?? '',
     fileUrl: evidence?.fileUrl ?? '',
     filePath: evidence?.filePath ?? null,
-    subfolderId: evidence?.subfolderId ?? null,
+    subfolderId: effectiveSubfolderId,
     type: evidence?.type ?? 'document',
     fileType: evidence?.fileType ?? 'pdf',
     date: evidence?.date ?? new Date().toISOString().split('T')[0],
@@ -47,11 +71,11 @@ export function EvidenceModal({ isOpen, onClose, mode, evidence, onSave }: Evide
   const [urlMode, setUrlMode] = useState(!!evidence?.fileUrl && !evidence?.filePath);
 
   const selectedTerm = terms.find((t) => {
-    const subfolders = t.subfolders ?? [];
-    return subfolders.some((s) => s.id === form.subfolderId);
+    const flat = flattenSubfolders((t.subfolders ?? []) as RawSubfolder[]);
+    return flat.some((s) => s.id === form.subfolderId);
   });
 
-  const availableSubfolders = selectedTerm?.subfolders ?? [];
+  const availableSubfolders = selectedTerm ? flattenSubfolders((selectedTerm.subfolders ?? []) as RawSubfolder[]) : [];
 
   const handleChange = (field: string, value: string | number | null) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -59,7 +83,8 @@ export function EvidenceModal({ isOpen, onClose, mode, evidence, onSave }: Evide
 
   const handleTermChange = (termId: string) => {
     const term = terms.find((t) => t.id === Number(termId));
-    const firstSubfolder = term?.subfolders?.[0];
+    const flat = flattenSubfolders((term?.subfolders ?? []) as RawSubfolder[]);
+    const firstSubfolder = flat[0];
     setForm((prev) => ({
       ...prev,
       subfolderId: firstSubfolder?.id ?? null,
@@ -159,7 +184,9 @@ export function EvidenceModal({ isOpen, onClose, mode, evidence, onSave }: Evide
           >
             <option value="">Select Subfolder</option>
             {availableSubfolders.map((subfolder) => (
-              <option key={subfolder.id} value={subfolder.id}>{subfolder.name}</option>
+              <option key={subfolder.id} value={subfolder.id}>
+                {'  '.repeat(subfolder.depth)}{subfolder.depth > 0 ? '— ' : ''}{subfolder.name}
+              </option>
             ))}
           </select>
         </div>

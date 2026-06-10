@@ -151,13 +151,10 @@ export function EvidenceOfLearning() {
 
   const toggleTerm = (termId: number) => {
     setExpandedTermIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(termId)) {
-        next.delete(termId);
-      } else {
-        next.add(termId);
+      if (prev.has(termId)) {
+        return new Set();
       }
-      return next;
+      return new Set([termId]);
     });
   };
 
@@ -237,7 +234,7 @@ export function EvidenceOfLearning() {
     if (evidenceModalMode === 'create') {
       createEvidenceMutation.mutate({
         title: data.title as string,
-        subfolderId: creatingEvidenceForSubfolderId,
+        subfolderId: data.subfolderId as number | null,
         type: data.type as string,
         fileType: data.fileType as string,
         description: data.description as string,
@@ -362,6 +359,7 @@ export function EvidenceOfLearning() {
           }}
           mode={evidenceModalMode}
           evidence={editingEvidence ?? undefined}
+          preselectedSubfolderId={evidenceModalMode === 'create' ? creatingEvidenceForSubfolderId : undefined}
           onSave={handleSaveEvidence}
         />
       )}

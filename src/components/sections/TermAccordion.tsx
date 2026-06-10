@@ -158,7 +158,7 @@ export function TermAccordion({
               onCreateSubfolder={onCreateSubfolder}
               onEditSubfolder={onEditSubfolder}
               onDeleteSubfolder={onDeleteSubfolder}
-              onCreateEvidence={() => onCreateEvidence(subfolder.id)}
+              onCreateEvidence={onCreateEvidence}
               onEditEvidence={onEditEvidence}
               onDeleteEvidence={onDeleteEvidence}
             />

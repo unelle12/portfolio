@@ -7,5 +7,4 @@
   </defs>
   <rect width="800" height="600" fill="url(#hero-grad)"/>
   <circle cx="400" cy="300" r="150" fill="#4F252E" opacity="0.1"/>
-  <text x="400" y="310" text-anchor="middle" font-family="sans-serif" font-size="24" fill="#4F252E" opacity="0.5">Replace with your image</text>
 </svg>

@@ -43,7 +43,7 @@ interface SubfolderSectionProps {
   onCreateSubfolder: (termId: number, parentId?: number | null) => void;
   onEditSubfolder: (subfolder: { id: number; name: string; description: string | null; termId: number }) => void;
   onDeleteSubfolder: (subfolderId: number) => void;
-  onCreateEvidence: () => void;
+  onCreateEvidence: (subfolderId: number) => void;
   onEditEvidence: (evidence: EvidenceItem) => void;
   onDeleteEvidence: (evidenceId: number) => void;
 }
@@ -79,13 +79,15 @@ function EvidenceCard({ evidence, isEditMode, onEdit, onDelete }: {
         </div>
       )}
 
-      <div className="evidence-thumbnail">
-        <img src={evidence.thumbnail} alt={evidence.title} loading="lazy" />
-        <div className="evidence-type-badge">
-          <TypeIcon size={14} />
-          <span>{evidence.fileType.toUpperCase()}</span>
+      {evidence.thumbnail !== '/assets/parallax/hero-placeholder.svg' && (
+        <div className="evidence-thumbnail">
+          <img src={evidence.thumbnail} alt={evidence.title} loading="lazy" />
+          <div className="evidence-type-badge">
+            <TypeIcon size={14} />
+            <span>{evidence.fileType.toUpperCase()}</span>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="evidence-body">
         <div className="evidence-meta">
@@ -155,7 +157,7 @@ export function SubfolderSection({
   onEditEvidence,
   onDeleteEvidence,
 }: SubfolderSectionProps) {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   const totalEvidence = subfolder.evidence.length + countEvidence(subfolder.children);
   const totalSubfolders = countSubfolders(subfolder.children);
 
@@ -226,7 +228,7 @@ export function SubfolderSection({
                     onCreateSubfolder={onCreateSubfolder}
                     onEditSubfolder={onEditSubfolder}
                     onDeleteSubfolder={onDeleteSubfolder}
-                    onCreateEvidence={() => onCreateEvidence()}
+                    onCreateEvidence={onCreateEvidence}
                     onEditEvidence={onEditEvidence}
                     onDeleteEvidence={onDeleteEvidence}
                   />
@@ -249,7 +251,7 @@ export function SubfolderSection({
             {isEditMode && (
               <button
                 className="add-evidence-btn"
-                onClick={onCreateEvidence}
+                onClick={() => onCreateEvidence(subfolder.id)}
                 type="button"
               >
                 <Plus size={14} />
