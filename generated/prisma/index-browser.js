@@ -150,20 +150,40 @@ exports.Prisma.SelfAssessmentScalarFieldEnum = {
   outcomes: 'outcomes'
 };
 
+exports.Prisma.TermScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubfolderScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  order: 'order',
+  termId: 'termId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.EvidenceScalarFieldEnum = {
   id: 'id',
-  outcomeId: 'outcomeId',
-  indicatorId: 'indicatorId',
   title: 'title',
   type: 'type',
   fileType: 'fileType',
   description: 'description',
   thumbnail: 'thumbnail',
   fileUrl: 'fileUrl',
+  filePath: 'filePath',
   highlightedSection: 'highlightedSection',
   memoNote: 'memoNote',
   date: 'date',
-  filePath: 'filePath'
+  subfolderId: 'subfolderId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ReflectionScalarFieldEnum = {
@@ -204,6 +224,8 @@ exports.Prisma.ModelName = {
   Hero: 'Hero',
   Introduction: 'Introduction',
   SelfAssessment: 'SelfAssessment',
+  Term: 'Term',
+  Subfolder: 'Subfolder',
   Evidence: 'Evidence',
   Reflection: 'Reflection',
   Retrospection: 'Retrospection',

@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { SectionModal } from '../ui/SectionModal';
-import { useContent } from '../../context/ContentContext';
 import { Upload, Link2, X, FileText } from 'lucide-react';
+import { api } from '~/trpc/react';
 
 interface EvidenceModalProps {
   isOpen: boolean;
@@ -15,8 +15,7 @@ interface EvidenceModalProps {
     memoNote: string;
     fileUrl: string;
     filePath: string | null;
-    outcomeId: string;
-    indicatorId: string;
+    subfolderId: number | null;
     type: string;
     fileType: string;
     date: string;
@@ -25,18 +24,10 @@ interface EvidenceModalProps {
   onSave: (data: Record<string, unknown>) => void;
 }
 
-interface Outcome {
-  id: string;
-  title: string;
-  shortTitle: string;
-  indicators: Array<{ id: string; text: string; rating: number }>;
-}
-
 export function EvidenceModal({ isOpen, onClose, mode, evidence, onSave }: EvidenceModalProps) {
-  const { content } = useContent();
-  const selfAssessment = content.selfAssessment as { outcomes: Outcome[] } | null;
-  const outcomes = selfAssessment?.outcomes ?? [];
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { data: terms = [] } = api.evidence.getTerms.useQuery();
 
   const [form, setForm] = useState({
     title: evidence?.title ?? '',
@@ -45,8 +36,7 @@ export function EvidenceModal({ isOpen, onClose, mode, evidence, onSave }: Evide
     memoNote: evidence?.memoNote ?? '',
     fileUrl: evidence?.fileUrl ?? '',
     filePath: evidence?.filePath ?? null,
-    outcomeId: evidence?.outcomeId ?? outcomes[0]?.id ?? '',
-    indicatorId: evidence?.indicatorId ?? outcomes[0]?.indicators[0]?.id ?? '',
+    subfolderId: evidence?.subfolderId ?? null,
     type: evidence?.type ?? 'document',
     fileType: evidence?.fileType ?? 'pdf',
     date: evidence?.date ?? new Date().toISOString().split('T')[0],
@@ -56,20 +46,23 @@ export function EvidenceModal({ isOpen, onClose, mode, evidence, onSave }: Evide
   const [uploading, setUploading] = useState(false);
   const [urlMode, setUrlMode] = useState(!!evidence?.fileUrl && !evidence?.filePath);
 
-  const selectedOutcome = outcomes.find((o) => o.id === form.outcomeId);
-  const indicators = selectedOutcome?.indicators ?? [];
+  const selectedTerm = terms.find((t) => {
+    const subfolders = t.subfolders ?? [];
+    return subfolders.some((s) => s.id === form.subfolderId);
+  });
 
-  const handleChange = (field: string, value: string) => {
+  const availableSubfolders = selectedTerm?.subfolders ?? [];
+
+  const handleChange = (field: string, value: string | number | null) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleOutcomeChange = (outcomeId: string) => {
-    const outcome = outcomes.find((o) => o.id === outcomeId);
-    const firstIndicator = outcome?.indicators[0]?.id ?? '';
+  const handleTermChange = (termId: string) => {
+    const term = terms.find((t) => t.id === Number(termId));
+    const firstSubfolder = term?.subfolders?.[0];
     setForm((prev) => ({
       ...prev,
-      outcomeId,
-      indicatorId: firstIndicator,
+      subfolderId: firstSubfolder?.id ?? null,
     }));
   };
 
@@ -108,17 +101,8 @@ export function EvidenceModal({ isOpen, onClose, mode, evidence, onSave }: Evide
   };
 
   const handleSave = () => {
-    // Validate required fields
     if (!form.title.trim()) {
       alert('Title is required');
-      return;
-    }
-    if (!form.outcomeId) {
-      alert('Outcome is required');
-      return;
-    }
-    if (!form.indicatorId) {
-      alert('Indicator is required');
       return;
     }
 
@@ -154,26 +138,28 @@ export function EvidenceModal({ isOpen, onClose, mode, evidence, onSave }: Evide
 
       <div className="modal-row">
         <div className="modal-field">
-          <label>Outcome *</label>
+          <label>Term</label>
           <select
             className="input"
-            value={form.outcomeId}
-            onChange={(e) => handleOutcomeChange(e.target.value)}
+            value={selectedTerm?.id?.toString() ?? ''}
+            onChange={(e) => handleTermChange(e.target.value)}
           >
-            {outcomes.map((o) => (
-              <option key={o.id} value={o.id}>{o.shortTitle}</option>
+            <option value="">Select Term</option>
+            {terms.map((term) => (
+              <option key={term.id} value={term.id}>{term.name}</option>
             ))}
           </select>
         </div>
         <div className="modal-field">
-          <label>Indicator *</label>
+          <label>Subfolder</label>
           <select
             className="input"
-            value={form.indicatorId}
-            onChange={(e) => handleChange('indicatorId', e.target.value)}
+            value={form.subfolderId?.toString() ?? ''}
+            onChange={(e) => handleChange('subfolderId', e.target.value ? Number(e.target.value) : null)}
           >
-            {indicators.map((ind) => (
-              <option key={ind.id} value={ind.id}>{ind.text}</option>
+            <option value="">Select Subfolder</option>
+            {availableSubfolders.map((subfolder) => (
+              <option key={subfolder.id} value={subfolder.id}>{subfolder.name}</option>
             ))}
           </select>
         </div>

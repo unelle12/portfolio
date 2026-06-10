@@ -4,23 +4,23 @@ import { unlink, stat } from "fs/promises";
 import { join } from "path";
 
 export const evidenceRouter = createTRPCRouter({
-  // Get all evidence items
+  // Get all terms with nested subfolders and evidence
   getAll: publicProcedure.query(async ({ ctx }) => {
-    const items = await ctx.db.evidence.findMany({
-      orderBy: { id: "asc" },
+    const terms = await ctx.db.term.findMany({
+      orderBy: { order: "asc" },
+      include: {
+        subfolders: {
+          orderBy: { order: "asc" },
+          include: {
+            evidence: {
+              orderBy: { id: "asc" },
+            },
+          },
+        },
+      },
     });
-    return items;
+    return terms;
   }),
-
-  // Get evidence by outcome
-  getByOutcome: publicProcedure
-    .input(z.object({ outcomeId: z.string() }))
-    .query(async ({ ctx, input }) => {
-      return ctx.db.evidence.findMany({
-        where: { outcomeId: input.outcomeId },
-        orderBy: { id: "asc" },
-      });
-    }),
 
   // Get single evidence item
   getById: publicProcedure
@@ -29,13 +29,160 @@ export const evidenceRouter = createTRPCRouter({
       return ctx.db.evidence.findUnique({ where: { id: input.id } });
     }),
 
-  // Create evidence item
+  // Term CRUD
+  getTerms: publicProcedure.query(async ({ ctx }) => {
+    return ctx.db.term.findMany({
+      orderBy: { order: "asc" },
+      include: {
+        subfolders: {
+          orderBy: { order: "asc" },
+        },
+      },
+    });
+  }),
+
+  createTerm: publicProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        description: z.string().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Get max order value
+      const maxOrder = await ctx.db.term.aggregate({
+        _max: { order: true },
+      });
+      const newOrder = (maxOrder._max.order ?? -1) + 1;
+
+      return ctx.db.term.create({
+        data: {
+          name: input.name,
+          description: input.description,
+          order: newOrder,
+        },
+      });
+    }),
+
+  updateTerm: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        description: z.string().optional(),
+        order: z.number().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, ...data } = input;
+      return ctx.db.term.update({
+        where: { id },
+        data,
+      });
+    }),
+
+  deleteTerm: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.term.delete({ where: { id: input.id } });
+    }),
+
+  reorderTerms: publicProcedure
+    .input(z.object({ termIds: z.array(z.number()) }))
+    .mutation(async ({ ctx, input }) => {
+      const updates = input.termIds.map((id, index) =>
+        ctx.db.term.update({
+          where: { id },
+          data: { order: index },
+        })
+      );
+      await ctx.db.$transaction(updates);
+      return { success: true };
+    }),
+
+  // Subfolder CRUD
+  createSubfolder: publicProcedure
+    .input(
+      z.object({
+        termId: z.number(),
+        name: z.string(),
+        description: z.string().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Get max order value for this term
+      const maxOrder = await ctx.db.subfolder.aggregate({
+        where: { termId: input.termId },
+        _max: { order: true },
+      });
+      const newOrder = (maxOrder._max.order ?? -1) + 1;
+
+      return ctx.db.subfolder.create({
+        data: {
+          name: input.name,
+          description: input.description,
+          termId: input.termId,
+          order: newOrder,
+        },
+      });
+    }),
+
+  updateSubfolder: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        description: z.string().optional(),
+        order: z.number().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, ...data } = input;
+      return ctx.db.subfolder.update({
+        where: { id },
+        data,
+      });
+    }),
+
+  deleteSubfolder: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.subfolder.delete({ where: { id: input.id } });
+    }),
+
+  reorderSubfolders: publicProcedure
+    .input(z.object({ subfolderIds: z.array(z.number()) }))
+    .mutation(async ({ ctx, input }) => {
+      const updates = input.subfolderIds.map((id, index) =>
+        ctx.db.subfolder.update({
+          where: { id },
+          data: { order: index },
+        })
+      );
+      await ctx.db.$transaction(updates);
+      return { success: true };
+    }),
+
+  moveEvidence: publicProcedure
+    .input(
+      z.object({
+        evidenceId: z.number(),
+        subfolderId: z.number().nullable(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.evidence.update({
+        where: { id: input.evidenceId },
+        data: { subfolderId: input.subfolderId },
+      });
+    }),
+
+  // Evidence CRUD
   create: publicProcedure
     .input(
       z.object({
         title: z.string(),
-        outcomeId: z.string(),
-        indicatorId: z.string(),
+        subfolderId: z.number().nullable(),
         type: z.string().default("document"),
         fileType: z.string().default("pdf"),
         description: z.string().default(""),
@@ -51,8 +198,7 @@ export const evidenceRouter = createTRPCRouter({
       return ctx.db.evidence.create({
         data: {
           title: input.title,
-          outcomeId: input.outcomeId,
-          indicatorId: input.indicatorId,
+          subfolderId: input.subfolderId,
           type: input.type,
           fileType: input.fileType,
           description: input.description,
@@ -66,7 +212,6 @@ export const evidenceRouter = createTRPCRouter({
       });
     }),
 
-  // Update evidence item
   update: publicProcedure
     .input(
       z.object({
@@ -78,8 +223,7 @@ export const evidenceRouter = createTRPCRouter({
         fileUrl: z.string().optional(),
         filePath: z.string().nullable().optional(),
         thumbnail: z.string().optional(),
-        outcomeId: z.string().optional(),
-        indicatorId: z.string().optional(),
+        subfolderId: z.number().nullable().optional(),
         type: z.string().optional(),
         fileType: z.string().optional(),
         date: z.string().optional(),
@@ -93,7 +237,6 @@ export const evidenceRouter = createTRPCRouter({
       });
     }),
 
-  // Restore evidence to default (remove uploaded file, reset URL)
   restore: publicProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ ctx, input }) => {
@@ -105,7 +248,6 @@ export const evidenceRouter = createTRPCRouter({
         throw new Error("Evidence not found");
       }
 
-      // If there's a local file, delete it
       if (evidence.filePath) {
         try {
           const fullPath = join(process.cwd(), "public", evidence.filePath);
@@ -116,7 +258,6 @@ export const evidenceRouter = createTRPCRouter({
         }
       }
 
-      // Reset to default placeholder
       return ctx.db.evidence.update({
         where: { id: input.id },
         data: {
@@ -127,7 +268,6 @@ export const evidenceRouter = createTRPCRouter({
       });
     }),
 
-  // Delete evidence item
   delete: publicProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ ctx, input }) => {
@@ -139,7 +279,6 @@ export const evidenceRouter = createTRPCRouter({
         throw new Error("Evidence not found");
       }
 
-      // Delete associated file if it exists
       if (evidence.filePath) {
         try {
           const fullPath = join(process.cwd(), "public", evidence.filePath);

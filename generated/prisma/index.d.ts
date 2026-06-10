@@ -29,6 +29,16 @@ export type Introduction = $Result.DefaultSelection<Prisma.$IntroductionPayload>
  */
 export type SelfAssessment = $Result.DefaultSelection<Prisma.$SelfAssessmentPayload>
 /**
+ * Model Term
+ * 
+ */
+export type Term = $Result.DefaultSelection<Prisma.$TermPayload>
+/**
+ * Model Subfolder
+ * 
+ */
+export type Subfolder = $Result.DefaultSelection<Prisma.$SubfolderPayload>
+/**
  * Model Evidence
  * 
  */
@@ -196,6 +206,26 @@ export class PrismaClient<
     * ```
     */
   get selfAssessment(): Prisma.SelfAssessmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.term`: Exposes CRUD operations for the **Term** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Terms
+    * const terms = await prisma.term.findMany()
+    * ```
+    */
+  get term(): Prisma.TermDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.subfolder`: Exposes CRUD operations for the **Subfolder** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Subfolders
+    * const subfolders = await prisma.subfolder.findMany()
+    * ```
+    */
+  get subfolder(): Prisma.SubfolderDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.evidence`: Exposes CRUD operations for the **Evidence** model.
@@ -680,6 +710,8 @@ export namespace Prisma {
     Hero: 'Hero',
     Introduction: 'Introduction',
     SelfAssessment: 'SelfAssessment',
+    Term: 'Term',
+    Subfolder: 'Subfolder',
     Evidence: 'Evidence',
     Reflection: 'Reflection',
     Retrospection: 'Retrospection',
@@ -702,7 +734,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "hero" | "introduction" | "selfAssessment" | "evidence" | "reflection" | "retrospection" | "contact"
+      modelProps: "hero" | "introduction" | "selfAssessment" | "term" | "subfolder" | "evidence" | "reflection" | "retrospection" | "contact"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -925,6 +957,154 @@ export namespace Prisma {
           count: {
             args: Prisma.SelfAssessmentCountArgs<ExtArgs>
             result: $Utils.Optional<SelfAssessmentCountAggregateOutputType> | number
+          }
+        }
+      }
+      Term: {
+        payload: Prisma.$TermPayload<ExtArgs>
+        fields: Prisma.TermFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TermFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TermPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TermFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TermPayload>
+          }
+          findFirst: {
+            args: Prisma.TermFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TermPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TermFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TermPayload>
+          }
+          findMany: {
+            args: Prisma.TermFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TermPayload>[]
+          }
+          create: {
+            args: Prisma.TermCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TermPayload>
+          }
+          createMany: {
+            args: Prisma.TermCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TermCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TermPayload>[]
+          }
+          delete: {
+            args: Prisma.TermDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TermPayload>
+          }
+          update: {
+            args: Prisma.TermUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TermPayload>
+          }
+          deleteMany: {
+            args: Prisma.TermDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TermUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TermUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TermPayload>[]
+          }
+          upsert: {
+            args: Prisma.TermUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TermPayload>
+          }
+          aggregate: {
+            args: Prisma.TermAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTerm>
+          }
+          groupBy: {
+            args: Prisma.TermGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TermGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TermCountArgs<ExtArgs>
+            result: $Utils.Optional<TermCountAggregateOutputType> | number
+          }
+        }
+      }
+      Subfolder: {
+        payload: Prisma.$SubfolderPayload<ExtArgs>
+        fields: Prisma.SubfolderFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubfolderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubfolderPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubfolderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubfolderPayload>
+          }
+          findFirst: {
+            args: Prisma.SubfolderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubfolderPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubfolderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubfolderPayload>
+          }
+          findMany: {
+            args: Prisma.SubfolderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubfolderPayload>[]
+          }
+          create: {
+            args: Prisma.SubfolderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubfolderPayload>
+          }
+          createMany: {
+            args: Prisma.SubfolderCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SubfolderCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubfolderPayload>[]
+          }
+          delete: {
+            args: Prisma.SubfolderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubfolderPayload>
+          }
+          update: {
+            args: Prisma.SubfolderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubfolderPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubfolderDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubfolderUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SubfolderUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubfolderPayload>[]
+          }
+          upsert: {
+            args: Prisma.SubfolderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubfolderPayload>
+          }
+          aggregate: {
+            args: Prisma.SubfolderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSubfolder>
+          }
+          groupBy: {
+            args: Prisma.SubfolderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SubfolderGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubfolderCountArgs<ExtArgs>
+            result: $Utils.Optional<SubfolderCountAggregateOutputType> | number
           }
         }
       }
@@ -1323,6 +1503,8 @@ export namespace Prisma {
     hero?: HeroOmit
     introduction?: IntroductionOmit
     selfAssessment?: SelfAssessmentOmit
+    term?: TermOmit
+    subfolder?: SubfolderOmit
     evidence?: EvidenceOmit
     reflection?: ReflectionOmit
     retrospection?: RetrospectionOmit
@@ -1401,6 +1583,67 @@ export namespace Prisma {
    * Count Types
    */
 
+
+  /**
+   * Count Type TermCountOutputType
+   */
+
+  export type TermCountOutputType = {
+    subfolders: number
+  }
+
+  export type TermCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subfolders?: boolean | TermCountOutputTypeCountSubfoldersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TermCountOutputType without action
+   */
+  export type TermCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TermCountOutputType
+     */
+    select?: TermCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TermCountOutputType without action
+   */
+  export type TermCountOutputTypeCountSubfoldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubfolderWhereInput
+  }
+
+
+  /**
+   * Count Type SubfolderCountOutputType
+   */
+
+  export type SubfolderCountOutputType = {
+    evidence: number
+  }
+
+  export type SubfolderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    evidence?: boolean | SubfolderCountOutputTypeCountEvidenceArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SubfolderCountOutputType without action
+   */
+  export type SubfolderCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubfolderCountOutputType
+     */
+    select?: SubfolderCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SubfolderCountOutputType without action
+   */
+  export type SubfolderCountOutputTypeCountEvidenceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EvidenceWhereInput
+  }
 
 
   /**
@@ -4560,6 +4803,2283 @@ export namespace Prisma {
 
 
   /**
+   * Model Term
+   */
+
+  export type AggregateTerm = {
+    _count: TermCountAggregateOutputType | null
+    _avg: TermAvgAggregateOutputType | null
+    _sum: TermSumAggregateOutputType | null
+    _min: TermMinAggregateOutputType | null
+    _max: TermMaxAggregateOutputType | null
+  }
+
+  export type TermAvgAggregateOutputType = {
+    id: number | null
+    order: number | null
+  }
+
+  export type TermSumAggregateOutputType = {
+    id: number | null
+    order: number | null
+  }
+
+  export type TermMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    description: string | null
+    order: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TermMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    description: string | null
+    order: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TermCountAggregateOutputType = {
+    id: number
+    name: number
+    description: number
+    order: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TermAvgAggregateInputType = {
+    id?: true
+    order?: true
+  }
+
+  export type TermSumAggregateInputType = {
+    id?: true
+    order?: true
+  }
+
+  export type TermMinAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    order?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TermMaxAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    order?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TermCountAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    order?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TermAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Term to aggregate.
+     */
+    where?: TermWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Terms to fetch.
+     */
+    orderBy?: TermOrderByWithRelationInput | TermOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TermWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Terms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Terms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Terms
+    **/
+    _count?: true | TermCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TermAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TermSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TermMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TermMaxAggregateInputType
+  }
+
+  export type GetTermAggregateType<T extends TermAggregateArgs> = {
+        [P in keyof T & keyof AggregateTerm]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTerm[P]>
+      : GetScalarType<T[P], AggregateTerm[P]>
+  }
+
+
+
+
+  export type TermGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TermWhereInput
+    orderBy?: TermOrderByWithAggregationInput | TermOrderByWithAggregationInput[]
+    by: TermScalarFieldEnum[] | TermScalarFieldEnum
+    having?: TermScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TermCountAggregateInputType | true
+    _avg?: TermAvgAggregateInputType
+    _sum?: TermSumAggregateInputType
+    _min?: TermMinAggregateInputType
+    _max?: TermMaxAggregateInputType
+  }
+
+  export type TermGroupByOutputType = {
+    id: number
+    name: string
+    description: string | null
+    order: number
+    createdAt: Date
+    updatedAt: Date
+    _count: TermCountAggregateOutputType | null
+    _avg: TermAvgAggregateOutputType | null
+    _sum: TermSumAggregateOutputType | null
+    _min: TermMinAggregateOutputType | null
+    _max: TermMaxAggregateOutputType | null
+  }
+
+  type GetTermGroupByPayload<T extends TermGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TermGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TermGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TermGroupByOutputType[P]>
+            : GetScalarType<T[P], TermGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TermSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    order?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    subfolders?: boolean | Term$subfoldersArgs<ExtArgs>
+    _count?: boolean | TermCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["term"]>
+
+  export type TermSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    order?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["term"]>
+
+  export type TermSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    order?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["term"]>
+
+  export type TermSelectScalar = {
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    order?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TermOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["term"]>
+  export type TermInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subfolders?: boolean | Term$subfoldersArgs<ExtArgs>
+    _count?: boolean | TermCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TermIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type TermIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $TermPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Term"
+    objects: {
+      subfolders: Prisma.$SubfolderPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      description: string | null
+      order: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["term"]>
+    composites: {}
+  }
+
+  type TermGetPayload<S extends boolean | null | undefined | TermDefaultArgs> = $Result.GetResult<Prisma.$TermPayload, S>
+
+  type TermCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TermFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TermCountAggregateInputType | true
+    }
+
+  export interface TermDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Term'], meta: { name: 'Term' } }
+    /**
+     * Find zero or one Term that matches the filter.
+     * @param {TermFindUniqueArgs} args - Arguments to find a Term
+     * @example
+     * // Get one Term
+     * const term = await prisma.term.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TermFindUniqueArgs>(args: SelectSubset<T, TermFindUniqueArgs<ExtArgs>>): Prisma__TermClient<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Term that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TermFindUniqueOrThrowArgs} args - Arguments to find a Term
+     * @example
+     * // Get one Term
+     * const term = await prisma.term.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TermFindUniqueOrThrowArgs>(args: SelectSubset<T, TermFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TermClient<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Term that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TermFindFirstArgs} args - Arguments to find a Term
+     * @example
+     * // Get one Term
+     * const term = await prisma.term.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TermFindFirstArgs>(args?: SelectSubset<T, TermFindFirstArgs<ExtArgs>>): Prisma__TermClient<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Term that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TermFindFirstOrThrowArgs} args - Arguments to find a Term
+     * @example
+     * // Get one Term
+     * const term = await prisma.term.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TermFindFirstOrThrowArgs>(args?: SelectSubset<T, TermFindFirstOrThrowArgs<ExtArgs>>): Prisma__TermClient<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Terms that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TermFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Terms
+     * const terms = await prisma.term.findMany()
+     * 
+     * // Get first 10 Terms
+     * const terms = await prisma.term.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const termWithIdOnly = await prisma.term.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TermFindManyArgs>(args?: SelectSubset<T, TermFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Term.
+     * @param {TermCreateArgs} args - Arguments to create a Term.
+     * @example
+     * // Create one Term
+     * const Term = await prisma.term.create({
+     *   data: {
+     *     // ... data to create a Term
+     *   }
+     * })
+     * 
+     */
+    create<T extends TermCreateArgs>(args: SelectSubset<T, TermCreateArgs<ExtArgs>>): Prisma__TermClient<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Terms.
+     * @param {TermCreateManyArgs} args - Arguments to create many Terms.
+     * @example
+     * // Create many Terms
+     * const term = await prisma.term.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TermCreateManyArgs>(args?: SelectSubset<T, TermCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Terms and returns the data saved in the database.
+     * @param {TermCreateManyAndReturnArgs} args - Arguments to create many Terms.
+     * @example
+     * // Create many Terms
+     * const term = await prisma.term.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Terms and only return the `id`
+     * const termWithIdOnly = await prisma.term.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TermCreateManyAndReturnArgs>(args?: SelectSubset<T, TermCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Term.
+     * @param {TermDeleteArgs} args - Arguments to delete one Term.
+     * @example
+     * // Delete one Term
+     * const Term = await prisma.term.delete({
+     *   where: {
+     *     // ... filter to delete one Term
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TermDeleteArgs>(args: SelectSubset<T, TermDeleteArgs<ExtArgs>>): Prisma__TermClient<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Term.
+     * @param {TermUpdateArgs} args - Arguments to update one Term.
+     * @example
+     * // Update one Term
+     * const term = await prisma.term.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TermUpdateArgs>(args: SelectSubset<T, TermUpdateArgs<ExtArgs>>): Prisma__TermClient<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Terms.
+     * @param {TermDeleteManyArgs} args - Arguments to filter Terms to delete.
+     * @example
+     * // Delete a few Terms
+     * const { count } = await prisma.term.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TermDeleteManyArgs>(args?: SelectSubset<T, TermDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Terms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TermUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Terms
+     * const term = await prisma.term.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TermUpdateManyArgs>(args: SelectSubset<T, TermUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Terms and returns the data updated in the database.
+     * @param {TermUpdateManyAndReturnArgs} args - Arguments to update many Terms.
+     * @example
+     * // Update many Terms
+     * const term = await prisma.term.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Terms and only return the `id`
+     * const termWithIdOnly = await prisma.term.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TermUpdateManyAndReturnArgs>(args: SelectSubset<T, TermUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Term.
+     * @param {TermUpsertArgs} args - Arguments to update or create a Term.
+     * @example
+     * // Update or create a Term
+     * const term = await prisma.term.upsert({
+     *   create: {
+     *     // ... data to create a Term
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Term we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TermUpsertArgs>(args: SelectSubset<T, TermUpsertArgs<ExtArgs>>): Prisma__TermClient<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Terms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TermCountArgs} args - Arguments to filter Terms to count.
+     * @example
+     * // Count the number of Terms
+     * const count = await prisma.term.count({
+     *   where: {
+     *     // ... the filter for the Terms we want to count
+     *   }
+     * })
+    **/
+    count<T extends TermCountArgs>(
+      args?: Subset<T, TermCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TermCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Term.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TermAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TermAggregateArgs>(args: Subset<T, TermAggregateArgs>): Prisma.PrismaPromise<GetTermAggregateType<T>>
+
+    /**
+     * Group by Term.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TermGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TermGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TermGroupByArgs['orderBy'] }
+        : { orderBy?: TermGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TermGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTermGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Term model
+   */
+  readonly fields: TermFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Term.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TermClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    subfolders<T extends Term$subfoldersArgs<ExtArgs> = {}>(args?: Subset<T, Term$subfoldersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubfolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Term model
+   */
+  interface TermFieldRefs {
+    readonly id: FieldRef<"Term", 'Int'>
+    readonly name: FieldRef<"Term", 'String'>
+    readonly description: FieldRef<"Term", 'String'>
+    readonly order: FieldRef<"Term", 'Int'>
+    readonly createdAt: FieldRef<"Term", 'DateTime'>
+    readonly updatedAt: FieldRef<"Term", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Term findUnique
+   */
+  export type TermFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Term
+     */
+    select?: TermSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Term
+     */
+    omit?: TermOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TermInclude<ExtArgs> | null
+    /**
+     * Filter, which Term to fetch.
+     */
+    where: TermWhereUniqueInput
+  }
+
+  /**
+   * Term findUniqueOrThrow
+   */
+  export type TermFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Term
+     */
+    select?: TermSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Term
+     */
+    omit?: TermOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TermInclude<ExtArgs> | null
+    /**
+     * Filter, which Term to fetch.
+     */
+    where: TermWhereUniqueInput
+  }
+
+  /**
+   * Term findFirst
+   */
+  export type TermFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Term
+     */
+    select?: TermSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Term
+     */
+    omit?: TermOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TermInclude<ExtArgs> | null
+    /**
+     * Filter, which Term to fetch.
+     */
+    where?: TermWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Terms to fetch.
+     */
+    orderBy?: TermOrderByWithRelationInput | TermOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Terms.
+     */
+    cursor?: TermWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Terms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Terms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Terms.
+     */
+    distinct?: TermScalarFieldEnum | TermScalarFieldEnum[]
+  }
+
+  /**
+   * Term findFirstOrThrow
+   */
+  export type TermFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Term
+     */
+    select?: TermSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Term
+     */
+    omit?: TermOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TermInclude<ExtArgs> | null
+    /**
+     * Filter, which Term to fetch.
+     */
+    where?: TermWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Terms to fetch.
+     */
+    orderBy?: TermOrderByWithRelationInput | TermOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Terms.
+     */
+    cursor?: TermWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Terms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Terms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Terms.
+     */
+    distinct?: TermScalarFieldEnum | TermScalarFieldEnum[]
+  }
+
+  /**
+   * Term findMany
+   */
+  export type TermFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Term
+     */
+    select?: TermSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Term
+     */
+    omit?: TermOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TermInclude<ExtArgs> | null
+    /**
+     * Filter, which Terms to fetch.
+     */
+    where?: TermWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Terms to fetch.
+     */
+    orderBy?: TermOrderByWithRelationInput | TermOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Terms.
+     */
+    cursor?: TermWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Terms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Terms.
+     */
+    skip?: number
+    distinct?: TermScalarFieldEnum | TermScalarFieldEnum[]
+  }
+
+  /**
+   * Term create
+   */
+  export type TermCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Term
+     */
+    select?: TermSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Term
+     */
+    omit?: TermOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TermInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Term.
+     */
+    data: XOR<TermCreateInput, TermUncheckedCreateInput>
+  }
+
+  /**
+   * Term createMany
+   */
+  export type TermCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Terms.
+     */
+    data: TermCreateManyInput | TermCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Term createManyAndReturn
+   */
+  export type TermCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Term
+     */
+    select?: TermSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Term
+     */
+    omit?: TermOmit<ExtArgs> | null
+    /**
+     * The data used to create many Terms.
+     */
+    data: TermCreateManyInput | TermCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Term update
+   */
+  export type TermUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Term
+     */
+    select?: TermSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Term
+     */
+    omit?: TermOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TermInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Term.
+     */
+    data: XOR<TermUpdateInput, TermUncheckedUpdateInput>
+    /**
+     * Choose, which Term to update.
+     */
+    where: TermWhereUniqueInput
+  }
+
+  /**
+   * Term updateMany
+   */
+  export type TermUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Terms.
+     */
+    data: XOR<TermUpdateManyMutationInput, TermUncheckedUpdateManyInput>
+    /**
+     * Filter which Terms to update
+     */
+    where?: TermWhereInput
+    /**
+     * Limit how many Terms to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Term updateManyAndReturn
+   */
+  export type TermUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Term
+     */
+    select?: TermSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Term
+     */
+    omit?: TermOmit<ExtArgs> | null
+    /**
+     * The data used to update Terms.
+     */
+    data: XOR<TermUpdateManyMutationInput, TermUncheckedUpdateManyInput>
+    /**
+     * Filter which Terms to update
+     */
+    where?: TermWhereInput
+    /**
+     * Limit how many Terms to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Term upsert
+   */
+  export type TermUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Term
+     */
+    select?: TermSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Term
+     */
+    omit?: TermOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TermInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Term to update in case it exists.
+     */
+    where: TermWhereUniqueInput
+    /**
+     * In case the Term found by the `where` argument doesn't exist, create a new Term with this data.
+     */
+    create: XOR<TermCreateInput, TermUncheckedCreateInput>
+    /**
+     * In case the Term was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TermUpdateInput, TermUncheckedUpdateInput>
+  }
+
+  /**
+   * Term delete
+   */
+  export type TermDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Term
+     */
+    select?: TermSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Term
+     */
+    omit?: TermOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TermInclude<ExtArgs> | null
+    /**
+     * Filter which Term to delete.
+     */
+    where: TermWhereUniqueInput
+  }
+
+  /**
+   * Term deleteMany
+   */
+  export type TermDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Terms to delete
+     */
+    where?: TermWhereInput
+    /**
+     * Limit how many Terms to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Term.subfolders
+   */
+  export type Term$subfoldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderInclude<ExtArgs> | null
+    where?: SubfolderWhereInput
+    orderBy?: SubfolderOrderByWithRelationInput | SubfolderOrderByWithRelationInput[]
+    cursor?: SubfolderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SubfolderScalarFieldEnum | SubfolderScalarFieldEnum[]
+  }
+
+  /**
+   * Term without action
+   */
+  export type TermDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Term
+     */
+    select?: TermSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Term
+     */
+    omit?: TermOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TermInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Subfolder
+   */
+
+  export type AggregateSubfolder = {
+    _count: SubfolderCountAggregateOutputType | null
+    _avg: SubfolderAvgAggregateOutputType | null
+    _sum: SubfolderSumAggregateOutputType | null
+    _min: SubfolderMinAggregateOutputType | null
+    _max: SubfolderMaxAggregateOutputType | null
+  }
+
+  export type SubfolderAvgAggregateOutputType = {
+    id: number | null
+    order: number | null
+    termId: number | null
+  }
+
+  export type SubfolderSumAggregateOutputType = {
+    id: number | null
+    order: number | null
+    termId: number | null
+  }
+
+  export type SubfolderMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    description: string | null
+    order: number | null
+    termId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubfolderMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    description: string | null
+    order: number | null
+    termId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubfolderCountAggregateOutputType = {
+    id: number
+    name: number
+    description: number
+    order: number
+    termId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SubfolderAvgAggregateInputType = {
+    id?: true
+    order?: true
+    termId?: true
+  }
+
+  export type SubfolderSumAggregateInputType = {
+    id?: true
+    order?: true
+    termId?: true
+  }
+
+  export type SubfolderMinAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    order?: true
+    termId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubfolderMaxAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    order?: true
+    termId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubfolderCountAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    order?: true
+    termId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SubfolderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Subfolder to aggregate.
+     */
+    where?: SubfolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subfolders to fetch.
+     */
+    orderBy?: SubfolderOrderByWithRelationInput | SubfolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubfolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subfolders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subfolders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Subfolders
+    **/
+    _count?: true | SubfolderCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SubfolderAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SubfolderSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubfolderMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubfolderMaxAggregateInputType
+  }
+
+  export type GetSubfolderAggregateType<T extends SubfolderAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubfolder]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubfolder[P]>
+      : GetScalarType<T[P], AggregateSubfolder[P]>
+  }
+
+
+
+
+  export type SubfolderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubfolderWhereInput
+    orderBy?: SubfolderOrderByWithAggregationInput | SubfolderOrderByWithAggregationInput[]
+    by: SubfolderScalarFieldEnum[] | SubfolderScalarFieldEnum
+    having?: SubfolderScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubfolderCountAggregateInputType | true
+    _avg?: SubfolderAvgAggregateInputType
+    _sum?: SubfolderSumAggregateInputType
+    _min?: SubfolderMinAggregateInputType
+    _max?: SubfolderMaxAggregateInputType
+  }
+
+  export type SubfolderGroupByOutputType = {
+    id: number
+    name: string
+    description: string | null
+    order: number
+    termId: number
+    createdAt: Date
+    updatedAt: Date
+    _count: SubfolderCountAggregateOutputType | null
+    _avg: SubfolderAvgAggregateOutputType | null
+    _sum: SubfolderSumAggregateOutputType | null
+    _min: SubfolderMinAggregateOutputType | null
+    _max: SubfolderMaxAggregateOutputType | null
+  }
+
+  type GetSubfolderGroupByPayload<T extends SubfolderGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubfolderGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubfolderGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubfolderGroupByOutputType[P]>
+            : GetScalarType<T[P], SubfolderGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubfolderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    order?: boolean
+    termId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    term?: boolean | TermDefaultArgs<ExtArgs>
+    evidence?: boolean | Subfolder$evidenceArgs<ExtArgs>
+    _count?: boolean | SubfolderCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subfolder"]>
+
+  export type SubfolderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    order?: boolean
+    termId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    term?: boolean | TermDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subfolder"]>
+
+  export type SubfolderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    order?: boolean
+    termId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    term?: boolean | TermDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subfolder"]>
+
+  export type SubfolderSelectScalar = {
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    order?: boolean
+    termId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SubfolderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "order" | "termId" | "createdAt" | "updatedAt", ExtArgs["result"]["subfolder"]>
+  export type SubfolderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    term?: boolean | TermDefaultArgs<ExtArgs>
+    evidence?: boolean | Subfolder$evidenceArgs<ExtArgs>
+    _count?: boolean | SubfolderCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type SubfolderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    term?: boolean | TermDefaultArgs<ExtArgs>
+  }
+  export type SubfolderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    term?: boolean | TermDefaultArgs<ExtArgs>
+  }
+
+  export type $SubfolderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Subfolder"
+    objects: {
+      term: Prisma.$TermPayload<ExtArgs>
+      evidence: Prisma.$EvidencePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      description: string | null
+      order: number
+      termId: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["subfolder"]>
+    composites: {}
+  }
+
+  type SubfolderGetPayload<S extends boolean | null | undefined | SubfolderDefaultArgs> = $Result.GetResult<Prisma.$SubfolderPayload, S>
+
+  type SubfolderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SubfolderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SubfolderCountAggregateInputType | true
+    }
+
+  export interface SubfolderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Subfolder'], meta: { name: 'Subfolder' } }
+    /**
+     * Find zero or one Subfolder that matches the filter.
+     * @param {SubfolderFindUniqueArgs} args - Arguments to find a Subfolder
+     * @example
+     * // Get one Subfolder
+     * const subfolder = await prisma.subfolder.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SubfolderFindUniqueArgs>(args: SelectSubset<T, SubfolderFindUniqueArgs<ExtArgs>>): Prisma__SubfolderClient<$Result.GetResult<Prisma.$SubfolderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Subfolder that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SubfolderFindUniqueOrThrowArgs} args - Arguments to find a Subfolder
+     * @example
+     * // Get one Subfolder
+     * const subfolder = await prisma.subfolder.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SubfolderFindUniqueOrThrowArgs>(args: SelectSubset<T, SubfolderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SubfolderClient<$Result.GetResult<Prisma.$SubfolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Subfolder that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubfolderFindFirstArgs} args - Arguments to find a Subfolder
+     * @example
+     * // Get one Subfolder
+     * const subfolder = await prisma.subfolder.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SubfolderFindFirstArgs>(args?: SelectSubset<T, SubfolderFindFirstArgs<ExtArgs>>): Prisma__SubfolderClient<$Result.GetResult<Prisma.$SubfolderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Subfolder that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubfolderFindFirstOrThrowArgs} args - Arguments to find a Subfolder
+     * @example
+     * // Get one Subfolder
+     * const subfolder = await prisma.subfolder.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SubfolderFindFirstOrThrowArgs>(args?: SelectSubset<T, SubfolderFindFirstOrThrowArgs<ExtArgs>>): Prisma__SubfolderClient<$Result.GetResult<Prisma.$SubfolderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Subfolders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubfolderFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Subfolders
+     * const subfolders = await prisma.subfolder.findMany()
+     * 
+     * // Get first 10 Subfolders
+     * const subfolders = await prisma.subfolder.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subfolderWithIdOnly = await prisma.subfolder.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SubfolderFindManyArgs>(args?: SelectSubset<T, SubfolderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubfolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Subfolder.
+     * @param {SubfolderCreateArgs} args - Arguments to create a Subfolder.
+     * @example
+     * // Create one Subfolder
+     * const Subfolder = await prisma.subfolder.create({
+     *   data: {
+     *     // ... data to create a Subfolder
+     *   }
+     * })
+     * 
+     */
+    create<T extends SubfolderCreateArgs>(args: SelectSubset<T, SubfolderCreateArgs<ExtArgs>>): Prisma__SubfolderClient<$Result.GetResult<Prisma.$SubfolderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Subfolders.
+     * @param {SubfolderCreateManyArgs} args - Arguments to create many Subfolders.
+     * @example
+     * // Create many Subfolders
+     * const subfolder = await prisma.subfolder.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SubfolderCreateManyArgs>(args?: SelectSubset<T, SubfolderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Subfolders and returns the data saved in the database.
+     * @param {SubfolderCreateManyAndReturnArgs} args - Arguments to create many Subfolders.
+     * @example
+     * // Create many Subfolders
+     * const subfolder = await prisma.subfolder.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Subfolders and only return the `id`
+     * const subfolderWithIdOnly = await prisma.subfolder.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SubfolderCreateManyAndReturnArgs>(args?: SelectSubset<T, SubfolderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubfolderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Subfolder.
+     * @param {SubfolderDeleteArgs} args - Arguments to delete one Subfolder.
+     * @example
+     * // Delete one Subfolder
+     * const Subfolder = await prisma.subfolder.delete({
+     *   where: {
+     *     // ... filter to delete one Subfolder
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SubfolderDeleteArgs>(args: SelectSubset<T, SubfolderDeleteArgs<ExtArgs>>): Prisma__SubfolderClient<$Result.GetResult<Prisma.$SubfolderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Subfolder.
+     * @param {SubfolderUpdateArgs} args - Arguments to update one Subfolder.
+     * @example
+     * // Update one Subfolder
+     * const subfolder = await prisma.subfolder.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SubfolderUpdateArgs>(args: SelectSubset<T, SubfolderUpdateArgs<ExtArgs>>): Prisma__SubfolderClient<$Result.GetResult<Prisma.$SubfolderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Subfolders.
+     * @param {SubfolderDeleteManyArgs} args - Arguments to filter Subfolders to delete.
+     * @example
+     * // Delete a few Subfolders
+     * const { count } = await prisma.subfolder.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SubfolderDeleteManyArgs>(args?: SelectSubset<T, SubfolderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Subfolders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubfolderUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Subfolders
+     * const subfolder = await prisma.subfolder.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SubfolderUpdateManyArgs>(args: SelectSubset<T, SubfolderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Subfolders and returns the data updated in the database.
+     * @param {SubfolderUpdateManyAndReturnArgs} args - Arguments to update many Subfolders.
+     * @example
+     * // Update many Subfolders
+     * const subfolder = await prisma.subfolder.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Subfolders and only return the `id`
+     * const subfolderWithIdOnly = await prisma.subfolder.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SubfolderUpdateManyAndReturnArgs>(args: SelectSubset<T, SubfolderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubfolderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Subfolder.
+     * @param {SubfolderUpsertArgs} args - Arguments to update or create a Subfolder.
+     * @example
+     * // Update or create a Subfolder
+     * const subfolder = await prisma.subfolder.upsert({
+     *   create: {
+     *     // ... data to create a Subfolder
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Subfolder we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SubfolderUpsertArgs>(args: SelectSubset<T, SubfolderUpsertArgs<ExtArgs>>): Prisma__SubfolderClient<$Result.GetResult<Prisma.$SubfolderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Subfolders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubfolderCountArgs} args - Arguments to filter Subfolders to count.
+     * @example
+     * // Count the number of Subfolders
+     * const count = await prisma.subfolder.count({
+     *   where: {
+     *     // ... the filter for the Subfolders we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubfolderCountArgs>(
+      args?: Subset<T, SubfolderCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubfolderCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Subfolder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubfolderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubfolderAggregateArgs>(args: Subset<T, SubfolderAggregateArgs>): Prisma.PrismaPromise<GetSubfolderAggregateType<T>>
+
+    /**
+     * Group by Subfolder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubfolderGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubfolderGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubfolderGroupByArgs['orderBy'] }
+        : { orderBy?: SubfolderGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubfolderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubfolderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Subfolder model
+   */
+  readonly fields: SubfolderFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Subfolder.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SubfolderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    term<T extends TermDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TermDefaultArgs<ExtArgs>>): Prisma__TermClient<$Result.GetResult<Prisma.$TermPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    evidence<T extends Subfolder$evidenceArgs<ExtArgs> = {}>(args?: Subset<T, Subfolder$evidenceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EvidencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Subfolder model
+   */
+  interface SubfolderFieldRefs {
+    readonly id: FieldRef<"Subfolder", 'Int'>
+    readonly name: FieldRef<"Subfolder", 'String'>
+    readonly description: FieldRef<"Subfolder", 'String'>
+    readonly order: FieldRef<"Subfolder", 'Int'>
+    readonly termId: FieldRef<"Subfolder", 'Int'>
+    readonly createdAt: FieldRef<"Subfolder", 'DateTime'>
+    readonly updatedAt: FieldRef<"Subfolder", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Subfolder findUnique
+   */
+  export type SubfolderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Subfolder to fetch.
+     */
+    where: SubfolderWhereUniqueInput
+  }
+
+  /**
+   * Subfolder findUniqueOrThrow
+   */
+  export type SubfolderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Subfolder to fetch.
+     */
+    where: SubfolderWhereUniqueInput
+  }
+
+  /**
+   * Subfolder findFirst
+   */
+  export type SubfolderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Subfolder to fetch.
+     */
+    where?: SubfolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subfolders to fetch.
+     */
+    orderBy?: SubfolderOrderByWithRelationInput | SubfolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Subfolders.
+     */
+    cursor?: SubfolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subfolders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subfolders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Subfolders.
+     */
+    distinct?: SubfolderScalarFieldEnum | SubfolderScalarFieldEnum[]
+  }
+
+  /**
+   * Subfolder findFirstOrThrow
+   */
+  export type SubfolderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Subfolder to fetch.
+     */
+    where?: SubfolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subfolders to fetch.
+     */
+    orderBy?: SubfolderOrderByWithRelationInput | SubfolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Subfolders.
+     */
+    cursor?: SubfolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subfolders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subfolders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Subfolders.
+     */
+    distinct?: SubfolderScalarFieldEnum | SubfolderScalarFieldEnum[]
+  }
+
+  /**
+   * Subfolder findMany
+   */
+  export type SubfolderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderInclude<ExtArgs> | null
+    /**
+     * Filter, which Subfolders to fetch.
+     */
+    where?: SubfolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subfolders to fetch.
+     */
+    orderBy?: SubfolderOrderByWithRelationInput | SubfolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Subfolders.
+     */
+    cursor?: SubfolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subfolders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subfolders.
+     */
+    skip?: number
+    distinct?: SubfolderScalarFieldEnum | SubfolderScalarFieldEnum[]
+  }
+
+  /**
+   * Subfolder create
+   */
+  export type SubfolderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Subfolder.
+     */
+    data: XOR<SubfolderCreateInput, SubfolderUncheckedCreateInput>
+  }
+
+  /**
+   * Subfolder createMany
+   */
+  export type SubfolderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Subfolders.
+     */
+    data: SubfolderCreateManyInput | SubfolderCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Subfolder createManyAndReturn
+   */
+  export type SubfolderCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * The data used to create many Subfolders.
+     */
+    data: SubfolderCreateManyInput | SubfolderCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Subfolder update
+   */
+  export type SubfolderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Subfolder.
+     */
+    data: XOR<SubfolderUpdateInput, SubfolderUncheckedUpdateInput>
+    /**
+     * Choose, which Subfolder to update.
+     */
+    where: SubfolderWhereUniqueInput
+  }
+
+  /**
+   * Subfolder updateMany
+   */
+  export type SubfolderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Subfolders.
+     */
+    data: XOR<SubfolderUpdateManyMutationInput, SubfolderUncheckedUpdateManyInput>
+    /**
+     * Filter which Subfolders to update
+     */
+    where?: SubfolderWhereInput
+    /**
+     * Limit how many Subfolders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Subfolder updateManyAndReturn
+   */
+  export type SubfolderUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * The data used to update Subfolders.
+     */
+    data: XOR<SubfolderUpdateManyMutationInput, SubfolderUncheckedUpdateManyInput>
+    /**
+     * Filter which Subfolders to update
+     */
+    where?: SubfolderWhereInput
+    /**
+     * Limit how many Subfolders to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Subfolder upsert
+   */
+  export type SubfolderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Subfolder to update in case it exists.
+     */
+    where: SubfolderWhereUniqueInput
+    /**
+     * In case the Subfolder found by the `where` argument doesn't exist, create a new Subfolder with this data.
+     */
+    create: XOR<SubfolderCreateInput, SubfolderUncheckedCreateInput>
+    /**
+     * In case the Subfolder was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubfolderUpdateInput, SubfolderUncheckedUpdateInput>
+  }
+
+  /**
+   * Subfolder delete
+   */
+  export type SubfolderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderInclude<ExtArgs> | null
+    /**
+     * Filter which Subfolder to delete.
+     */
+    where: SubfolderWhereUniqueInput
+  }
+
+  /**
+   * Subfolder deleteMany
+   */
+  export type SubfolderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Subfolders to delete
+     */
+    where?: SubfolderWhereInput
+    /**
+     * Limit how many Subfolders to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Subfolder.evidence
+   */
+  export type Subfolder$evidenceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Evidence
+     */
+    select?: EvidenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Evidence
+     */
+    omit?: EvidenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EvidenceInclude<ExtArgs> | null
+    where?: EvidenceWhereInput
+    orderBy?: EvidenceOrderByWithRelationInput | EvidenceOrderByWithRelationInput[]
+    cursor?: EvidenceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EvidenceScalarFieldEnum | EvidenceScalarFieldEnum[]
+  }
+
+  /**
+   * Subfolder without action
+   */
+  export type SubfolderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Evidence
    */
 
@@ -4573,116 +7093,126 @@ export namespace Prisma {
 
   export type EvidenceAvgAggregateOutputType = {
     id: number | null
+    subfolderId: number | null
   }
 
   export type EvidenceSumAggregateOutputType = {
     id: number | null
+    subfolderId: number | null
   }
 
   export type EvidenceMinAggregateOutputType = {
     id: number | null
-    outcomeId: string | null
-    indicatorId: string | null
     title: string | null
     type: string | null
     fileType: string | null
     description: string | null
     thumbnail: string | null
     fileUrl: string | null
+    filePath: string | null
     highlightedSection: string | null
     memoNote: string | null
     date: string | null
-    filePath: string | null
+    subfolderId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type EvidenceMaxAggregateOutputType = {
     id: number | null
-    outcomeId: string | null
-    indicatorId: string | null
     title: string | null
     type: string | null
     fileType: string | null
     description: string | null
     thumbnail: string | null
     fileUrl: string | null
+    filePath: string | null
     highlightedSection: string | null
     memoNote: string | null
     date: string | null
-    filePath: string | null
+    subfolderId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type EvidenceCountAggregateOutputType = {
     id: number
-    outcomeId: number
-    indicatorId: number
     title: number
     type: number
     fileType: number
     description: number
     thumbnail: number
     fileUrl: number
+    filePath: number
     highlightedSection: number
     memoNote: number
     date: number
-    filePath: number
+    subfolderId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type EvidenceAvgAggregateInputType = {
     id?: true
+    subfolderId?: true
   }
 
   export type EvidenceSumAggregateInputType = {
     id?: true
+    subfolderId?: true
   }
 
   export type EvidenceMinAggregateInputType = {
     id?: true
-    outcomeId?: true
-    indicatorId?: true
     title?: true
     type?: true
     fileType?: true
     description?: true
     thumbnail?: true
     fileUrl?: true
+    filePath?: true
     highlightedSection?: true
     memoNote?: true
     date?: true
-    filePath?: true
+    subfolderId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type EvidenceMaxAggregateInputType = {
     id?: true
-    outcomeId?: true
-    indicatorId?: true
     title?: true
     type?: true
     fileType?: true
     description?: true
     thumbnail?: true
     fileUrl?: true
+    filePath?: true
     highlightedSection?: true
     memoNote?: true
     date?: true
-    filePath?: true
+    subfolderId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type EvidenceCountAggregateInputType = {
     id?: true
-    outcomeId?: true
-    indicatorId?: true
     title?: true
     type?: true
     fileType?: true
     description?: true
     thumbnail?: true
     fileUrl?: true
+    filePath?: true
     highlightedSection?: true
     memoNote?: true
     date?: true
-    filePath?: true
+    subfolderId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -4774,18 +7304,19 @@ export namespace Prisma {
 
   export type EvidenceGroupByOutputType = {
     id: number
-    outcomeId: string
-    indicatorId: string
     title: string
     type: string
     fileType: string
     description: string
     thumbnail: string
     fileUrl: string
+    filePath: string | null
     highlightedSection: string
     memoNote: string
     date: string
-    filePath: string | null
+    subfolderId: number | null
+    createdAt: Date
+    updatedAt: Date
     _count: EvidenceCountAggregateOutputType | null
     _avg: EvidenceAvgAggregateOutputType | null
     _sum: EvidenceSumAggregateOutputType | null
@@ -4809,87 +7340,106 @@ export namespace Prisma {
 
   export type EvidenceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    outcomeId?: boolean
-    indicatorId?: boolean
     title?: boolean
     type?: boolean
     fileType?: boolean
     description?: boolean
     thumbnail?: boolean
     fileUrl?: boolean
+    filePath?: boolean
     highlightedSection?: boolean
     memoNote?: boolean
     date?: boolean
-    filePath?: boolean
+    subfolderId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    subfolder?: boolean | Evidence$subfolderArgs<ExtArgs>
   }, ExtArgs["result"]["evidence"]>
 
   export type EvidenceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    outcomeId?: boolean
-    indicatorId?: boolean
     title?: boolean
     type?: boolean
     fileType?: boolean
     description?: boolean
     thumbnail?: boolean
     fileUrl?: boolean
+    filePath?: boolean
     highlightedSection?: boolean
     memoNote?: boolean
     date?: boolean
-    filePath?: boolean
+    subfolderId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    subfolder?: boolean | Evidence$subfolderArgs<ExtArgs>
   }, ExtArgs["result"]["evidence"]>
 
   export type EvidenceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    outcomeId?: boolean
-    indicatorId?: boolean
     title?: boolean
     type?: boolean
     fileType?: boolean
     description?: boolean
     thumbnail?: boolean
     fileUrl?: boolean
+    filePath?: boolean
     highlightedSection?: boolean
     memoNote?: boolean
     date?: boolean
-    filePath?: boolean
+    subfolderId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    subfolder?: boolean | Evidence$subfolderArgs<ExtArgs>
   }, ExtArgs["result"]["evidence"]>
 
   export type EvidenceSelectScalar = {
     id?: boolean
-    outcomeId?: boolean
-    indicatorId?: boolean
     title?: boolean
     type?: boolean
     fileType?: boolean
     description?: boolean
     thumbnail?: boolean
     fileUrl?: boolean
+    filePath?: boolean
     highlightedSection?: boolean
     memoNote?: boolean
     date?: boolean
-    filePath?: boolean
+    subfolderId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type EvidenceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "outcomeId" | "indicatorId" | "title" | "type" | "fileType" | "description" | "thumbnail" | "fileUrl" | "highlightedSection" | "memoNote" | "date" | "filePath", ExtArgs["result"]["evidence"]>
+  export type EvidenceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "type" | "fileType" | "description" | "thumbnail" | "fileUrl" | "filePath" | "highlightedSection" | "memoNote" | "date" | "subfolderId" | "createdAt" | "updatedAt", ExtArgs["result"]["evidence"]>
+  export type EvidenceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subfolder?: boolean | Evidence$subfolderArgs<ExtArgs>
+  }
+  export type EvidenceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subfolder?: boolean | Evidence$subfolderArgs<ExtArgs>
+  }
+  export type EvidenceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subfolder?: boolean | Evidence$subfolderArgs<ExtArgs>
+  }
 
   export type $EvidencePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Evidence"
-    objects: {}
+    objects: {
+      subfolder: Prisma.$SubfolderPayload<ExtArgs> | null
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      outcomeId: string
-      indicatorId: string
       title: string
       type: string
       fileType: string
       description: string
       thumbnail: string
       fileUrl: string
+      filePath: string | null
       highlightedSection: string
       memoNote: string
       date: string
-      filePath: string | null
+      subfolderId: number | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["evidence"]>
     composites: {}
   }
@@ -5284,6 +7834,7 @@ export namespace Prisma {
    */
   export interface Prisma__EvidenceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    subfolder<T extends Evidence$subfolderArgs<ExtArgs> = {}>(args?: Subset<T, Evidence$subfolderArgs<ExtArgs>>): Prisma__SubfolderClient<$Result.GetResult<Prisma.$SubfolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5314,18 +7865,19 @@ export namespace Prisma {
    */
   interface EvidenceFieldRefs {
     readonly id: FieldRef<"Evidence", 'Int'>
-    readonly outcomeId: FieldRef<"Evidence", 'String'>
-    readonly indicatorId: FieldRef<"Evidence", 'String'>
     readonly title: FieldRef<"Evidence", 'String'>
     readonly type: FieldRef<"Evidence", 'String'>
     readonly fileType: FieldRef<"Evidence", 'String'>
     readonly description: FieldRef<"Evidence", 'String'>
     readonly thumbnail: FieldRef<"Evidence", 'String'>
     readonly fileUrl: FieldRef<"Evidence", 'String'>
+    readonly filePath: FieldRef<"Evidence", 'String'>
     readonly highlightedSection: FieldRef<"Evidence", 'String'>
     readonly memoNote: FieldRef<"Evidence", 'String'>
     readonly date: FieldRef<"Evidence", 'String'>
-    readonly filePath: FieldRef<"Evidence", 'String'>
+    readonly subfolderId: FieldRef<"Evidence", 'Int'>
+    readonly createdAt: FieldRef<"Evidence", 'DateTime'>
+    readonly updatedAt: FieldRef<"Evidence", 'DateTime'>
   }
     
 
@@ -5342,6 +7894,10 @@ export namespace Prisma {
      * Omit specific fields from the Evidence
      */
     omit?: EvidenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EvidenceInclude<ExtArgs> | null
     /**
      * Filter, which Evidence to fetch.
      */
@@ -5361,6 +7917,10 @@ export namespace Prisma {
      */
     omit?: EvidenceOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EvidenceInclude<ExtArgs> | null
+    /**
      * Filter, which Evidence to fetch.
      */
     where: EvidenceWhereUniqueInput
@@ -5378,6 +7938,10 @@ export namespace Prisma {
      * Omit specific fields from the Evidence
      */
     omit?: EvidenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EvidenceInclude<ExtArgs> | null
     /**
      * Filter, which Evidence to fetch.
      */
@@ -5427,6 +7991,10 @@ export namespace Prisma {
      */
     omit?: EvidenceOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EvidenceInclude<ExtArgs> | null
+    /**
      * Filter, which Evidence to fetch.
      */
     where?: EvidenceWhereInput
@@ -5475,6 +8043,10 @@ export namespace Prisma {
      */
     omit?: EvidenceOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EvidenceInclude<ExtArgs> | null
+    /**
      * Filter, which Evidences to fetch.
      */
     where?: EvidenceWhereInput
@@ -5518,6 +8090,10 @@ export namespace Prisma {
      */
     omit?: EvidenceOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EvidenceInclude<ExtArgs> | null
+    /**
      * The data needed to create a Evidence.
      */
     data: XOR<EvidenceCreateInput, EvidenceUncheckedCreateInput>
@@ -5551,6 +8127,10 @@ export namespace Prisma {
      */
     data: EvidenceCreateManyInput | EvidenceCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EvidenceIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -5565,6 +8145,10 @@ export namespace Prisma {
      * Omit specific fields from the Evidence
      */
     omit?: EvidenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EvidenceInclude<ExtArgs> | null
     /**
      * The data needed to update a Evidence.
      */
@@ -5617,6 +8201,10 @@ export namespace Prisma {
      * Limit how many Evidences to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EvidenceIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -5631,6 +8219,10 @@ export namespace Prisma {
      * Omit specific fields from the Evidence
      */
     omit?: EvidenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EvidenceInclude<ExtArgs> | null
     /**
      * The filter to search for the Evidence to update in case it exists.
      */
@@ -5658,6 +8250,10 @@ export namespace Prisma {
      */
     omit?: EvidenceOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EvidenceInclude<ExtArgs> | null
+    /**
      * Filter which Evidence to delete.
      */
     where: EvidenceWhereUniqueInput
@@ -5678,6 +8274,25 @@ export namespace Prisma {
   }
 
   /**
+   * Evidence.subfolder
+   */
+  export type Evidence$subfolderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subfolder
+     */
+    select?: SubfolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subfolder
+     */
+    omit?: SubfolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubfolderInclude<ExtArgs> | null
+    where?: SubfolderWhereInput
+  }
+
+  /**
    * Evidence without action
    */
   export type EvidenceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5689,6 +8304,10 @@ export namespace Prisma {
      * Omit specific fields from the Evidence
      */
     omit?: EvidenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EvidenceInclude<ExtArgs> | null
   }
 
 
@@ -8753,20 +11372,46 @@ export namespace Prisma {
   export type SelfAssessmentScalarFieldEnum = (typeof SelfAssessmentScalarFieldEnum)[keyof typeof SelfAssessmentScalarFieldEnum]
 
 
+  export const TermScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    description: 'description',
+    order: 'order',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TermScalarFieldEnum = (typeof TermScalarFieldEnum)[keyof typeof TermScalarFieldEnum]
+
+
+  export const SubfolderScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    description: 'description',
+    order: 'order',
+    termId: 'termId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SubfolderScalarFieldEnum = (typeof SubfolderScalarFieldEnum)[keyof typeof SubfolderScalarFieldEnum]
+
+
   export const EvidenceScalarFieldEnum: {
     id: 'id',
-    outcomeId: 'outcomeId',
-    indicatorId: 'indicatorId',
     title: 'title',
     type: 'type',
     fileType: 'fileType',
     description: 'description',
     thumbnail: 'thumbnail',
     fileUrl: 'fileUrl',
+    filePath: 'filePath',
     highlightedSection: 'highlightedSection',
     memoNote: 'memoNote',
     date: 'date',
-    filePath: 'filePath'
+    subfolderId: 'subfolderId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type EvidenceScalarFieldEnum = (typeof EvidenceScalarFieldEnum)[keyof typeof EvidenceScalarFieldEnum]
@@ -8853,6 +11498,20 @@ export namespace Prisma {
    * Reference to a field of type 'String[]'
    */
   export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -9060,39 +11719,175 @@ export namespace Prisma {
     outcomes?: StringWithAggregatesFilter<"SelfAssessment"> | string
   }
 
+  export type TermWhereInput = {
+    AND?: TermWhereInput | TermWhereInput[]
+    OR?: TermWhereInput[]
+    NOT?: TermWhereInput | TermWhereInput[]
+    id?: IntFilter<"Term"> | number
+    name?: StringFilter<"Term"> | string
+    description?: StringNullableFilter<"Term"> | string | null
+    order?: IntFilter<"Term"> | number
+    createdAt?: DateTimeFilter<"Term"> | Date | string
+    updatedAt?: DateTimeFilter<"Term"> | Date | string
+    subfolders?: SubfolderListRelationFilter
+  }
+
+  export type TermOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    subfolders?: SubfolderOrderByRelationAggregateInput
+  }
+
+  export type TermWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: TermWhereInput | TermWhereInput[]
+    OR?: TermWhereInput[]
+    NOT?: TermWhereInput | TermWhereInput[]
+    name?: StringFilter<"Term"> | string
+    description?: StringNullableFilter<"Term"> | string | null
+    order?: IntFilter<"Term"> | number
+    createdAt?: DateTimeFilter<"Term"> | Date | string
+    updatedAt?: DateTimeFilter<"Term"> | Date | string
+    subfolders?: SubfolderListRelationFilter
+  }, "id">
+
+  export type TermOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TermCountOrderByAggregateInput
+    _avg?: TermAvgOrderByAggregateInput
+    _max?: TermMaxOrderByAggregateInput
+    _min?: TermMinOrderByAggregateInput
+    _sum?: TermSumOrderByAggregateInput
+  }
+
+  export type TermScalarWhereWithAggregatesInput = {
+    AND?: TermScalarWhereWithAggregatesInput | TermScalarWhereWithAggregatesInput[]
+    OR?: TermScalarWhereWithAggregatesInput[]
+    NOT?: TermScalarWhereWithAggregatesInput | TermScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Term"> | number
+    name?: StringWithAggregatesFilter<"Term"> | string
+    description?: StringNullableWithAggregatesFilter<"Term"> | string | null
+    order?: IntWithAggregatesFilter<"Term"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Term"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Term"> | Date | string
+  }
+
+  export type SubfolderWhereInput = {
+    AND?: SubfolderWhereInput | SubfolderWhereInput[]
+    OR?: SubfolderWhereInput[]
+    NOT?: SubfolderWhereInput | SubfolderWhereInput[]
+    id?: IntFilter<"Subfolder"> | number
+    name?: StringFilter<"Subfolder"> | string
+    description?: StringNullableFilter<"Subfolder"> | string | null
+    order?: IntFilter<"Subfolder"> | number
+    termId?: IntFilter<"Subfolder"> | number
+    createdAt?: DateTimeFilter<"Subfolder"> | Date | string
+    updatedAt?: DateTimeFilter<"Subfolder"> | Date | string
+    term?: XOR<TermScalarRelationFilter, TermWhereInput>
+    evidence?: EvidenceListRelationFilter
+  }
+
+  export type SubfolderOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    order?: SortOrder
+    termId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    term?: TermOrderByWithRelationInput
+    evidence?: EvidenceOrderByRelationAggregateInput
+  }
+
+  export type SubfolderWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: SubfolderWhereInput | SubfolderWhereInput[]
+    OR?: SubfolderWhereInput[]
+    NOT?: SubfolderWhereInput | SubfolderWhereInput[]
+    name?: StringFilter<"Subfolder"> | string
+    description?: StringNullableFilter<"Subfolder"> | string | null
+    order?: IntFilter<"Subfolder"> | number
+    termId?: IntFilter<"Subfolder"> | number
+    createdAt?: DateTimeFilter<"Subfolder"> | Date | string
+    updatedAt?: DateTimeFilter<"Subfolder"> | Date | string
+    term?: XOR<TermScalarRelationFilter, TermWhereInput>
+    evidence?: EvidenceListRelationFilter
+  }, "id">
+
+  export type SubfolderOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    order?: SortOrder
+    termId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SubfolderCountOrderByAggregateInput
+    _avg?: SubfolderAvgOrderByAggregateInput
+    _max?: SubfolderMaxOrderByAggregateInput
+    _min?: SubfolderMinOrderByAggregateInput
+    _sum?: SubfolderSumOrderByAggregateInput
+  }
+
+  export type SubfolderScalarWhereWithAggregatesInput = {
+    AND?: SubfolderScalarWhereWithAggregatesInput | SubfolderScalarWhereWithAggregatesInput[]
+    OR?: SubfolderScalarWhereWithAggregatesInput[]
+    NOT?: SubfolderScalarWhereWithAggregatesInput | SubfolderScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Subfolder"> | number
+    name?: StringWithAggregatesFilter<"Subfolder"> | string
+    description?: StringNullableWithAggregatesFilter<"Subfolder"> | string | null
+    order?: IntWithAggregatesFilter<"Subfolder"> | number
+    termId?: IntWithAggregatesFilter<"Subfolder"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Subfolder"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Subfolder"> | Date | string
+  }
+
   export type EvidenceWhereInput = {
     AND?: EvidenceWhereInput | EvidenceWhereInput[]
     OR?: EvidenceWhereInput[]
     NOT?: EvidenceWhereInput | EvidenceWhereInput[]
     id?: IntFilter<"Evidence"> | number
-    outcomeId?: StringFilter<"Evidence"> | string
-    indicatorId?: StringFilter<"Evidence"> | string
     title?: StringFilter<"Evidence"> | string
     type?: StringFilter<"Evidence"> | string
     fileType?: StringFilter<"Evidence"> | string
     description?: StringFilter<"Evidence"> | string
     thumbnail?: StringFilter<"Evidence"> | string
     fileUrl?: StringFilter<"Evidence"> | string
+    filePath?: StringNullableFilter<"Evidence"> | string | null
     highlightedSection?: StringFilter<"Evidence"> | string
     memoNote?: StringFilter<"Evidence"> | string
     date?: StringFilter<"Evidence"> | string
-    filePath?: StringNullableFilter<"Evidence"> | string | null
+    subfolderId?: IntNullableFilter<"Evidence"> | number | null
+    createdAt?: DateTimeFilter<"Evidence"> | Date | string
+    updatedAt?: DateTimeFilter<"Evidence"> | Date | string
+    subfolder?: XOR<SubfolderNullableScalarRelationFilter, SubfolderWhereInput> | null
   }
 
   export type EvidenceOrderByWithRelationInput = {
     id?: SortOrder
-    outcomeId?: SortOrder
-    indicatorId?: SortOrder
     title?: SortOrder
     type?: SortOrder
     fileType?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
     fileUrl?: SortOrder
+    filePath?: SortOrderInput | SortOrder
     highlightedSection?: SortOrder
     memoNote?: SortOrder
     date?: SortOrder
-    filePath?: SortOrderInput | SortOrder
+    subfolderId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    subfolder?: SubfolderOrderByWithRelationInput
   }
 
   export type EvidenceWhereUniqueInput = Prisma.AtLeast<{
@@ -9100,34 +11895,37 @@ export namespace Prisma {
     AND?: EvidenceWhereInput | EvidenceWhereInput[]
     OR?: EvidenceWhereInput[]
     NOT?: EvidenceWhereInput | EvidenceWhereInput[]
-    outcomeId?: StringFilter<"Evidence"> | string
-    indicatorId?: StringFilter<"Evidence"> | string
     title?: StringFilter<"Evidence"> | string
     type?: StringFilter<"Evidence"> | string
     fileType?: StringFilter<"Evidence"> | string
     description?: StringFilter<"Evidence"> | string
     thumbnail?: StringFilter<"Evidence"> | string
     fileUrl?: StringFilter<"Evidence"> | string
+    filePath?: StringNullableFilter<"Evidence"> | string | null
     highlightedSection?: StringFilter<"Evidence"> | string
     memoNote?: StringFilter<"Evidence"> | string
     date?: StringFilter<"Evidence"> | string
-    filePath?: StringNullableFilter<"Evidence"> | string | null
+    subfolderId?: IntNullableFilter<"Evidence"> | number | null
+    createdAt?: DateTimeFilter<"Evidence"> | Date | string
+    updatedAt?: DateTimeFilter<"Evidence"> | Date | string
+    subfolder?: XOR<SubfolderNullableScalarRelationFilter, SubfolderWhereInput> | null
   }, "id">
 
   export type EvidenceOrderByWithAggregationInput = {
     id?: SortOrder
-    outcomeId?: SortOrder
-    indicatorId?: SortOrder
     title?: SortOrder
     type?: SortOrder
     fileType?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
     fileUrl?: SortOrder
+    filePath?: SortOrderInput | SortOrder
     highlightedSection?: SortOrder
     memoNote?: SortOrder
     date?: SortOrder
-    filePath?: SortOrderInput | SortOrder
+    subfolderId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: EvidenceCountOrderByAggregateInput
     _avg?: EvidenceAvgOrderByAggregateInput
     _max?: EvidenceMaxOrderByAggregateInput
@@ -9140,18 +11938,19 @@ export namespace Prisma {
     OR?: EvidenceScalarWhereWithAggregatesInput[]
     NOT?: EvidenceScalarWhereWithAggregatesInput | EvidenceScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Evidence"> | number
-    outcomeId?: StringWithAggregatesFilter<"Evidence"> | string
-    indicatorId?: StringWithAggregatesFilter<"Evidence"> | string
     title?: StringWithAggregatesFilter<"Evidence"> | string
     type?: StringWithAggregatesFilter<"Evidence"> | string
     fileType?: StringWithAggregatesFilter<"Evidence"> | string
     description?: StringWithAggregatesFilter<"Evidence"> | string
     thumbnail?: StringWithAggregatesFilter<"Evidence"> | string
     fileUrl?: StringWithAggregatesFilter<"Evidence"> | string
+    filePath?: StringNullableWithAggregatesFilter<"Evidence"> | string | null
     highlightedSection?: StringWithAggregatesFilter<"Evidence"> | string
     memoNote?: StringWithAggregatesFilter<"Evidence"> | string
     date?: StringWithAggregatesFilter<"Evidence"> | string
-    filePath?: StringNullableWithAggregatesFilter<"Evidence"> | string | null
+    subfolderId?: IntNullableWithAggregatesFilter<"Evidence"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"Evidence"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Evidence"> | Date | string
   }
 
   export type ReflectionWhereInput = {
@@ -9489,113 +12288,253 @@ export namespace Prisma {
     outcomes?: StringFieldUpdateOperationsInput | string
   }
 
+  export type TermCreateInput = {
+    name: string
+    description?: string | null
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subfolders?: SubfolderCreateNestedManyWithoutTermInput
+  }
+
+  export type TermUncheckedCreateInput = {
+    id?: number
+    name: string
+    description?: string | null
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subfolders?: SubfolderUncheckedCreateNestedManyWithoutTermInput
+  }
+
+  export type TermUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subfolders?: SubfolderUpdateManyWithoutTermNestedInput
+  }
+
+  export type TermUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subfolders?: SubfolderUncheckedUpdateManyWithoutTermNestedInput
+  }
+
+  export type TermCreateManyInput = {
+    id?: number
+    name: string
+    description?: string | null
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TermUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TermUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubfolderCreateInput = {
+    name: string
+    description?: string | null
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    term: TermCreateNestedOneWithoutSubfoldersInput
+    evidence?: EvidenceCreateNestedManyWithoutSubfolderInput
+  }
+
+  export type SubfolderUncheckedCreateInput = {
+    id?: number
+    name: string
+    description?: string | null
+    order?: number
+    termId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    evidence?: EvidenceUncheckedCreateNestedManyWithoutSubfolderInput
+  }
+
+  export type SubfolderUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    term?: TermUpdateOneRequiredWithoutSubfoldersNestedInput
+    evidence?: EvidenceUpdateManyWithoutSubfolderNestedInput
+  }
+
+  export type SubfolderUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    termId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    evidence?: EvidenceUncheckedUpdateManyWithoutSubfolderNestedInput
+  }
+
+  export type SubfolderCreateManyInput = {
+    id?: number
+    name: string
+    description?: string | null
+    order?: number
+    termId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubfolderUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubfolderUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    termId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type EvidenceCreateInput = {
-    outcomeId: string
-    indicatorId: string
     title: string
     type?: string
     fileType?: string
     description?: string
     thumbnail?: string
     fileUrl?: string
+    filePath?: string | null
     highlightedSection?: string
     memoNote?: string
     date?: string
-    filePath?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subfolder?: SubfolderCreateNestedOneWithoutEvidenceInput
   }
 
   export type EvidenceUncheckedCreateInput = {
     id?: number
-    outcomeId: string
-    indicatorId: string
     title: string
     type?: string
     fileType?: string
     description?: string
     thumbnail?: string
     fileUrl?: string
+    filePath?: string | null
     highlightedSection?: string
     memoNote?: string
     date?: string
-    filePath?: string | null
+    subfolderId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type EvidenceUpdateInput = {
-    outcomeId?: StringFieldUpdateOperationsInput | string
-    indicatorId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     fileType?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     highlightedSection?: StringFieldUpdateOperationsInput | string
     memoNote?: StringFieldUpdateOperationsInput | string
     date?: StringFieldUpdateOperationsInput | string
-    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subfolder?: SubfolderUpdateOneWithoutEvidenceNestedInput
   }
 
   export type EvidenceUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    outcomeId?: StringFieldUpdateOperationsInput | string
-    indicatorId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     fileType?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     highlightedSection?: StringFieldUpdateOperationsInput | string
     memoNote?: StringFieldUpdateOperationsInput | string
     date?: StringFieldUpdateOperationsInput | string
-    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    subfolderId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type EvidenceCreateManyInput = {
     id?: number
-    outcomeId: string
-    indicatorId: string
     title: string
     type?: string
     fileType?: string
     description?: string
     thumbnail?: string
     fileUrl?: string
+    filePath?: string | null
     highlightedSection?: string
     memoNote?: string
     date?: string
-    filePath?: string | null
+    subfolderId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type EvidenceUpdateManyMutationInput = {
-    outcomeId?: StringFieldUpdateOperationsInput | string
-    indicatorId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     fileType?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     highlightedSection?: StringFieldUpdateOperationsInput | string
     memoNote?: StringFieldUpdateOperationsInput | string
     date?: StringFieldUpdateOperationsInput | string
-    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type EvidenceUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    outcomeId?: StringFieldUpdateOperationsInput | string
-    indicatorId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     fileType?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     highlightedSection?: StringFieldUpdateOperationsInput | string
     memoNote?: StringFieldUpdateOperationsInput | string
     date?: StringFieldUpdateOperationsInput | string
-    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    subfolderId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReflectionCreateInput = {
@@ -9907,65 +12846,67 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type SubfolderListRelationFilter = {
+    every?: SubfolderWhereInput
+    some?: SubfolderWhereInput
+    none?: SubfolderWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
-  export type EvidenceCountOrderByAggregateInput = {
+  export type SubfolderOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TermCountOrderByAggregateInput = {
     id?: SortOrder
-    outcomeId?: SortOrder
-    indicatorId?: SortOrder
-    title?: SortOrder
-    type?: SortOrder
-    fileType?: SortOrder
+    name?: SortOrder
     description?: SortOrder
-    thumbnail?: SortOrder
-    fileUrl?: SortOrder
-    highlightedSection?: SortOrder
-    memoNote?: SortOrder
-    date?: SortOrder
-    filePath?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type EvidenceAvgOrderByAggregateInput = {
+  export type TermAvgOrderByAggregateInput = {
     id?: SortOrder
+    order?: SortOrder
   }
 
-  export type EvidenceMaxOrderByAggregateInput = {
+  export type TermMaxOrderByAggregateInput = {
     id?: SortOrder
-    outcomeId?: SortOrder
-    indicatorId?: SortOrder
-    title?: SortOrder
-    type?: SortOrder
-    fileType?: SortOrder
+    name?: SortOrder
     description?: SortOrder
-    thumbnail?: SortOrder
-    fileUrl?: SortOrder
-    highlightedSection?: SortOrder
-    memoNote?: SortOrder
-    date?: SortOrder
-    filePath?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type EvidenceMinOrderByAggregateInput = {
+  export type TermMinOrderByAggregateInput = {
     id?: SortOrder
-    outcomeId?: SortOrder
-    indicatorId?: SortOrder
-    title?: SortOrder
-    type?: SortOrder
-    fileType?: SortOrder
+    name?: SortOrder
     description?: SortOrder
-    thumbnail?: SortOrder
-    fileUrl?: SortOrder
-    highlightedSection?: SortOrder
-    memoNote?: SortOrder
-    date?: SortOrder
-    filePath?: SortOrder
+    order?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type EvidenceSumOrderByAggregateInput = {
+  export type TermSumOrderByAggregateInput = {
     id?: SortOrder
+    order?: SortOrder
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -9984,6 +12925,170 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type TermScalarRelationFilter = {
+    is?: TermWhereInput
+    isNot?: TermWhereInput
+  }
+
+  export type EvidenceListRelationFilter = {
+    every?: EvidenceWhereInput
+    some?: EvidenceWhereInput
+    none?: EvidenceWhereInput
+  }
+
+  export type EvidenceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SubfolderCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    order?: SortOrder
+    termId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubfolderAvgOrderByAggregateInput = {
+    id?: SortOrder
+    order?: SortOrder
+    termId?: SortOrder
+  }
+
+  export type SubfolderMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    order?: SortOrder
+    termId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubfolderMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    order?: SortOrder
+    termId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubfolderSumOrderByAggregateInput = {
+    id?: SortOrder
+    order?: SortOrder
+    termId?: SortOrder
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type SubfolderNullableScalarRelationFilter = {
+    is?: SubfolderWhereInput | null
+    isNot?: SubfolderWhereInput | null
+  }
+
+  export type EvidenceCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    fileType?: SortOrder
+    description?: SortOrder
+    thumbnail?: SortOrder
+    fileUrl?: SortOrder
+    filePath?: SortOrder
+    highlightedSection?: SortOrder
+    memoNote?: SortOrder
+    date?: SortOrder
+    subfolderId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EvidenceAvgOrderByAggregateInput = {
+    id?: SortOrder
+    subfolderId?: SortOrder
+  }
+
+  export type EvidenceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    fileType?: SortOrder
+    description?: SortOrder
+    thumbnail?: SortOrder
+    fileUrl?: SortOrder
+    filePath?: SortOrder
+    highlightedSection?: SortOrder
+    memoNote?: SortOrder
+    date?: SortOrder
+    subfolderId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EvidenceMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    fileType?: SortOrder
+    description?: SortOrder
+    thumbnail?: SortOrder
+    fileUrl?: SortOrder
+    filePath?: SortOrder
+    highlightedSection?: SortOrder
+    memoNote?: SortOrder
+    date?: SortOrder
+    subfolderId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EvidenceSumOrderByAggregateInput = {
+    id?: SortOrder
+    subfolderId?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type ReflectionCountOrderByAggregateInput = {
@@ -10076,8 +13181,134 @@ export namespace Prisma {
     set?: string
   }
 
+  export type SubfolderCreateNestedManyWithoutTermInput = {
+    create?: XOR<SubfolderCreateWithoutTermInput, SubfolderUncheckedCreateWithoutTermInput> | SubfolderCreateWithoutTermInput[] | SubfolderUncheckedCreateWithoutTermInput[]
+    connectOrCreate?: SubfolderCreateOrConnectWithoutTermInput | SubfolderCreateOrConnectWithoutTermInput[]
+    createMany?: SubfolderCreateManyTermInputEnvelope
+    connect?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+  }
+
+  export type SubfolderUncheckedCreateNestedManyWithoutTermInput = {
+    create?: XOR<SubfolderCreateWithoutTermInput, SubfolderUncheckedCreateWithoutTermInput> | SubfolderCreateWithoutTermInput[] | SubfolderUncheckedCreateWithoutTermInput[]
+    connectOrCreate?: SubfolderCreateOrConnectWithoutTermInput | SubfolderCreateOrConnectWithoutTermInput[]
+    createMany?: SubfolderCreateManyTermInputEnvelope
+    connect?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+  }
+
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type SubfolderUpdateManyWithoutTermNestedInput = {
+    create?: XOR<SubfolderCreateWithoutTermInput, SubfolderUncheckedCreateWithoutTermInput> | SubfolderCreateWithoutTermInput[] | SubfolderUncheckedCreateWithoutTermInput[]
+    connectOrCreate?: SubfolderCreateOrConnectWithoutTermInput | SubfolderCreateOrConnectWithoutTermInput[]
+    upsert?: SubfolderUpsertWithWhereUniqueWithoutTermInput | SubfolderUpsertWithWhereUniqueWithoutTermInput[]
+    createMany?: SubfolderCreateManyTermInputEnvelope
+    set?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    disconnect?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    delete?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    connect?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    update?: SubfolderUpdateWithWhereUniqueWithoutTermInput | SubfolderUpdateWithWhereUniqueWithoutTermInput[]
+    updateMany?: SubfolderUpdateManyWithWhereWithoutTermInput | SubfolderUpdateManyWithWhereWithoutTermInput[]
+    deleteMany?: SubfolderScalarWhereInput | SubfolderScalarWhereInput[]
+  }
+
+  export type SubfolderUncheckedUpdateManyWithoutTermNestedInput = {
+    create?: XOR<SubfolderCreateWithoutTermInput, SubfolderUncheckedCreateWithoutTermInput> | SubfolderCreateWithoutTermInput[] | SubfolderUncheckedCreateWithoutTermInput[]
+    connectOrCreate?: SubfolderCreateOrConnectWithoutTermInput | SubfolderCreateOrConnectWithoutTermInput[]
+    upsert?: SubfolderUpsertWithWhereUniqueWithoutTermInput | SubfolderUpsertWithWhereUniqueWithoutTermInput[]
+    createMany?: SubfolderCreateManyTermInputEnvelope
+    set?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    disconnect?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    delete?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    connect?: SubfolderWhereUniqueInput | SubfolderWhereUniqueInput[]
+    update?: SubfolderUpdateWithWhereUniqueWithoutTermInput | SubfolderUpdateWithWhereUniqueWithoutTermInput[]
+    updateMany?: SubfolderUpdateManyWithWhereWithoutTermInput | SubfolderUpdateManyWithWhereWithoutTermInput[]
+    deleteMany?: SubfolderScalarWhereInput | SubfolderScalarWhereInput[]
+  }
+
+  export type TermCreateNestedOneWithoutSubfoldersInput = {
+    create?: XOR<TermCreateWithoutSubfoldersInput, TermUncheckedCreateWithoutSubfoldersInput>
+    connectOrCreate?: TermCreateOrConnectWithoutSubfoldersInput
+    connect?: TermWhereUniqueInput
+  }
+
+  export type EvidenceCreateNestedManyWithoutSubfolderInput = {
+    create?: XOR<EvidenceCreateWithoutSubfolderInput, EvidenceUncheckedCreateWithoutSubfolderInput> | EvidenceCreateWithoutSubfolderInput[] | EvidenceUncheckedCreateWithoutSubfolderInput[]
+    connectOrCreate?: EvidenceCreateOrConnectWithoutSubfolderInput | EvidenceCreateOrConnectWithoutSubfolderInput[]
+    createMany?: EvidenceCreateManySubfolderInputEnvelope
+    connect?: EvidenceWhereUniqueInput | EvidenceWhereUniqueInput[]
+  }
+
+  export type EvidenceUncheckedCreateNestedManyWithoutSubfolderInput = {
+    create?: XOR<EvidenceCreateWithoutSubfolderInput, EvidenceUncheckedCreateWithoutSubfolderInput> | EvidenceCreateWithoutSubfolderInput[] | EvidenceUncheckedCreateWithoutSubfolderInput[]
+    connectOrCreate?: EvidenceCreateOrConnectWithoutSubfolderInput | EvidenceCreateOrConnectWithoutSubfolderInput[]
+    createMany?: EvidenceCreateManySubfolderInputEnvelope
+    connect?: EvidenceWhereUniqueInput | EvidenceWhereUniqueInput[]
+  }
+
+  export type TermUpdateOneRequiredWithoutSubfoldersNestedInput = {
+    create?: XOR<TermCreateWithoutSubfoldersInput, TermUncheckedCreateWithoutSubfoldersInput>
+    connectOrCreate?: TermCreateOrConnectWithoutSubfoldersInput
+    upsert?: TermUpsertWithoutSubfoldersInput
+    connect?: TermWhereUniqueInput
+    update?: XOR<XOR<TermUpdateToOneWithWhereWithoutSubfoldersInput, TermUpdateWithoutSubfoldersInput>, TermUncheckedUpdateWithoutSubfoldersInput>
+  }
+
+  export type EvidenceUpdateManyWithoutSubfolderNestedInput = {
+    create?: XOR<EvidenceCreateWithoutSubfolderInput, EvidenceUncheckedCreateWithoutSubfolderInput> | EvidenceCreateWithoutSubfolderInput[] | EvidenceUncheckedCreateWithoutSubfolderInput[]
+    connectOrCreate?: EvidenceCreateOrConnectWithoutSubfolderInput | EvidenceCreateOrConnectWithoutSubfolderInput[]
+    upsert?: EvidenceUpsertWithWhereUniqueWithoutSubfolderInput | EvidenceUpsertWithWhereUniqueWithoutSubfolderInput[]
+    createMany?: EvidenceCreateManySubfolderInputEnvelope
+    set?: EvidenceWhereUniqueInput | EvidenceWhereUniqueInput[]
+    disconnect?: EvidenceWhereUniqueInput | EvidenceWhereUniqueInput[]
+    delete?: EvidenceWhereUniqueInput | EvidenceWhereUniqueInput[]
+    connect?: EvidenceWhereUniqueInput | EvidenceWhereUniqueInput[]
+    update?: EvidenceUpdateWithWhereUniqueWithoutSubfolderInput | EvidenceUpdateWithWhereUniqueWithoutSubfolderInput[]
+    updateMany?: EvidenceUpdateManyWithWhereWithoutSubfolderInput | EvidenceUpdateManyWithWhereWithoutSubfolderInput[]
+    deleteMany?: EvidenceScalarWhereInput | EvidenceScalarWhereInput[]
+  }
+
+  export type EvidenceUncheckedUpdateManyWithoutSubfolderNestedInput = {
+    create?: XOR<EvidenceCreateWithoutSubfolderInput, EvidenceUncheckedCreateWithoutSubfolderInput> | EvidenceCreateWithoutSubfolderInput[] | EvidenceUncheckedCreateWithoutSubfolderInput[]
+    connectOrCreate?: EvidenceCreateOrConnectWithoutSubfolderInput | EvidenceCreateOrConnectWithoutSubfolderInput[]
+    upsert?: EvidenceUpsertWithWhereUniqueWithoutSubfolderInput | EvidenceUpsertWithWhereUniqueWithoutSubfolderInput[]
+    createMany?: EvidenceCreateManySubfolderInputEnvelope
+    set?: EvidenceWhereUniqueInput | EvidenceWhereUniqueInput[]
+    disconnect?: EvidenceWhereUniqueInput | EvidenceWhereUniqueInput[]
+    delete?: EvidenceWhereUniqueInput | EvidenceWhereUniqueInput[]
+    connect?: EvidenceWhereUniqueInput | EvidenceWhereUniqueInput[]
+    update?: EvidenceUpdateWithWhereUniqueWithoutSubfolderInput | EvidenceUpdateWithWhereUniqueWithoutSubfolderInput[]
+    updateMany?: EvidenceUpdateManyWithWhereWithoutSubfolderInput | EvidenceUpdateManyWithWhereWithoutSubfolderInput[]
+    deleteMany?: EvidenceScalarWhereInput | EvidenceScalarWhereInput[]
+  }
+
+  export type SubfolderCreateNestedOneWithoutEvidenceInput = {
+    create?: XOR<SubfolderCreateWithoutEvidenceInput, SubfolderUncheckedCreateWithoutEvidenceInput>
+    connectOrCreate?: SubfolderCreateOrConnectWithoutEvidenceInput
+    connect?: SubfolderWhereUniqueInput
+  }
+
+  export type SubfolderUpdateOneWithoutEvidenceNestedInput = {
+    create?: XOR<SubfolderCreateWithoutEvidenceInput, SubfolderUncheckedCreateWithoutEvidenceInput>
+    connectOrCreate?: SubfolderCreateOrConnectWithoutEvidenceInput
+    upsert?: SubfolderUpsertWithoutEvidenceInput
+    disconnect?: SubfolderWhereInput | boolean
+    delete?: SubfolderWhereInput | boolean
+    connect?: SubfolderWhereUniqueInput
+    update?: XOR<XOR<SubfolderUpdateToOneWithWhereWithoutEvidenceInput, SubfolderUpdateWithoutEvidenceInput>, SubfolderUncheckedUpdateWithoutEvidenceInput>
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -10163,6 +13394,17 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -10189,6 +13431,386 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type SubfolderCreateWithoutTermInput = {
+    name: string
+    description?: string | null
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    evidence?: EvidenceCreateNestedManyWithoutSubfolderInput
+  }
+
+  export type SubfolderUncheckedCreateWithoutTermInput = {
+    id?: number
+    name: string
+    description?: string | null
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    evidence?: EvidenceUncheckedCreateNestedManyWithoutSubfolderInput
+  }
+
+  export type SubfolderCreateOrConnectWithoutTermInput = {
+    where: SubfolderWhereUniqueInput
+    create: XOR<SubfolderCreateWithoutTermInput, SubfolderUncheckedCreateWithoutTermInput>
+  }
+
+  export type SubfolderCreateManyTermInputEnvelope = {
+    data: SubfolderCreateManyTermInput | SubfolderCreateManyTermInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SubfolderUpsertWithWhereUniqueWithoutTermInput = {
+    where: SubfolderWhereUniqueInput
+    update: XOR<SubfolderUpdateWithoutTermInput, SubfolderUncheckedUpdateWithoutTermInput>
+    create: XOR<SubfolderCreateWithoutTermInput, SubfolderUncheckedCreateWithoutTermInput>
+  }
+
+  export type SubfolderUpdateWithWhereUniqueWithoutTermInput = {
+    where: SubfolderWhereUniqueInput
+    data: XOR<SubfolderUpdateWithoutTermInput, SubfolderUncheckedUpdateWithoutTermInput>
+  }
+
+  export type SubfolderUpdateManyWithWhereWithoutTermInput = {
+    where: SubfolderScalarWhereInput
+    data: XOR<SubfolderUpdateManyMutationInput, SubfolderUncheckedUpdateManyWithoutTermInput>
+  }
+
+  export type SubfolderScalarWhereInput = {
+    AND?: SubfolderScalarWhereInput | SubfolderScalarWhereInput[]
+    OR?: SubfolderScalarWhereInput[]
+    NOT?: SubfolderScalarWhereInput | SubfolderScalarWhereInput[]
+    id?: IntFilter<"Subfolder"> | number
+    name?: StringFilter<"Subfolder"> | string
+    description?: StringNullableFilter<"Subfolder"> | string | null
+    order?: IntFilter<"Subfolder"> | number
+    termId?: IntFilter<"Subfolder"> | number
+    createdAt?: DateTimeFilter<"Subfolder"> | Date | string
+    updatedAt?: DateTimeFilter<"Subfolder"> | Date | string
+  }
+
+  export type TermCreateWithoutSubfoldersInput = {
+    name: string
+    description?: string | null
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TermUncheckedCreateWithoutSubfoldersInput = {
+    id?: number
+    name: string
+    description?: string | null
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TermCreateOrConnectWithoutSubfoldersInput = {
+    where: TermWhereUniqueInput
+    create: XOR<TermCreateWithoutSubfoldersInput, TermUncheckedCreateWithoutSubfoldersInput>
+  }
+
+  export type EvidenceCreateWithoutSubfolderInput = {
+    title: string
+    type?: string
+    fileType?: string
+    description?: string
+    thumbnail?: string
+    fileUrl?: string
+    filePath?: string | null
+    highlightedSection?: string
+    memoNote?: string
+    date?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EvidenceUncheckedCreateWithoutSubfolderInput = {
+    id?: number
+    title: string
+    type?: string
+    fileType?: string
+    description?: string
+    thumbnail?: string
+    fileUrl?: string
+    filePath?: string | null
+    highlightedSection?: string
+    memoNote?: string
+    date?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EvidenceCreateOrConnectWithoutSubfolderInput = {
+    where: EvidenceWhereUniqueInput
+    create: XOR<EvidenceCreateWithoutSubfolderInput, EvidenceUncheckedCreateWithoutSubfolderInput>
+  }
+
+  export type EvidenceCreateManySubfolderInputEnvelope = {
+    data: EvidenceCreateManySubfolderInput | EvidenceCreateManySubfolderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TermUpsertWithoutSubfoldersInput = {
+    update: XOR<TermUpdateWithoutSubfoldersInput, TermUncheckedUpdateWithoutSubfoldersInput>
+    create: XOR<TermCreateWithoutSubfoldersInput, TermUncheckedCreateWithoutSubfoldersInput>
+    where?: TermWhereInput
+  }
+
+  export type TermUpdateToOneWithWhereWithoutSubfoldersInput = {
+    where?: TermWhereInput
+    data: XOR<TermUpdateWithoutSubfoldersInput, TermUncheckedUpdateWithoutSubfoldersInput>
+  }
+
+  export type TermUpdateWithoutSubfoldersInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TermUncheckedUpdateWithoutSubfoldersInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EvidenceUpsertWithWhereUniqueWithoutSubfolderInput = {
+    where: EvidenceWhereUniqueInput
+    update: XOR<EvidenceUpdateWithoutSubfolderInput, EvidenceUncheckedUpdateWithoutSubfolderInput>
+    create: XOR<EvidenceCreateWithoutSubfolderInput, EvidenceUncheckedCreateWithoutSubfolderInput>
+  }
+
+  export type EvidenceUpdateWithWhereUniqueWithoutSubfolderInput = {
+    where: EvidenceWhereUniqueInput
+    data: XOR<EvidenceUpdateWithoutSubfolderInput, EvidenceUncheckedUpdateWithoutSubfolderInput>
+  }
+
+  export type EvidenceUpdateManyWithWhereWithoutSubfolderInput = {
+    where: EvidenceScalarWhereInput
+    data: XOR<EvidenceUpdateManyMutationInput, EvidenceUncheckedUpdateManyWithoutSubfolderInput>
+  }
+
+  export type EvidenceScalarWhereInput = {
+    AND?: EvidenceScalarWhereInput | EvidenceScalarWhereInput[]
+    OR?: EvidenceScalarWhereInput[]
+    NOT?: EvidenceScalarWhereInput | EvidenceScalarWhereInput[]
+    id?: IntFilter<"Evidence"> | number
+    title?: StringFilter<"Evidence"> | string
+    type?: StringFilter<"Evidence"> | string
+    fileType?: StringFilter<"Evidence"> | string
+    description?: StringFilter<"Evidence"> | string
+    thumbnail?: StringFilter<"Evidence"> | string
+    fileUrl?: StringFilter<"Evidence"> | string
+    filePath?: StringNullableFilter<"Evidence"> | string | null
+    highlightedSection?: StringFilter<"Evidence"> | string
+    memoNote?: StringFilter<"Evidence"> | string
+    date?: StringFilter<"Evidence"> | string
+    subfolderId?: IntNullableFilter<"Evidence"> | number | null
+    createdAt?: DateTimeFilter<"Evidence"> | Date | string
+    updatedAt?: DateTimeFilter<"Evidence"> | Date | string
+  }
+
+  export type SubfolderCreateWithoutEvidenceInput = {
+    name: string
+    description?: string | null
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    term: TermCreateNestedOneWithoutSubfoldersInput
+  }
+
+  export type SubfolderUncheckedCreateWithoutEvidenceInput = {
+    id?: number
+    name: string
+    description?: string | null
+    order?: number
+    termId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubfolderCreateOrConnectWithoutEvidenceInput = {
+    where: SubfolderWhereUniqueInput
+    create: XOR<SubfolderCreateWithoutEvidenceInput, SubfolderUncheckedCreateWithoutEvidenceInput>
+  }
+
+  export type SubfolderUpsertWithoutEvidenceInput = {
+    update: XOR<SubfolderUpdateWithoutEvidenceInput, SubfolderUncheckedUpdateWithoutEvidenceInput>
+    create: XOR<SubfolderCreateWithoutEvidenceInput, SubfolderUncheckedCreateWithoutEvidenceInput>
+    where?: SubfolderWhereInput
+  }
+
+  export type SubfolderUpdateToOneWithWhereWithoutEvidenceInput = {
+    where?: SubfolderWhereInput
+    data: XOR<SubfolderUpdateWithoutEvidenceInput, SubfolderUncheckedUpdateWithoutEvidenceInput>
+  }
+
+  export type SubfolderUpdateWithoutEvidenceInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    term?: TermUpdateOneRequiredWithoutSubfoldersNestedInput
+  }
+
+  export type SubfolderUncheckedUpdateWithoutEvidenceInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    termId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubfolderCreateManyTermInput = {
+    id?: number
+    name: string
+    description?: string | null
+    order?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubfolderUpdateWithoutTermInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    evidence?: EvidenceUpdateManyWithoutSubfolderNestedInput
+  }
+
+  export type SubfolderUncheckedUpdateWithoutTermInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    evidence?: EvidenceUncheckedUpdateManyWithoutSubfolderNestedInput
+  }
+
+  export type SubfolderUncheckedUpdateManyWithoutTermInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EvidenceCreateManySubfolderInput = {
+    id?: number
+    title: string
+    type?: string
+    fileType?: string
+    description?: string
+    thumbnail?: string
+    fileUrl?: string
+    filePath?: string | null
+    highlightedSection?: string
+    memoNote?: string
+    date?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EvidenceUpdateWithoutSubfolderInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    highlightedSection?: StringFieldUpdateOperationsInput | string
+    memoNote?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EvidenceUncheckedUpdateWithoutSubfolderInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    highlightedSection?: StringFieldUpdateOperationsInput | string
+    memoNote?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EvidenceUncheckedUpdateManyWithoutSubfolderInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    highlightedSection?: StringFieldUpdateOperationsInput | string
+    memoNote?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

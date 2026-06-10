@@ -11,7 +11,12 @@ interface ReflectionsModalProps {
 export function ReflectionsModal({ isOpen, onClose }: ReflectionsModalProps) {
   const { content, updateReflection } = useContent();
   const reflections = (content.reflections as Array<{ evidenceId: string; paragraphs: string[] }>) ?? [];
-  const { data: evidenceItems = [] } = api.evidence.getAll.useQuery();
+  const { data: terms = [] } = api.evidence.getAll.useQuery();
+  
+  // Flatten the nested structure to get all evidence items
+  const evidenceItems = terms.flatMap((term) =>
+    term.subfolders.flatMap((sf) => sf.evidence)
+  );
 
   const [selectedIdx, setSelectedIdx] = useState(0);
   const currentReflection = reflections[selectedIdx];

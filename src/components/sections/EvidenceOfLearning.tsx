@@ -1,211 +1,259 @@
 import { useState } from 'react';
-import { Container, Heading, Text, Badge, Card, Button } from '../ui';
-import { FileText, Video, ExternalLink, StickyNote, Highlighter, Plus, Trash2 } from 'lucide-react';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { Container, Heading, Text, Badge, Button } from '../ui';
+import { Plus } from 'lucide-react';
 import { useContent } from '../../context/ContentContext';
 import { api } from '~/trpc/react';
-import { EditButton } from '../common/EditButton';
+import { TermAccordion } from './TermAccordion';
+import { TermModal } from './TermModal';
+import { SubfolderModal } from './SubfolderModal';
 import { EvidenceModal } from './EvidenceModal';
 
-function EvidenceCard({ evidence, outcome, isEditMode, onEdit, onDelete }) {
-  const [showMemo, setShowMemo] = useState(false);
-
-  const TypeIcon = evidence.type === 'video' ? Video : FileText;
-
-  return (
-    <Card padding="none" className="evidence-card" style={{ position: 'relative' }}>
-      {isEditMode && (
-        <div className="evidence-card-actions">
-          <button
-            className="evidence-action-btn edit"
-            onClick={() => onEdit(evidence)}
-            aria-label="Edit evidence"
-            type="button"
-          >
-            Edit
-          </button>
-          <button
-            className="evidence-action-btn delete"
-            onClick={() => onDelete(evidence.id)}
-            aria-label="Delete evidence"
-            type="button"
-          >
-            <Trash2 size={12} />
-          </button>
-        </div>
-      )}
-
-      <div className="evidence-thumbnail">
-        <img src={evidence.thumbnail} alt={evidence.title} loading="lazy" />
-        <div className="evidence-type-badge">
-          <TypeIcon size={14} />
-          <span>{evidence.fileType.toUpperCase()}</span>
-        </div>
-      </div>
-
-      <div className="evidence-body">
-        <div className="evidence-meta">
-          <Badge variant="teal">{outcome?.shortTitle || 'N/A'}</Badge>
-          <Text size="xs" muted>{evidence.date}</Text>
-        </div>
-
-        <Heading as="h4" variant="h6" style={{ marginBottom: 'var(--space-2)' }}>
-          {evidence.title}
-        </Heading>
-
-        <Text size="sm" muted style={{ marginBottom: 'var(--space-3)' }}>
-          {evidence.description}
-        </Text>
-
-        {evidence.highlightedSection && (
-          <div className="evidence-highlight">
-            <div className="highlight-label">
-              <Highlighter size={14} />
-              <Text size="xs" style={{ fontWeight: 'var(--weight-semibold)' }}>
-                {evidence.highlightedSection}
-              </Text>
-            </div>
-            {evidence.memoNote && <Text size="sm" muted>{evidence.memoNote}</Text>}
-          </div>
-        )}
-
-        <div className="evidence-actions">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setShowMemo(!showMemo)}
-          >
-            <StickyNote size={14} />
-            {showMemo ? 'Hide Memo' : 'Show Memo'}
-          </Button>
-
-          {evidence.fileUrl && (
-            <Button
-              variant="outline"
-              size="sm"
-              as="a"
-              href={evidence.fileUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <ExternalLink size={14} />
-              View File
-            </Button>
-          )}
-        </div>
-
-        {showMemo && evidence.memoNote && (
-          <div className="evidence-memo">
-            <div className="memo-header">
-              <StickyNote size={14} />
-              <Text size="xs" style={{ fontWeight: 'var(--weight-semibold)' }}>
-                Memo to Evaluator
-              </Text>
-            </div>
-            <Text size="sm">{evidence.memoNote}</Text>
-          </div>
-        )}
-      </div>
-    </Card>
-  );
-}
+type Term = {
+  id: number;
+  name: string;
+  description: string | null;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+  subfolders: {
+    id: number;
+    name: string;
+    description: string | null;
+    order: number;
+    termId: number;
+    createdAt: string;
+    updatedAt: string;
+    evidence: {
+      id: number;
+      title: string;
+      type: string;
+      fileType: string;
+      description: string;
+      thumbnail: string;
+      fileUrl: string;
+      filePath: string | null;
+      highlightedSection: string;
+      memoNote: string;
+      date: string;
+      subfolderId: number | null;
+      createdAt: string;
+      updatedAt: string;
+    }[];
+  }[];
+};
 
 export function EvidenceOfLearning() {
-  const [selectedOutcome, setSelectedOutcome] = useState('all');
-  const [editingEvidence, setEditingEvidence] = useState(null);
-  const [modalMode, setModalMode] = useState<'edit' | 'create'>('edit');
+  const [expandedTermIds, setExpandedTermIds] = useState<Set<number>>(new Set());
+  const [editingTerm, setEditingTerm] = useState<Term | null>(null);
+  const [editingSubfolder, setEditingSubfolder] = useState<{ id: number; name: string; description: string | null; termId: number } | null>(null);
+  const [editingEvidence, setEditingEvidence] = useState<Term['subfolders'][0]['evidence'][0] | null>(null);
+  const [termModalMode, setTermModalMode] = useState<'create' | 'edit' | null>(null);
+  const [subfolderModalMode, setSubfolderModalMode] = useState<'create' | 'edit' | null>(null);
+  const [evidenceModalMode, setEvidenceModalMode] = useState<'create' | 'edit' | null>(null);
+  const [creatingSubfolderForTermId, setCreatingSubfolderForTermId] = useState<number | null>(null);
+  const [creatingEvidenceForSubfolderId, setCreatingEvidenceForSubfolderId] = useState<number | null>(null);
 
-  const { content, isEditMode } = useContent();
-  const selfAssessment = content.selfAssessment as { outcomes: Array<{
-    id: string;
-    shortTitle: string;
-    indicators: Array<{ id: string; text: string; rating: number }>;
-  }> } | null;
-  const outcomes = selfAssessment?.outcomes ?? [];
+  const { isEditMode } = useContent();
 
-  const { data: evidenceItems = [], refetch } = api.evidence.getAll.useQuery();
+  const { data: terms = [], refetch: refetchTerms } = api.evidence.getAll.useQuery();
 
-  const filteredItems = selectedOutcome === 'all'
-    ? evidenceItems
-    : evidenceItems.filter((ev) => ev.outcomeId === selectedOutcome);
-
-  const createMutation = api.evidence.create.useMutation({
-    onSuccess: () => {
-      void refetch();
-      setEditingEvidence(null);
-    },
-    onError: (error) => {
-      console.error('Create evidence failed:', error);
-      alert(`Failed to create evidence: ${error.message}`);
-    },
+  const reorderTermsMutation = api.evidence.reorderTerms.useMutation({
+    onSuccess: () => void refetchTerms(),
   });
 
-  const updateMutation = api.evidence.update.useMutation({
-    onSuccess: () => {
-      void refetch();
-      setEditingEvidence(null);
-    },
-    onError: (error) => {
-      console.error('Update evidence failed:', error);
-      alert(`Failed to update evidence: ${error.message}`);
-    },
+  const createTermMutation = api.evidence.createTerm.useMutation({
+    onSuccess: () => void refetchTerms(),
+    onError: (error) => console.error('createTerm error:', error.message, error),
   });
 
-  const deleteMutation = api.evidence.delete.useMutation({
-    onSuccess: () => {
-      void refetch();
-    },
-    onError: (error) => {
-      console.error('Delete evidence failed:', error);
-      alert(`Failed to delete evidence: ${error.message}`);
-    },
+  const updateTermMutation = api.evidence.updateTerm.useMutation({
+    onSuccess: () => void refetchTerms(),
   });
 
-  const handleDelete = (id: number) => {
-    if (window.confirm('Are you sure you want to delete this evidence item?')) {
-      deleteMutation.mutate({ id });
+  const deleteTermMutation = api.evidence.deleteTerm.useMutation({
+    onSuccess: () => void refetchTerms(),
+  });
+
+  const createSubfolderMutation = api.evidence.createSubfolder.useMutation({
+    onSuccess: () => void refetchTerms(),
+  });
+
+  const updateSubfolderMutation = api.evidence.updateSubfolder.useMutation({
+    onSuccess: () => void refetchTerms(),
+  });
+
+  const deleteSubfolderMutation = api.evidence.deleteSubfolder.useMutation({
+    onSuccess: () => void refetchTerms(),
+  });
+
+  const createEvidenceMutation = api.evidence.create.useMutation({
+    onSuccess: () => void refetchTerms(),
+  });
+
+  const updateEvidenceMutation = api.evidence.update.useMutation({
+    onSuccess: () => void refetchTerms(),
+  });
+
+  const deleteEvidenceMutation = api.evidence.delete.useMutation({
+    onSuccess: () => void refetchTerms(),
+  });
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 8 },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = terms.findIndex((t) => t.id === active.id);
+    const newIndex = terms.findIndex((t) => t.id === over.id);
+
+    if (oldIndex !== -1 && newIndex !== -1) {
+      const newOrder = arrayMove(terms, oldIndex, newIndex).map((t) => t.id);
+      reorderTermsMutation.mutate({ termIds: newOrder });
     }
   };
 
-  const handleAdd = () => {
-    const firstOutcome = outcomes[0];
-    const firstIndicator = firstOutcome?.indicators?.[0];
-    
-    if (!firstOutcome || !firstIndicator) {
-      alert('Please add outcomes and indicators in Self Assessment first');
-      return;
+  const toggleTerm = (termId: number) => {
+    setExpandedTermIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(termId)) {
+        next.delete(termId);
+      } else {
+        next.add(termId);
+      }
+      return next;
+    });
+  };
+
+  const handleCreateTerm = () => {
+    setEditingTerm(null);
+    setTermModalMode('create');
+  };
+
+  const handleEditTerm = (term: Term) => {
+    setEditingTerm(term);
+    setTermModalMode('edit');
+  };
+
+  const handleDeleteTerm = (termId: number) => {
+    if (window.confirm('Are you sure you want to delete this term and all its subfolders and evidence?')) {
+      deleteTermMutation.mutate({ id: termId });
     }
-    
+  };
+
+  const handleSaveTerm = (data: { id?: number; name: string; description: string }) => {
+    console.log('handleSaveTerm called with:', data, 'mode:', termModalMode);
+    if (termModalMode === 'create') {
+      createTermMutation.mutate(data);
+    } else if (data.id) {
+      updateTermMutation.mutate({ id: data.id, name: data.name, description: data.description });
+    }
+  };
+
+  const handleCreateSubfolder = (termId: number) => {
+    setCreatingSubfolderForTermId(termId);
+    setEditingSubfolder(null);
+    setSubfolderModalMode('create');
+  };
+
+  const handleEditSubfolder = (subfolder: { id: number; name: string; description: string | null; termId: number }) => {
+    setEditingSubfolder(subfolder);
+    setSubfolderModalMode('edit');
+  };
+
+  const handleDeleteSubfolder = (subfolderId: number) => {
+    if (window.confirm('Are you sure you want to delete this subfolder and all its evidence?')) {
+      deleteSubfolderMutation.mutate({ id: subfolderId });
+    }
+  };
+
+  const handleSaveSubfolder = (data: { id?: number; termId: number; name: string; description: string }) => {
+    if (subfolderModalMode === 'create') {
+      const payload = { termId: data.termId, name: data.name, description: data.description || undefined };
+      console.log('createSubfolder payload:', payload);
+      createSubfolderMutation.mutate(payload, {
+        onError: (error) => console.error('createSubfolder error:', error.message),
+      });
+    } else if (data.id) {
+      updateSubfolderMutation.mutate({ id: data.id, name: data.name, description: data.description });
+    }
+  };
+
+  const handleCreateEvidence = (subfolderId: number) => {
+    setCreatingEvidenceForSubfolderId(subfolderId);
     setEditingEvidence(null);
-    setModalMode('create');
-    setEditingEvidence({
-      id: 0,
-      title: '',
-      description: '',
-      highlightedSection: '',
-      memoNote: '',
-      fileUrl: '',
-      filePath: null,
-      outcomeId: firstOutcome.id,
-      indicatorId: firstIndicator.id,
-      type: 'document',
-      fileType: 'pdf',
-      date: new Date().toISOString().split('T')[0],
-    } as never);
+    setEvidenceModalMode('create');
   };
 
-  const handleEdit = (evidence) => {
-    setModalMode('edit');
+  const handleEditEvidence = (evidence: Term['subfolders'][0]['evidence'][0]) => {
     setEditingEvidence(evidence);
+    setEvidenceModalMode('edit');
   };
 
-  const handleSave = (data: Record<string, unknown>) => {
-    if (modalMode === 'create') {
-      const { id, ...createData } = data;
-      createMutation.mutate(createData as Parameters<typeof createMutation.mutate>[0]);
-    } else {
-      updateMutation.mutate(data as Parameters<typeof updateMutation.mutate>[0]);
+  const handleDeleteEvidence = (evidenceId: number) => {
+    if (window.confirm('Are you sure you want to delete this evidence item?')) {
+      deleteEvidenceMutation.mutate({ id: evidenceId });
     }
   };
+
+  const handleSaveEvidence = (data: Record<string, unknown>) => {
+    if (evidenceModalMode === 'create') {
+      createEvidenceMutation.mutate({
+        title: data.title as string,
+        subfolderId: creatingEvidenceForSubfolderId,
+        type: data.type as string,
+        fileType: data.fileType as string,
+        description: data.description as string,
+        fileUrl: data.fileUrl as string,
+        filePath: data.filePath as string | null,
+        date: data.date as string,
+        highlightedSection: data.highlightedSection as string,
+        memoNote: data.memoNote as string,
+        thumbnail: data.thumbnail as string,
+      });
+    } else if (data.id) {
+      updateEvidenceMutation.mutate({
+        id: data.id as number,
+        title: data.title as string,
+        subfolderId: data.subfolderId as number | null,
+        type: data.type as string,
+        fileType: data.fileType as string,
+        description: data.description as string,
+        fileUrl: data.fileUrl as string,
+        filePath: data.filePath as string | null,
+        date: data.date as string,
+        highlightedSection: data.highlightedSection as string,
+        memoNote: data.memoNote as string,
+        thumbnail: data.thumbnail as string,
+      });
+    }
+  };
+
+  const totalEvidence = terms.reduce((acc, term) =>
+    acc + term.subfolders.reduce((acc2, sf) => acc2 + sf.evidence.length, 0), 0
+  );
 
   return (
     <section id="evidence" className="section" style={{ background: 'var(--section-even-bg)', position: 'relative' }}>
@@ -222,61 +270,83 @@ export function EvidenceOfLearning() {
 
         {isEditMode && (
           <div className="evidence-toolbar">
-            <Button variant="primary" size="sm" onClick={handleAdd}>
+            <Button variant="primary" size="sm" onClick={handleCreateTerm}>
               <Plus size={16} />
-              Add Evidence
+              Add Term
             </Button>
           </div>
         )}
 
-        <div className="evidence-filters">
-          <button
-            className={`filter-btn ${selectedOutcome === 'all' ? 'active' : ''}`}
-            onClick={() => setSelectedOutcome('all')}
-          >
-            All Evidence
-          </button>
-          {outcomes.map((outcome) => (
-            <button
-              key={outcome.id}
-              className={`filter-btn ${selectedOutcome === outcome.id ? 'active' : ''}`}
-              onClick={() => setSelectedOutcome(outcome.id)}
-            >
-              {outcome.shortTitle}
-            </button>
-          ))}
-        </div>
-
-        <div className="evidence-grid">
-          {filteredItems.map((evidence) => {
-            const outcome = outcomes.find((o) => o.id === evidence.outcomeId);
-            return (
-              <EvidenceCard
-                key={evidence.id}
-                evidence={evidence}
-                outcome={outcome}
-                isEditMode={isEditMode}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-              />
-            );
-          })}
-        </div>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={terms.map((t) => t.id)} strategy={verticalListSortingStrategy}>
+            <div className="terms-container">
+              {terms.map((term) => (
+                <TermAccordion
+                  key={term.id}
+                  term={term as Term}
+                  isEditMode={isEditMode}
+                  isExpanded={expandedTermIds.has(term.id)}
+                  onToggle={() => toggleTerm(term.id)}
+                  onEditTerm={handleEditTerm}
+                  onDeleteTerm={handleDeleteTerm}
+                  onCreateSubfolder={handleCreateSubfolder}
+                  onEditSubfolder={handleEditSubfolder}
+                  onDeleteSubfolder={handleDeleteSubfolder}
+                  onCreateEvidence={handleCreateEvidence}
+                  onEditEvidence={handleEditEvidence}
+                  onDeleteEvidence={handleDeleteEvidence}
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
 
         <div className="evidence-count">
           <Text size="sm" muted>
-            Showing {filteredItems.length} of {evidenceItems.length} evidence items
+            {terms.length} terms, {totalEvidence} evidence items
           </Text>
         </div>
       </Container>
 
-      {editingEvidence && (
+      {termModalMode !== null && (
+        <TermModal
+          isOpen={!!editingTerm || termModalMode === 'create'}
+          onClose={() => {
+            setEditingTerm(null);
+            setTermModalMode(null);
+          }}
+          mode={termModalMode}
+          term={editingTerm ?? undefined}
+          onSave={handleSaveTerm}
+        />
+      )}
+
+      {subfolderModalMode !== null && (
+        <SubfolderModal
+          isOpen={!!editingSubfolder || subfolderModalMode === 'create'}
+          onClose={() => {
+            setEditingSubfolder(null);
+            setSubfolderModalMode(null);
+            setCreatingSubfolderForTermId(null);
+          }}
+          mode={subfolderModalMode}
+          termId={creatingSubfolderForTermId ?? editingSubfolder?.termId ?? 1}
+          subfolder={editingSubfolder ?? undefined}
+          onSave={handleSaveSubfolder}
+        />
+      )}
+
+      {evidenceModalMode !== null && (
         <EvidenceModal
-          isOpen={!!editingEvidence}
-          onClose={() => setEditingEvidence(null)}
-          mode={modalMode}
-          evidence={modalMode === 'edit' ? editingEvidence : undefined}
-          onSave={handleSave}
+          isOpen={!!editingEvidence || evidenceModalMode === 'create'}
+          onClose={() => {
+            setEditingEvidence(null);
+            setEvidenceModalMode(null);
+            setCreatingEvidenceForSubfolderId(null);
+          }}
+          mode={evidenceModalMode}
+          evidence={editingEvidence ?? undefined}
+          onSave={handleSaveEvidence}
         />
       )}
 
@@ -291,155 +361,10 @@ export function EvidenceOfLearning() {
           align-items: center;
           gap: var(--space-2);
         }
-        .evidence-filters {
+        .terms-container {
           display: flex;
-          flex-wrap: wrap;
-          gap: var(--space-2);
-          justify-content: center;
-          margin-bottom: var(--space-8);
-        }
-        .filter-btn {
-          padding: var(--space-2) var(--space-4);
-          border-radius: var(--radius-full);
-          font-size: var(--text-sm);
-          font-weight: var(--weight-medium);
-          color: var(--color-text-secondary);
-          background: var(--color-card-bg);
-          border: 1px solid var(--color-border);
-          cursor: pointer;
-          transition: all var(--duration-fast) var(--ease-in-out);
-        }
-        .filter-btn:hover {
-          border-color: var(--color-accent);
-          color: var(--color-text-primary);
-        }
-        .filter-btn.active {
-          background: var(--color-accent);
-          color: var(--color-burgundy);
-          border-color: var(--color-accent);
-        }
-        .evidence-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: var(--space-6);
-        }
-        @media (min-width: 640px) {
-          .evidence-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-        @media (min-width: 1024px) {
-          .evidence-grid {
-            grid-template-columns: repeat(3, 1fr);
-          }
-        }
-        .evidence-card {
-          overflow: hidden;
-          transition: transform var(--duration-normal) var(--ease-in-out),
-            box-shadow var(--duration-normal) var(--ease-in-out);
-        }
-        .evidence-card:hover {
-          transform: translateY(-4px);
-          box-shadow: var(--shadow-lg);
-        }
-        .evidence-card-actions {
-          position: absolute;
-          top: var(--space-2);
-          left: var(--space-2);
-          display: flex;
-          gap: var(--space-1);
-          z-index: 5;
-        }
-        .evidence-action-btn {
-          display: flex;
-          align-items: center;
-          gap: var(--space-1);
-          padding: var(--space-1) var(--space-3);
-          border-radius: var(--radius-md);
-          border: none;
-          cursor: pointer;
-          font-size: var(--text-xs);
-          font-weight: var(--weight-semibold);
-          transition: all var(--duration-fast) var(--ease-in-out);
-        }
-        .evidence-action-btn.edit {
-          background: var(--color-accent);
-          color: var(--color-burgundy);
-        }
-        .evidence-action-btn.delete {
-          background: #fee2e2;
-          color: #dc2626;
-        }
-        .evidence-action-btn:hover {
-          transform: scale(1.05);
-          box-shadow: var(--shadow-md);
-        }
-        .evidence-thumbnail {
-          position: relative;
-          height: 160px;
-          overflow: hidden;
-          background: var(--color-bg-secondary);
-        }
-        .evidence-thumbnail img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-        .evidence-type-badge {
-          position: absolute;
-          top: var(--space-2);
-          right: var(--space-2);
-          display: flex;
-          align-items: center;
-          gap: var(--space-1);
-          padding: var(--space-1) var(--space-2);
-          background: var(--color-card-bg);
-          border-radius: var(--radius-md);
-          font-size: var(--text-xs);
-          font-weight: var(--weight-medium);
-          color: var(--color-text-secondary);
-          box-shadow: var(--shadow-sm);
-        }
-        .evidence-body {
-          padding: var(--space-4);
-        }
-        .evidence-meta {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: var(--space-2);
-        }
-        .evidence-highlight {
-          background: var(--evidence-highlight-bg);
-          border-left: 3px solid var(--color-accent);
-          padding: var(--space-3);
-          border-radius: 0 var(--radius-md) var(--radius-md) 0;
-          margin-bottom: var(--space-3);
-        }
-        .highlight-label {
-          display: flex;
-          align-items: center;
-          gap: var(--space-2);
-          margin-bottom: var(--space-1);
-          color: var(--color-accent);
-        }
-        .evidence-actions {
-          display: flex;
-          gap: var(--space-2);
-        }
-        .evidence-memo {
-          margin-top: var(--space-3);
-          padding: var(--space-3);
-          background: var(--evidence-memo-bg);
-          border-left: 3px solid var(--evidence-memo-border);
-          border-radius: 0 var(--radius-md) var(--radius-md) 0;
-        }
-        .memo-header {
-          display: flex;
-          align-items: center;
-          gap: var(--space-2);
-          margin-bottom: var(--space-2);
-          color: var(--color-accent);
+          flex-direction: column;
+          gap: var(--space-4);
         }
         .evidence-count {
           text-align: center;

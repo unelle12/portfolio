@@ -69,8 +69,6 @@ async function main() {
       update: {},
       create: {
         id: parseInt(item.id.replace('ev-', '')),
-        outcomeId: item.outcomeId,
-        indicatorId: item.indicatorId,
         title: item.title,
         type: item.type,
         fileType: item.fileType,
@@ -80,6 +78,7 @@ async function main() {
         highlightedSection: item.highlightedSection,
         memoNote: item.memoNote,
         date: item.date,
+        subfolderId: 1,
       },
     });
   }

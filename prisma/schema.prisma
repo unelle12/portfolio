@@ -40,20 +40,50 @@ model SelfAssessment {
     outcomes String @default("[]")
 }
 
+model Term {
+    id          Int         @id @default(autoincrement())
+    name        String      // e.g., "Term 1", "Term 2", "Term 3"
+    description String?
+    order       Int         @default(0)
+    subfolders  Subfolder[]
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+
+    @@index([order])
+}
+
+model Subfolder {
+    id          Int        @id @default(autoincrement())
+    name        String     // e.g., "Module 1", "Project", "Assignments"
+    description String?
+    order       Int        @default(0)
+    termId      Int
+    term        Term       @relation(fields: [termId], references: [id], onDelete: Cascade)
+    evidence    Evidence[]
+    createdAt   DateTime   @default(now())
+    updatedAt   DateTime   @updatedAt
+
+    @@index([termId, order])
+}
+
 model Evidence {
-    id                 Int     @id @default(autoincrement())
-    outcomeId          String
-    indicatorId        String
+    id                 Int        @id @default(autoincrement())
     title              String
-    type               String  @default("document")
-    fileType           String  @default("pdf")
-    description        String  @default("")
-    thumbnail          String  @default("/assets/parallax/hero-placeholder.svg")
-    fileUrl            String  @default("")
-    highlightedSection String  @default("")
-    memoNote           String  @default("")
-    date               String  @default("")
+    type               String     @default("document")
+    fileType           String     @default("pdf")
+    description        String     @default("")
+    thumbnail          String     @default("/assets/parallax/hero-placeholder.svg")
+    fileUrl            String     @default("")
     filePath           String?
+    highlightedSection String     @default("")
+    memoNote           String     @default("")
+    date               String     @default("")
+    subfolderId        Int?
+    subfolder          Subfolder? @relation(fields: [subfolderId], references: [id], onDelete: SetNull)
+    createdAt          DateTime   @default(now())
+    updatedAt          DateTime   @updatedAt
+
+    @@index([subfolderId])
 }
 
 model Reflection {
