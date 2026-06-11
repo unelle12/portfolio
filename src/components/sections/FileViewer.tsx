@@ -37,7 +37,7 @@ function getViewerContent(fileUrl: string, fileType: string, type: string) {
   }
 
   if (ext === 'pdf') {
-    const pdfViewUrl = `https://docs.google.com/gview?url=${encodeURIComponent(fileUrl)}&embedded=true`;
+    const pdfViewUrl = `/api/files/proxy?url=${encodeURIComponent(fileUrl)}`;
     return (
       <iframe
         src={pdfViewUrl}
@@ -48,7 +48,7 @@ function getViewerContent(fileUrl: string, fileType: string, type: string) {
   }
 
   if (['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'].includes(ext)) {
-    const officeUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileUrl)}`;
+    const officeUrl = `/api/files/proxy?url=${encodeURIComponent(fileUrl)}`;
     return (
       <iframe
         src={officeUrl}
@@ -74,6 +74,21 @@ function getExternalEmbedUrl(fileUrl: string): string | null {
   const vimeoMatch = vimeoRegex.exec(url);
   if (vimeoMatch) {
     return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+  }
+
+  const gdriveViewer = url.match(/drive\.google\.com\/file\/d\/([^/]+)\/view/);
+  if (gdriveViewer) {
+    return `https://drive.google.com/file/d/${gdriveViewer[1]}/preview`;
+  }
+
+  const gdriveOpen = url.match(/drive\.google\.com\/open\?id=([^&]+)/);
+  if (gdriveOpen) {
+    return `https://drive.google.com/file/d/${gdriveOpen[1]}/preview`;
+  }
+
+  const gdriveUc = url.match(/drive\.google\.com\/uc\?id=([^&]+)/);
+  if (gdriveUc) {
+    return `https://drive.google.com/file/d/${gdriveUc[1]}/preview`;
   }
 
   return null;
@@ -103,7 +118,8 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
 
   const isYouTube = /(?:youtube\.com|youtu\.be)/.exec(fileUrl) !== null;
   const isVimeo = /vimeo\.com/.exec(fileUrl) !== null;
-  const isEmbeddableExternal = isYouTube || isVimeo;
+  const isGoogleDrive = /drive\.google\.com/.exec(fileUrl) !== null;
+  const isEmbeddableExternal = isYouTube || isVimeo || isGoogleDrive;
 
   const viewerContent = getViewerContent(fileUrl, fileType, type);
 
