@@ -76,17 +76,20 @@ function getExternalEmbedUrl(fileUrl: string): string | null {
     return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
   }
 
-  const gdriveViewer = url.match(/drive\.google\.com\/file\/d\/([^/]+)\/view/);
+  const gdriveViewerRegex = /drive\.google\.com\/file\/d\/([^/]+)\/view/;
+  const gdriveViewer = gdriveViewerRegex.exec(url);
   if (gdriveViewer) {
     return `https://drive.google.com/file/d/${gdriveViewer[1]}/preview`;
   }
 
-  const gdriveOpen = url.match(/drive\.google\.com\/open\?id=([^&]+)/);
+  const gdriveOpenRegex = /drive\.google\.com\/open\?id=([^&]+)/;
+  const gdriveOpen = gdriveOpenRegex.exec(url);
   if (gdriveOpen) {
     return `https://drive.google.com/file/d/${gdriveOpen[1]}/preview`;
   }
 
-  const gdriveUc = url.match(/drive\.google\.com\/uc\?id=([^&]+)/);
+  const gdriveUcRegex = /drive\.google\.com\/uc\?id=([^&]+)/;
+  const gdriveUc = gdriveUcRegex.exec(url);
   if (gdriveUc) {
     return `https://drive.google.com/file/d/${gdriveUc[1]}/preview`;
   }
