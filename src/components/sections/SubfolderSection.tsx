@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronRight, Plus, Edit2, Trash2, FileText, Video, ExternalLink, StickyNote, Highlighter } from 'lucide-react';
+import { FileViewer } from './FileViewer';
 
 type EvidenceItem = {
   id: number;
@@ -55,6 +56,7 @@ function EvidenceCard({ evidence, isEditMode, onEdit, onDelete }: {
   onDelete: (evidenceId: number) => void;
 }) {
   const [showMemo, setShowMemo] = useState(false);
+  const [viewerEvidence, setViewerEvidence] = useState<EvidenceItem | null>(null);
 
   const TypeIcon = evidence.type === 'video' ? Video : FileText;
 
@@ -119,15 +121,14 @@ function EvidenceCard({ evidence, isEditMode, onEdit, onDelete }: {
           </button>
 
           {evidence.fileUrl && (
-            <a
+            <button
               className="evidence-action-btn view"
-              href={evidence.fileUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              onClick={() => setViewerEvidence(evidence)}
+              type="button"
             >
               <ExternalLink size={14} />
               View File
-            </a>
+            </button>
           )}
         </div>
 
@@ -141,6 +142,15 @@ function EvidenceCard({ evidence, isEditMode, onEdit, onDelete }: {
           </div>
         )}
       </div>
+
+      <FileViewer
+        isOpen={!!viewerEvidence}
+        onClose={() => setViewerEvidence(null)}
+        title={viewerEvidence?.title ?? ''}
+        fileUrl={viewerEvidence?.fileUrl ?? ''}
+        fileType={viewerEvidence?.fileType ?? ''}
+        type={viewerEvidence?.type ?? ''}
+      />
     </div>
   );
 }
