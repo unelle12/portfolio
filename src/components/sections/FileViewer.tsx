@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { X, ExternalLink } from 'lucide-react';
 
 interface FileViewerProps {
@@ -79,16 +79,20 @@ function getExternalEmbedUrl(fileUrl: string): string | null {
 }
 
 export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: FileViewerProps) {
+  const [mounted, setMounted] = useState(false);
+
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape') onClose();
   }, [onClose]);
 
   useEffect(() => {
     if (isOpen) {
+      requestAnimationFrame(() => setMounted(true));
       document.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden';
     }
     return () => {
+      setMounted(false);
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
@@ -103,7 +107,7 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
   const viewerContent = getViewerContent(fileUrl, fileType, type);
 
   return (
-    <div className="file-viewer-overlay" onClick={onClose}>
+    <div className={`file-viewer-overlay ${mounted ? 'mounted' : ''}`} onClick={onClose}>
       <div className="file-viewer-modal" onClick={(e) => e.stopPropagation()}>
         <div className="file-viewer-header">
           <span className="file-viewer-title">{title}</span>
@@ -161,6 +165,11 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
           align-items: center;
           justify-content: center;
           padding: var(--space-4);
+          opacity: 0;
+          transition: opacity 0.2s ease-out;
+        }
+        .file-viewer-overlay.mounted {
+          opacity: 1;
         }
         .file-viewer-modal {
           background: var(--color-card-bg);
@@ -171,6 +180,11 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
           flex-direction: column;
           overflow: hidden;
           box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+          transform: scale(0.95);
+          transition: transform 0.2s ease-out;
+        }
+        .file-viewer-overlay.mounted .file-viewer-modal {
+          transform: scale(1);
         }
         .file-viewer-header {
           display: flex;

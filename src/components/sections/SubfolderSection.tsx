@@ -61,7 +61,7 @@ function EvidenceCard({ evidence, isEditMode, onEdit, onDelete }: {
   const TypeIcon = evidence.type === 'video' ? Video : FileText;
 
   return (
-    <div className="evidence-card">
+    <div className={`evidence-card ${viewerEvidence ? 'viewer-open' : ''}`}>
       {isEditMode && (
         <div className="evidence-card-actions">
           <button
@@ -123,7 +123,7 @@ function EvidenceCard({ evidence, isEditMode, onEdit, onDelete }: {
           {evidence.fileUrl && (
             <button
               className="evidence-action-btn view"
-              onClick={() => setViewerEvidence(evidence)}
+              onClick={(e) => { e.stopPropagation(); setViewerEvidence(evidence); }}
               type="button"
             >
               <ExternalLink size={14} />
@@ -401,6 +401,11 @@ export function SubfolderSection({
         .evidence-card:hover {
           transform: translateY(-2px);
           box-shadow: var(--shadow-md);
+        }
+        .evidence-card.viewer-open,
+        .evidence-card.viewer-open:hover {
+          transform: none;
+          transition: none;
         }
         .evidence-card-actions {
           position: absolute;
