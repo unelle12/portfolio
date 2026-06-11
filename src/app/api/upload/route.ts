@@ -1,37 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
-import { put } from "@vercel/blob";
+import { generateClientTokenFromReadWriteToken } from "@vercel/blob/client";
 
 export async function POST(request: NextRequest) {
   try {
-    const formData = await request.formData();
-    const file = formData.get("file") as File | null;
-    const evidenceId = formData.get("evidenceId") as string | null;
+    const { pathname } = await request.json();
 
-    if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+    if (!pathname) {
+      return NextResponse.json({ error: "No pathname provided" }, { status: 400 });
     }
 
-    // Generate unique filename
-    const timestamp = Date.now();
-    const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
-    const filename = `${timestamp}-${safeName}`;
-
-    // Upload to Vercel Blob
-    const blob = await put(filename, file, {
-      access: "public",
-      addRandomSuffix: false,
+    const clientToken = await generateClientTokenFromReadWriteToken({
+      pathname,
+      maximumSizeInBytes: 100 * 1024 * 1024, // 100MB
+      allowedContentTypes: [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "application/vnd.ms-powerpoint",
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        "video/mp4",
+        "video/quicktime",
+        "video/x-msvideo",
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+      ],
     });
 
-    return NextResponse.json({
-      success: true,
-      filepath: blob.url, // Vercel Blob URL
-      filename,
-      evidenceId,
-    });
+    return NextResponse.json({ clientToken });
   } catch (error) {
-    console.error("Upload error:", error);
+    console.error("Upload token error:", error);
     return NextResponse.json(
-      { error: "Failed to upload file" },
+      { error: "Failed to generate upload token" },
       { status: 500 }
     );
   }

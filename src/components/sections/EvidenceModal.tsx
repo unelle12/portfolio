@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { SectionModal } from '../ui/SectionModal';
 import { Upload, Link2, X, FileText } from 'lucide-react';
 import { api } from '~/trpc/react';
+import { put } from '@vercel/blob/client';
 
 interface EvidenceModalProps {
   isOpen: boolean;
@@ -97,22 +98,32 @@ export function EvidenceModal({ isOpen, onClose, mode, evidence, preselectedSubf
 
     setUploading(true);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (data.success) {
-        const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
-        const fileTypeMap: Record<string, string> = { pdf: 'pdf', doc: 'doc', docx: 'doc', ppt: 'ppt', pptx: 'ppt', mp4: 'mp4', mov: 'mov', avi: 'avi', jpg: 'jpg', jpeg: 'jpg', png: 'png' };
-        const typeMap: Record<string, string> = { mp4: 'video', mov: 'video', avi: 'video', webm: 'video' };
-        setForm((prev) => ({
-          ...prev,
-          fileUrl: data.filepath,
-          filePath: data.filepath,
-          fileType: fileTypeMap[ext] ?? ext,
-          type: typeMap[ext] ?? 'document',
-        }));
-      }
+      const timestamp = Date.now();
+      const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+      const pathname = `${timestamp}-${safeName}`;
+
+      const tokenRes = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pathname }),
+      });
+      const { clientToken } = await tokenRes.json();
+
+      const blob = await put(pathname, file, {
+        access: 'public',
+        token: clientToken,
+      });
+
+      const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+      const fileTypeMap: Record<string, string> = { pdf: 'pdf', doc: 'doc', docx: 'doc', ppt: 'ppt', pptx: 'ppt', mp4: 'mp4', mov: 'mov', avi: 'avi', jpg: 'jpg', jpeg: 'jpg', png: 'png' };
+      const typeMap: Record<string, string> = { mp4: 'video', mov: 'video', avi: 'video', webm: 'video' };
+      setForm((prev) => ({
+        ...prev,
+        fileUrl: blob.url,
+        filePath: blob.url,
+        fileType: fileTypeMap[ext] ?? ext,
+        type: typeMap[ext] ?? 'document',
+      }));
     } catch (err) {
       console.error('Upload failed:', err);
     } finally {
