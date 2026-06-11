@@ -293,7 +293,7 @@ export function EvidenceModal({ isOpen, onClose, mode, evidence, preselectedSubf
               {uploading ? 'Uploading...' : 'Choose File to Upload'}
             </button>
           )}
-          <p className="file-hint">PDF, DOC, PPT, MP4, MOV, JPG, PNG (max recommended: 10MB)</p>
+          <p className="file-hint">PDF, DOC, PPT, MP4, MOV, JPG, PNG (max recommended: 100MB)</p>
         </div>
       ) : (
         <div className="modal-field">
