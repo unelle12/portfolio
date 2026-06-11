@@ -37,9 +37,10 @@ function getViewerContent(fileUrl: string, fileType: string, type: string) {
   }
 
   if (ext === 'pdf') {
+    const pdfViewUrl = `https://docs.google.com/gview?url=${encodeURIComponent(fileUrl)}&embedded=true`;
     return (
       <iframe
-        src={fileUrl}
+        src={pdfViewUrl}
         style={{ width: '100%', height: '80vh', border: 'none', borderRadius: 'var(--radius-md)' }}
         title="PDF Viewer"
       />
