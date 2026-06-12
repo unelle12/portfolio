@@ -20,7 +20,7 @@ export function SectionModal({ isOpen, onClose, title, onSave, saveLabel = 'Save
         <div className="section-modal" onClick={(e) => e.stopPropagation()}>
           <div className="section-modal-header">
             <h2>{title}</h2>
-            <button className="btn btn-ghost btn-sm" onClick={onClose}>
+            <button className="btn btn-ghost btn-sm" onClick={onClose} aria-label="Close modal">
               <X size={20} />
             </button>
           </div>
@@ -48,13 +48,15 @@ export function SectionModal({ isOpen, onClose, title, onSave, saveLabel = 'Save
         .section-modal-overlay {
           position: fixed;
           inset: 0;
-          background: var(--color-overlay);
+          background: rgba(0, 0, 0, 0.5);
+          backdrop-filter: blur(6px);
+          -webkit-backdrop-filter: blur(6px);
           z-index: var(--z-modal);
           display: flex;
           align-items: center;
           justify-content: center;
           padding: var(--space-4);
-          animation: fadeIn 200ms ease-out;
+          animation: modalOverlayIn var(--motion-normal) var(--ease-snappy);
         }
         .section-modal {
           background: var(--color-card-bg);
@@ -65,6 +67,8 @@ export function SectionModal({ isOpen, onClose, title, onSave, saveLabel = 'Save
           display: flex;
           flex-direction: column;
           box-shadow: var(--shadow-xl);
+          animation: modalScaleIn var(--motion-slow) var(--ease-spring);
+          border: 1px solid var(--color-border);
         }
         .section-modal-header {
           display: flex;
@@ -117,13 +121,15 @@ export function SectionModal({ isOpen, onClose, title, onSave, saveLabel = 'Save
           font-size: var(--text-sm);
           color: var(--color-text-primary);
           background: var(--color-card-bg);
-          transition: border-color var(--duration-fast) var(--ease-in-out);
+          transition: border-color var(--motion-quick) var(--ease-snappy),
+                      box-shadow var(--motion-quick) var(--ease-snappy);
           font-family: var(--font-sans);
         }
         .modal-field .input:focus,
         .modal-field .textarea:focus {
           outline: none;
           border-color: var(--color-accent);
+          box-shadow: 0 0 0 3px var(--color-yellow);
         }
         .modal-field .textarea {
           resize: vertical;
@@ -143,9 +149,27 @@ export function SectionModal({ isOpen, onClose, title, onSave, saveLabel = 'Save
           border-bottom: 1px solid var(--color-border);
           margin-top: var(--space-2);
         }
-        @keyframes fadeIn {
+        @keyframes modalOverlayIn {
           from { opacity: 0; }
           to { opacity: 1; }
+        }
+        @keyframes modalScaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.95) translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .section-modal-overlay {
+            animation: none;
+          }
+          .section-modal {
+            animation: none;
+          }
         }
         @media (max-width: 640px) {
           .section-modal {

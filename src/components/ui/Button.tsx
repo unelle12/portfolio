@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type ButtonHTMLAttributes, type ReactNode, type ElementType } from 'react';
+import { type ButtonHTMLAttributes, type ReactNode, type ElementType, useCallback, useRef } from 'react';
 
 const variants = {
   primary: 'btn-primary',
@@ -24,6 +24,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   href?: string;
   target?: string;
   rel?: string;
+  loading?: boolean;
+  ripple?: boolean;
 }
 
 export function Button({
@@ -37,13 +39,48 @@ export function Button({
   href,
   target,
   rel,
+  loading = false,
+  ripple = true,
   ...props
 }: ButtonProps) {
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  const createRipple = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (!ripple || disabled || loading) return;
+      const btn = btnRef.current;
+      if (!btn) return;
+
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+
+      const rippleEl = document.createElement('span');
+      rippleEl.className = 'ripple';
+      rippleEl.style.width = rippleEl.style.height = `${size}px`;
+      rippleEl.style.left = `${x}px`;
+      rippleEl.style.top = `${y}px`;
+      btn.appendChild(rippleEl);
+
+      setTimeout(() => rippleEl.remove(), 600);
+    },
+    [ripple, disabled, loading]
+  );
+
+  const combinedClassName = clsx(
+    'btn',
+    variants[variant],
+    sizes[size],
+    loading && 'btn-loading',
+    className
+  );
+
   if (Component === 'a' && href) {
     return (
       <a
         href={href}
-        className={clsx('btn', variants[variant], sizes[size], className)}
+        className={combinedClassName}
         target={target}
         rel={rel}
         {...(props as unknown as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
@@ -55,9 +92,11 @@ export function Button({
 
   return (
     <Component
+      ref={btnRef}
       type={type}
-      disabled={disabled}
-      className={clsx('btn', variants[variant], sizes[size], className)}
+      disabled={disabled || loading}
+      className={combinedClassName}
+      onClick={createRipple}
       {...props}
     >
       {children}

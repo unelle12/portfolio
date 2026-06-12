@@ -10,16 +10,60 @@
   border: 2px solid transparent;
   border-radius: var(--radius-lg);
   cursor: pointer;
-  transition: all var(--duration-normal) var(--ease-in-out);
+  transition: all var(--motion-normal) var(--ease-snappy);
   white-space: nowrap;
   user-select: none;
   text-decoration: none;
+  position: relative;
+  overflow: hidden;
 }
 
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+/* Ripple effect container */
+.btn .ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  pointer-events: none;
+}
+
+.btn-primary .ripple,
+.btn-accent .ripple {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.btn-secondary .ripple,
+.btn-ghost .ripple {
+  background: rgba(79, 37, 46, 0.12);
+}
+
+/* Button active press */
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* Loading state */
+.btn-loading {
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+.btn-loading::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-left: var(--space-2);
 }
 
 .btn-sm {
@@ -108,7 +152,10 @@
   background: var(--color-card-bg);
   border-radius: var(--radius-xl);
   border: 1px solid var(--color-border);
-  transition: all var(--duration-normal) var(--ease-in-out);
+  transition: transform var(--motion-normal) var(--ease-snappy),
+              box-shadow var(--motion-normal) var(--ease-snappy),
+              border-color var(--motion-normal) var(--ease-snappy),
+              background var(--motion-normal) var(--ease-snappy);
   box-shadow: var(--shadow-sm);
 }
 
@@ -116,6 +163,26 @@
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
   border-color: var(--color-teal);
+}
+
+/* Glassmorphism card variant */
+.card-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.card-glass:hover {
+  box-shadow: var(--shadow-lg), var(--glass-shadow);
+}
+
+/* Card with gradient top border */
+.card-gradient-top {
+  border-top: 3px solid transparent;
+  border-image: linear-gradient(135deg, var(--color-teal-strong), var(--color-accent)) 1;
+  border-image-slice: 1;
 }
 
 .card-pad-none { padding: 0; }
@@ -142,6 +209,37 @@
   white-space: nowrap;
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
+  transition: transform var(--motion-quick) var(--ease-spring),
+              box-shadow var(--motion-quick) var(--ease-snappy);
+}
+
+.badge:hover {
+  transform: scale(1.05);
+}
+
+/* Badge with pulse animation */
+.badge-pulse {
+  animation: pulseGlow 2.5s ease-in-out infinite;
+}
+
+/* Badge with shimmer effect */
+.badge-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.badge-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmerWave 2s ease-in-out infinite;
 }
 
 .badge-default {
@@ -177,7 +275,7 @@
 .link {
   color: var(--color-teal-strong);
   text-decoration: none;
-  transition: color var(--duration-fast) var(--ease-in-out);
+  transition: color var(--motion-quick) var(--ease-snappy);
   position: relative;
   font-weight: var(--weight-medium);
 }
@@ -190,10 +288,33 @@
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
+  transition: text-decoration-thickness var(--motion-quick) var(--ease-snappy),
+              color var(--motion-quick) var(--ease-snappy);
 }
 
 .link-underline:hover {
   text-decoration-thickness: 2px;
+}
+
+/* Animated underline on hover */
+.link-animated {
+  position: relative;
+}
+
+.link-animated::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gradient-accent);
+  border-radius: var(--radius-full);
+  transition: width var(--motion-normal) var(--ease-snappy);
+}
+
+.link-animated:hover::after {
+  width: 100%;
 }
 
 /* ===== DIVIDER STYLES ===== */
@@ -202,6 +323,20 @@
   height: 2px;
   background: var(--gradient-primary);
   margin: var(--space-6) 0;
+  border-radius: var(--radius-full);
+}
+
+/* Animated divider that draws on scroll */
+.divider-animated {
+  width: 0;
+  animation: drawLine 0.8s var(--ease-out) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .divider-animated {
+    animation: none;
+    width: 100%;
+  }
 }
 
 /* ===== FORM STYLES ===== */
@@ -209,6 +344,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  position: relative;
 }
 
 .form-label {
@@ -217,6 +353,7 @@
   color: var(--color-text-primary);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
+  transition: color var(--motion-quick) var(--ease-snappy);
 }
 
 .input {
@@ -229,7 +366,9 @@
   background: var(--color-input-bg);
   border: 2px solid var(--color-teal);
   border-radius: var(--radius-lg);
-  transition: all var(--duration-fast) var(--ease-in-out);
+  transition: border-color var(--motion-quick) var(--ease-snappy),
+              box-shadow var(--motion-quick) var(--ease-snappy),
+              transform var(--motion-quick) var(--ease-snappy);
   outline: none;
 }
 
@@ -239,15 +378,52 @@
 
 .input:focus {
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px var(--color-yellow);
+  box-shadow: 0 0 0 3px var(--color-yellow), var(--glow-orange);
+  transform: translateY(-1px);
 }
 
 .input-error {
   border-color: #dc2626;
+  animation: shake 0.4s ease-in-out;
 }
 
 .input-error:focus {
   box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+}
+
+/* Floating label variant */
+.form-field-floating {
+  position: relative;
+}
+
+.form-field-floating .input {
+  padding-top: var(--space-5);
+  padding-bottom: var(--space-2);
+}
+
+.form-field-floating .form-label {
+  position: absolute;
+  top: 50%;
+  left: var(--space-4);
+  transform: translateY(-50%);
+  font-size: var(--text-base);
+  font-weight: var(--weight-normal);
+  color: var(--color-text-muted);
+  text-transform: none;
+  letter-spacing: normal;
+  pointer-events: none;
+  transition: all var(--motion-quick) var(--ease-snappy);
+  transform-origin: left center;
+}
+
+.form-field-floating .input:focus ~ .form-label,
+.form-field-floating .input:not(:placeholder-shown) ~ .form-label {
+  top: var(--space-2);
+  transform: translateY(0) scale(0.75);
+  color: var(--color-accent);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
 }
 
 .textarea {
@@ -259,4 +435,30 @@
   font-size: var(--text-xs);
   color: #dc2626;
   font-weight: var(--weight-medium);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* Focus ring animation */
+@keyframes focusRingPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 3px var(--color-yellow);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(244, 174, 82, 0.3);
+  }
+}
+
+.input:focus {
+  animation: focusRingPulse 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .input:focus {
+    animation: none;
+  }
+  .input-error {
+    animation: none;
+  }
 }

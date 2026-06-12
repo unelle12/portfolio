@@ -14,6 +14,8 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
   hover?: boolean;
   padding?: string;
   className?: string;
+  glass?: boolean;
+  gradientTop?: boolean;
 }
 
 export function Card({
@@ -22,6 +24,8 @@ export function Card({
   hover = true,
   padding = 'md',
   className,
+  glass = false,
+  gradientTop = false,
   ...props
 }: CardProps) {
   return (
@@ -30,6 +34,8 @@ export function Card({
         'card',
         elevations[elevation],
         hover && 'card-hover',
+        glass && 'card-glass',
+        gradientTop && 'card-gradient-top',
         `card-pad-${padding}`,
         className
       )}

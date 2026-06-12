@@ -3,6 +3,7 @@ import { Target, BookOpen, Users, Lightbulb, FlaskConical } from 'lucide-react';
 import { useContent } from '../../context/ContentContext';
 import { EditButton } from '../common/EditButton';
 import { IntroductionModal } from './IntroductionModal';
+import { ScrollReveal, ScrollRevealGroup } from '../common/ScrollReveal';
 import { useState } from 'react';
 
 const principleIcons = [Target, BookOpen, Users, Lightbulb, FlaskConical];
@@ -28,18 +29,21 @@ export function Introduction() {
       {isEditMode && <EditButton onClick={() => setIsModalOpen(true)} label="Edit Introduction" />}
 
       <Container>
-        <div className="section-header center">
-          <Badge variant="teal" className="section-badge">About Me</Badge>
-          <Heading as="h2" variant="h2" center className="section-title">
-            Introduction
-          </Heading>
-          <Text size="lg" muted className="section-description" style={{ marginInline: 'auto' }}>
-            Get to know me and the purpose behind this portfolio.
-          </Text>
-        </div>
+        <ScrollReveal variant="fadeUp" useSpring>
+          <div className="section-header center">
+            <Badge variant="teal" className="section-badge">About Me</Badge>
+            <Heading as="h2" variant="h2" center className="section-title">
+              Introduction
+            </Heading>
+            <Text size="lg" muted className="section-description" style={{ marginInline: 'auto' }}>
+              Get to know me and the purpose behind this portfolio.
+            </Text>
+          </div>
+        </ScrollReveal>
 
         <div className="intro-content">
-          <Card padding="lg" className="intro-main">
+          <ScrollReveal variant="fadeLeft" delay={0.1} useSpring>
+            <Card padding="lg" className="intro-main">
             <Text size="sm" muted style={{ marginBottom: 'var(--space-2)' }}>
               {greeting}
             </Text>
@@ -56,7 +60,9 @@ export function Introduction() {
               </Text>
             ))}
           </Card>
+          </ScrollReveal>
 
+          <ScrollReveal variant="fadeRight" delay={0.2} useSpring>
           <Card padding="lg" className="intro-purpose">
             <Heading as="h4" variant="h4" style={{ marginBottom: 'var(--space-3)' }}>
               Purpose of This Portfolio
@@ -92,6 +98,7 @@ export function Introduction() {
               })}
             </div>
           </Card>
+          </ScrollReveal>
         </div>
       </Container>
 

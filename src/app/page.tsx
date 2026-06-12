@@ -12,31 +12,94 @@ import { Contact } from "~/components/sections/Contact";
 import { ContentProvider, useContent } from "~/context/ContentContext";
 import { PageSkeleton } from "~/components/skeleton/Skeleton";
 
+function LoadingBar() {
+  const [progress, setProgress] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 90) {
+          clearInterval(interval);
+          return 90;
+        }
+        return prev + Math.random() * 15;
+      });
+    }, 200);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (progress >= 90) {
+      const timer = setTimeout(() => {
+        setProgress(100);
+        setTimeout(() => setVisible(false), 300);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [progress]);
+
+  if (!visible) return null;
+
+  return (
+    <div className="loading-bar-container">
+      <div
+        className="loading-bar"
+        style={{ width: `${progress}%` }}
+      />
+      <style>{`
+        .loading-bar-container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          z-index: 9999;
+          background: transparent;
+        }
+        .loading-bar {
+          height: 100%;
+          background: linear-gradient(90deg, var(--color-teal), var(--color-yellow), var(--color-orange));
+          background-size: 200% 100%;
+          animation: gradientRotate 2s ease infinite;
+          transition: width 0.3s var(--ease-snappy);
+          border-radius: 0 var(--radius-full) var(--radius-full) 0;
+          box-shadow: 0 0 10px var(--color-accent);
+        }
+      `}</style>
+    </div>
+  );
+}
+
 function HomeContent() {
   const { isLoading } = useContent();
   const [hasLoaded, setHasLoaded] = useState(false);
+  const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
     if (!isLoading) {
-      const timer = setTimeout(() => setHasLoaded(true), 700);
+      const timer = setTimeout(() => setHasLoaded(true), 600);
       return () => clearTimeout(timer);
     }
   }, [isLoading]);
 
+  useEffect(() => {
+    if (hasLoaded) {
+      const timer = setTimeout(() => setShowContent(true), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [hasLoaded]);
+
   return (
     <Layout>
-      {isLoading && (
-        <div className="skeleton-fade-out" style={{ opacity: 1, transition: 'opacity 500ms ease-out' }}>
-          <PageSkeleton />
-        </div>
-      )}
-      {!isLoading && !hasLoaded && (
-        <div className="content-fade-in">
+      {!hasLoaded && (
+        <div className="skeleton-container">
           <PageSkeleton />
         </div>
       )}
       {hasLoaded && (
-        <div className="content-visible">
+        <div className={`content-container ${showContent ? 'content-visible' : ''}`}>
           <ParallaxHero />
           <Introduction />
           <SelfAssessment />
@@ -48,24 +111,34 @@ function HomeContent() {
       )}
 
       <style>{`
-        .skeleton-fade-out {
-          opacity: 1;
-          animation: skeletonFadeOut 500ms ease-out forwards;
+        .skeleton-container {
+          animation: skeletonFadeOut 0.5s ease-out 0.2s forwards;
         }
-        .content-fade-in {
+        .content-container {
           opacity: 0;
-          animation: contentFadeIn 600ms ease-out forwards;
+          filter: blur(4px);
+          transform: translateY(8px);
+          transition: opacity 0.6s ease-out, filter 0.6s ease-out, transform 0.6s ease-out;
         }
-        .content-visible {
+        .content-container.content-visible {
           opacity: 1;
+          filter: blur(0);
+          transform: translateY(0);
         }
         @keyframes skeletonFadeOut {
           from { opacity: 1; }
           to { opacity: 0; }
         }
-        @keyframes contentFadeIn {
-          from { opacity: 0; transform: translateY(12px); }
-          to { opacity: 1; transform: translateY(0); }
+        @media (prefers-reduced-motion: reduce) {
+          .skeleton-container {
+            animation: none;
+          }
+          .content-container {
+            opacity: 1;
+            filter: none;
+            transform: none;
+            transition: none;
+          }
         }
       `}</style>
     </Layout>
@@ -75,6 +148,7 @@ function HomeContent() {
 export default function Home() {
   return (
     <ContentProvider>
+      <LoadingBar />
       <HomeContent />
     </ContentProvider>
   );

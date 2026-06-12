@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { useReducedMotion } from '../../hooks';
 import { useContent } from '../../context/ContentContext';
 import { HeroModal } from './HeroModal';
@@ -8,6 +8,7 @@ export function ParallaxHero() {
   const heroRef = useRef(null);
   const prefersReduced = useReducedMotion();
   const [scrollY, setScrollY] = useState(0);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const touchHandled = useRef(false);
@@ -36,6 +37,15 @@ export function ParallaxHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [prefersReduced]);
 
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (prefersReduced) return;
+    const rect = heroRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    setMousePos({ x, y });
+  }, [prefersReduced]);
+
   useEffect(() => {
     if (!activeId) return;
     const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setActiveId(null); };
@@ -56,14 +66,23 @@ export function ParallaxHero() {
   const imageY = prefersReduced ? 0 : scrollY * 0.25;
   const contentOpacity = prefersReduced ? 1 : Math.max(0, 1 - scrollY / 500);
 
+  const mouseParallax = prefersReduced ? { x: 0, y: 0 } : { x: mousePos.x * 8, y: mousePos.y * 5 };
+  const mouseImageParallax = prefersReduced ? { x: 0, y: 0 } : { x: mousePos.x * -4, y: mousePos.y * -3 };
+
   return (
-    <section ref={heroRef} className="hero" aria-label="Hero section" style={{ position: 'relative' }}>
+    <section
+      ref={heroRef}
+      className="hero"
+      aria-label="Hero section"
+      style={{ position: 'relative' }}
+      onMouseMove={handleMouseMove}
+    >
       {isEditMode && <EditButton onClick={() => setIsModalOpen(true)} label="Edit Hero" />}
 
       {/* Giant background text */}
       <div
         className="hero-text-layer"
-        style={{ transform: `translateY(${textY}px)` }}
+        style={{ transform: `translateY(${textY}px) translate(${mouseParallax.x}px, ${mouseParallax.y}px)` }}
       >
         <span className="hero-giant-text" aria-hidden="true">
           {hero?.giantText ?? 'PORTFOLIO'}
@@ -73,7 +92,7 @@ export function ParallaxHero() {
       {/* Main image */}
       <div
         className="hero-image-layer"
-        style={{ transform: `translateY(${imageY}px)` }}
+        style={{ transform: `translateY(${imageY}px) translate(${mouseImageParallax.x}px, ${mouseImageParallax.y}px)` }}
       >
         <div className="hero-image-wrapper">
           <img

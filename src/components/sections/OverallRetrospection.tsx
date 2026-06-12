@@ -4,6 +4,7 @@ import { Sparkles } from 'lucide-react';
 import { useContent } from '../../context/ContentContext';
 import { EditButton } from '../common/EditButton';
 import { RetrospectionModal } from './RetrospectionModal';
+import { ScrollReveal } from '../common/ScrollReveal';
 
 export function OverallRetrospection() {
   const { content, isEditMode } = useContent();
@@ -17,16 +18,19 @@ export function OverallRetrospection() {
       {isEditMode && <EditButton onClick={() => setIsModalOpen(true)} label="Edit Retrospection" />}
 
       <Container>
-        <div className="section-header center">
-          <Badge variant="accent" className="section-badge">Year 1 Summary</Badge>
-          <Heading as="h2" variant="h2" center className="section-title">
-            Overall Retrospection
-          </Heading>
-          <Text size="lg" muted className="section-description" style={{ marginInline: 'auto' }}>
-            A final reflection on my key insights, learning, and progress throughout Year 1.
-          </Text>
-        </div>
+        <ScrollReveal variant="fadeUp" useSpring>
+          <div className="section-header center">
+            <Badge variant="accent" className="section-badge">Year 1 Summary</Badge>
+            <Heading as="h2" variant="h2" center className="section-title">
+              Overall Retrospection
+            </Heading>
+            <Text size="lg" muted className="section-description" style={{ marginInline: 'auto' }}>
+              A final reflection on my key insights, learning, and progress throughout Year 1.
+            </Text>
+          </div>
+        </ScrollReveal>
 
+        <ScrollReveal variant="scale" delay={0.2} useSpring>
         <div className="retrospection-wrapper">
           <Card padding="lg" className="retrospection-card">
             <div className="retrospection-icon">
@@ -49,6 +53,7 @@ export function OverallRetrospection() {
             </div>
           </Card>
         </div>
+        </ScrollReveal>
       </Container>
 
       <RetrospectionModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

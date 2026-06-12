@@ -225,4 +225,53 @@
   --z-modal: 500;
   --z-toast: 600;
   --z-tooltip: 700;
+
+  /* ===== GLASSMORPHISM ===== */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-blur: 16px;
+  --glass-shadow: 0 8px 32px rgba(79, 37, 46, 0.08);
+
+  [data-theme="dark"] {
+    --glass-bg: rgba(30, 26, 28, 0.78);
+    --glass-border: rgba(255, 247, 197, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  /* ===== MOTION (refined durations) ===== */
+  --motion-instant: 80ms;
+  --motion-quick: 150ms;
+  --motion-normal: 250ms;
+  --motion-slow: 400ms;
+  --motion-slower: 600ms;
+
+  /* Easing curves */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ===== GLOW EFFECTS ===== */
+  --glow-teal: 0 0 20px rgba(141, 216, 213, 0.3);
+  --glow-yellow: 0 0 20px rgba(255, 238, 163, 0.3);
+  --glow-orange: 0 0 20px rgba(244, 174, 82, 0.3);
+  --glow-accent: 0 0 24px rgba(244, 174, 82, 0.35);
+
+  [data-theme="dark"] {
+    --glow-teal: 0 0 24px rgba(141, 216, 213, 0.2);
+    --glow-yellow: 0 0 24px rgba(255, 238, 163, 0.15);
+    --glow-orange: 0 0 24px rgba(244, 174, 82, 0.2);
+    --glow-accent: 0 0 30px rgba(244, 174, 82, 0.25);
+  }
+
+  /* ===== GRADIENT TEXT ===== */
+  --gradient-text: linear-gradient(135deg, var(--color-teal-strong), var(--color-accent));
+  --gradient-text-hero: linear-gradient(135deg, #FFFFFF 0%, var(--color-yellow) 100%);
+
+  /* ===== NOISE TEXTURE ===== */
+  --noise-opacity: 0.03;
+
+  [data-theme="dark"] {
+    --noise-opacity: 0.05;
+  }
 }

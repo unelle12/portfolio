@@ -198,7 +198,169 @@
   transform: scale(1);
 }
 
-/* Stagger delays */
+/* ===== WAVE SHIMMER (improved skeleton) ===== */
+@keyframes shimmerWave {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ===== RIPPLE EFFECT (button clicks) ===== */
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ===== ICON MORPH (theme toggle) ===== */
+@keyframes iconMorph {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(0.8);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+/* ===== PULSE GLOW (accent elements) ===== */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(244, 174, 82, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px 4px rgba(244, 174, 82, 0.25);
+  }
+}
+
+/* ===== LOADING BAR PROGRESS ===== */
+@keyframes loadingBar {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes loadingBarPulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ===== ERROR SHAKE ===== */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+/* ===== SCALE BOUNCE ===== */
+@keyframes scaleBounce {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ===== DRAW LINE (section dividers) ===== */
+@keyframes drawLine {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* ===== GRADIENT BORDER ROTATE ===== */
+@keyframes gradientRotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ===== CROSSFADE ===== */
+@keyframes crossfadeIn {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* ===== FLOAT SUBTLE ===== */
+@keyframes floatSubtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* ===== STAGGER FADE IN ===== */
+@keyframes staggerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== NEW UTILITY CLASSES ===== */
+.animate-shimmer-wave {
+  animation: shimmerWave 2s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.5s ease-in-out infinite;
+}
+
+.animate-scale-bounce {
+  animation: scaleBounce var(--motion-slow) var(--ease-spring) forwards;
+}
+
+.animate-crossfade {
+  animation: crossfadeIn var(--motion-slow) var(--ease-out) forwards;
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+.animate-gradient-rotate {
+  background-size: 200% 200%;
+  animation: gradientRotate 3s ease infinite;
+}
+
+/* ===== STAGGER DELAYS ===== */
 .stagger-1 { transition-delay: 50ms; }
 .stagger-2 { transition-delay: 100ms; }
 .stagger-3 { transition-delay: 150ms; }
@@ -207,3 +369,43 @@
 .stagger-6 { transition-delay: 300ms; }
 .stagger-7 { transition-delay: 350ms; }
 .stagger-8 { transition-delay: 400ms; }
+
+/* Stagger animation delays for skeleton sections */
+.skeleton-stagger-1 { animation: staggerFadeIn 0.4s ease-out 0ms both; }
+.skeleton-stagger-2 { animation: staggerFadeIn 0.4s ease-out 80ms both; }
+.skeleton-stagger-3 { animation: staggerFadeIn 0.4s ease-out 160ms both; }
+.skeleton-stagger-4 { animation: staggerFadeIn 0.4s ease-out 240ms both; }
+.skeleton-stagger-5 { animation: staggerFadeIn 0.4s ease-out 320ms both; }
+.skeleton-stagger-6 { animation: staggerFadeIn 0.4s ease-out 400ms both; }
+.skeleton-stagger-7 { animation: staggerFadeIn 0.4s ease-out 480ms both; }
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .animate-shimmer-wave,
+  .animate-pulse-glow,
+  .animate-scale-bounce,
+  .animate-float,
+  .animate-pulse,
+  .animate-spin {
+    animation: none;
+  }
+
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .skeleton-stagger-1,
+  .skeleton-stagger-2,
+  .skeleton-stagger-3,
+  .skeleton-stagger-4,
+  .skeleton-stagger-5,
+  .skeleton-stagger-6,
+  .skeleton-stagger-7 {
+    animation: none;
+  }
+}
