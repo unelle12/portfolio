@@ -227,7 +227,7 @@ export function Contact() {
           display: flex;
           align-items: center;
           gap: var(--space-2);
-          color: #dc2626;
+          color: var(--color-error-text);
         }
         .contact-info-card {
           background: var(--color-bg-secondary);

@@ -116,7 +116,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 right: 'var(--space-2)',
                 background: 'none',
                 border: 'none',
-                color: '#dc2626',
+                color: 'var(--color-error-text)',
                 cursor: 'pointer',
                 fontSize: 'var(--text-xs)',
               }}

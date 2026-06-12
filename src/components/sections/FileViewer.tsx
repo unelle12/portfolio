@@ -1,4 +1,5 @@
 import { useEffect, useCallback, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X, ExternalLink } from 'lucide-react';
 
 interface FileViewerProps {
@@ -320,14 +321,14 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
           justify-content: center;
           padding: var(--space-4);
           overflow: auto;
-          background: #1a1a1a;
+          background: var(--color-bg-page);
         }
         .file-viewer-fallback {
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: var(--space-4);
-          color: #999;
+          color: var(--color-viewer-fallback-text);
           text-align: center;
         }
         .file-viewer-fallback p {

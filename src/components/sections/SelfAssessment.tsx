@@ -6,12 +6,20 @@ import { useContent } from '../../context/ContentContext';
 import { EditButton } from '../common/EditButton';
 import { SelfAssessmentModal } from './SelfAssessmentModal';
 
-const COLORS = {
-  stroke: '#F4AE52',
-  fill: '#F4AE5233',
-  grid: '#4F252E22',
-  text: '#4F252E',
-};
+function getComputedColor(varName: string) {
+  if (typeof window === 'undefined') return '';
+  return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+}
+
+function RadarColors() {
+  const accent = getComputedColor('--color-accent');
+  const border = getComputedColor('--color-border');
+  return {
+    stroke: accent || '#F4AE52',
+    fill: (accent || '#F4AE52') + '33',
+    grid: border || '#4F252E22',
+  };
+}
 
 function RatingBar({ rating, maxRating = 5 }) {
   return (
@@ -106,7 +114,7 @@ export function SelfAssessment() {
             <Card padding="lg" className="assessment-chart-card">
               <ResponsiveContainer width="100%" height={350}>
                 <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="75%">
-                  <PolarGrid stroke={COLORS.grid} />
+                  <PolarGrid stroke={RadarColors().grid} />
                   <PolarAngleAxis
                     dataKey="subject"
                     tick={{ fill: 'var(--color-text-primary)', fontSize: 13, fontFamily: 'var(--font-heading)' }}
@@ -119,8 +127,8 @@ export function SelfAssessment() {
                   <Radar
                     name="Score"
                     dataKey="score"
-                    stroke={COLORS.stroke}
-                    fill={COLORS.fill}
+                    stroke={RadarColors().stroke}
+                    fill={RadarColors().fill}
                     strokeWidth={2}
                   />
                   <Tooltip

@@ -403,7 +403,7 @@ export function EvidenceModal({ isOpen, onClose, mode, evidence, preselectedSubf
           transition: color var(--duration-fast) var(--ease-in-out);
         }
         .file-remove-btn:hover {
-          color: #dc2626;
+          color: var(--color-error-text);
         }
         .file-hint {
           font-size: var(--text-xs);

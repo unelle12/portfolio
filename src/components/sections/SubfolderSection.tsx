@@ -354,12 +354,12 @@ export function SubfolderSection({
           color: var(--color-burgundy);
         }
         .action-btn.delete {
-          background: #fee2e2;
-          color: #dc2626;
+          background: var(--color-delete-bg);
+          color: var(--color-delete-text);
         }
         .action-btn.add-nested {
-          background: #dbeafe;
-          color: #2563eb;
+          background: var(--color-add-bg);
+          color: var(--color-add-text);
         }
         .action-btn:hover {
           transform: scale(1.05);
@@ -432,8 +432,8 @@ export function SubfolderSection({
           color: var(--color-burgundy);
         }
         .evidence-action-btn.delete {
-          background: #fee2e2;
-          color: #dc2626;
+          background: var(--color-delete-bg);
+          color: var(--color-delete-text);
         }
         .evidence-action-btn.memo {
           background: var(--color-bg-secondary);

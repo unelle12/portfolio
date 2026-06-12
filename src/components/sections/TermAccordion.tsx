@@ -282,8 +282,8 @@ export function TermAccordion({
           color: var(--color-burgundy);
         }
         .action-btn.delete {
-          background: #fee2e2;
-          color: #dc2626;
+          background: var(--color-delete-bg);
+          color: var(--color-delete-text);
         }
         .action-btn:hover {
           transform: scale(1.05);
