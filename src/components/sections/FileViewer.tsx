@@ -61,6 +61,30 @@ function getViewerContent(fileUrl: string, fileType: string, type: string) {
   return null;
 }
 
+function getGoogleDriveDirectUrl(fileUrl: string): string | null {
+  const url = fileUrl.trim();
+
+  const gdriveViewerRegex = /drive\.google\.com\/file\/d\/([^/]+)\/view/;
+  const gdriveViewer = gdriveViewerRegex.exec(url);
+  if (gdriveViewer) {
+    return `https://drive.google.com/uc?export=view&id=${gdriveViewer[1]}`;
+  }
+
+  const gdriveOpenRegex = /drive\.google\.com\/open\?id=([^&]+)/;
+  const gdriveOpen = gdriveOpenRegex.exec(url);
+  if (gdriveOpen) {
+    return `https://drive.google.com/uc?export=view&id=${gdriveOpen[1]}`;
+  }
+
+  const gdriveUcRegex = /drive\.google\.com\/uc\?id=([^&]+)/;
+  const gdriveUc = gdriveUcRegex.exec(url);
+  if (gdriveUc) {
+    return `https://drive.google.com/uc?export=view&id=${gdriveUc[1]}`;
+  }
+
+  return null;
+}
+
 function getExternalEmbedUrl(fileUrl: string): string | null {
   const url = fileUrl.trim();
 
@@ -74,24 +98,6 @@ function getExternalEmbedUrl(fileUrl: string): string | null {
   const vimeoMatch = vimeoRegex.exec(url);
   if (vimeoMatch) {
     return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
-  }
-
-  const gdriveViewerRegex = /drive\.google\.com\/file\/d\/([^/]+)\/view/;
-  const gdriveViewer = gdriveViewerRegex.exec(url);
-  if (gdriveViewer) {
-    return `https://drive.google.com/file/d/${gdriveViewer[1]}/preview`;
-  }
-
-  const gdriveOpenRegex = /drive\.google\.com\/open\?id=([^&]+)/;
-  const gdriveOpen = gdriveOpenRegex.exec(url);
-  if (gdriveOpen) {
-    return `https://drive.google.com/file/d/${gdriveOpen[1]}/preview`;
-  }
-
-  const gdriveUcRegex = /drive\.google\.com\/uc\?id=([^&]+)/;
-  const gdriveUc = gdriveUcRegex.exec(url);
-  if (gdriveUc) {
-    return `https://drive.google.com/file/d/${gdriveUc[1]}/preview`;
   }
 
   return null;
@@ -121,10 +127,10 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
 
   const isYouTube = /(?:youtube\.com|youtu\.be)/.exec(fileUrl) !== null;
   const isVimeo = /vimeo\.com/.exec(fileUrl) !== null;
-  const isGoogleDrive = /drive\.google\.com/.exec(fileUrl) !== null;
-  const isEmbeddableExternal = isYouTube || isVimeo || isGoogleDrive;
+  const isEmbeddableExternal = isYouTube || isVimeo;
 
   const viewerContent = getViewerContent(fileUrl, fileType, type);
+  const gdriveDirectUrl = getGoogleDriveDirectUrl(fileUrl);
 
   return (
     <div className={`file-viewer-overlay ${mounted ? 'mounted' : ''}`} onClick={onClose}>
@@ -148,7 +154,13 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
         </div>
 
         <div className="file-viewer-content">
-          {viewerContent ? (
+          {gdriveDirectUrl ? (
+            <iframe
+              src={`/api/files/proxy?url=${encodeURIComponent(gdriveDirectUrl)}`}
+              style={{ width: '100%', height: '80vh', border: 'none', borderRadius: 'var(--radius-md)' }}
+              title="Google Drive Viewer"
+            />
+          ) : viewerContent ? (
             viewerContent
           ) : isEmbeddableExternal ? (
             <iframe
