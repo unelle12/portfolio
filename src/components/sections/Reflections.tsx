@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Container, Heading, Text, Badge, Card } from '../ui';
-import { ChevronDown, ChevronUp, BookOpen } from 'lucide-react';
+import { Container, Heading, Text, Badge, Card, Button } from '../ui';
+import { ChevronDown, ChevronUp, BookOpen, Plus } from 'lucide-react';
 import { useContent } from '../../context/ContentContext';
 import { api } from '~/trpc/react';
 import { EditButton } from '../common/EditButton';
 import { ReflectionsModal } from './ReflectionsModal';
+import { AddReflectionModal } from './AddReflectionModal';
 
 function ReflectionCard({ reflection, evidence }) {
   const [expanded, setExpanded] = useState(false);
@@ -48,6 +49,7 @@ function ReflectionCard({ reflection, evidence }) {
 export function Reflections() {
   const { content, isEditMode } = useContent();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [addModalOpen, setAddModalOpen] = useState(false);
 
   const reflections = (content.reflections as Array<{
     evidenceId: string;
@@ -71,6 +73,15 @@ export function Reflections() {
           </Text>
         </div>
 
+        {isEditMode && (
+          <div className="evidence-toolbar">
+            <Button variant="primary" size="sm" onClick={() => setAddModalOpen(true)}>
+              <Plus size={16} />
+              Add Reflection
+            </Button>
+          </div>
+        )}
+
         <div className="reflections-list">
           {reflections.map((reflection) => {
             const evidence = evidenceItems.find((ev) => ev.id.toString() === reflection.evidenceId.replace('ev-', ''));
@@ -86,6 +97,7 @@ export function Reflections() {
       </Container>
 
       <ReflectionsModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <AddReflectionModal isOpen={addModalOpen} onClose={() => setAddModalOpen(false)} />
 
       <style>{`
         .reflections-list {
