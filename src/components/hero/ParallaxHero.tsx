@@ -10,7 +10,7 @@ export function ParallaxHero() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const touchHandled = useRef(false);
 
-  const { content } = useContent();
+  const { content, isEditMode } = useContent();
   const hero = content.hero as Record<string, string> | null;
   const selfAssessment = content.selfAssessment as { outcomes: Array<{
     id: string;
@@ -61,7 +61,7 @@ export function ParallaxHero() {
 
   const textY = prefersReduced ? 0 : scrollY * 0.15;
   const imageY = prefersReduced ? 0 : scrollY * 0.25;
-  const contentOpacity = prefersReduced ? 1 : Math.max(0, 1 - scrollY / 500);
+  const contentOpacity = isEditMode ? 1 : (prefersReduced ? 1 : Math.max(0, 1 - scrollY / 500));
 
   const mouseParallax = prefersReduced ? { x: 0, y: 0 } : { x: mousePos.x * 8, y: mousePos.y * 5 };
   const mouseImageParallax = prefersReduced ? { x: 0, y: 0 } : { x: mousePos.x * -4, y: mousePos.y * -3 };
