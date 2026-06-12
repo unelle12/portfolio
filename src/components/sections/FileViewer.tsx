@@ -39,10 +39,10 @@ function getViewerContent(fileUrl: string, fileType: string, type: string) {
   if (ext === 'pdf') {
     const pdfViewUrl = `/api/files/proxy?url=${encodeURIComponent(fileUrl)}`;
     return (
-      <iframe
+      <embed
         src={pdfViewUrl}
-        style={{ width: '100%', height: '80vh', border: 'none', borderRadius: 'var(--radius-md)' }}
-        title="PDF Viewer"
+        type="application/pdf"
+        style={{ width: '100%', height: '80vh', borderRadius: 'var(--radius-md)' }}
       />
     );
   }
@@ -50,10 +50,10 @@ function getViewerContent(fileUrl: string, fileType: string, type: string) {
   if (['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'].includes(ext)) {
     const officeUrl = `/api/files/proxy?url=${encodeURIComponent(fileUrl)}`;
     return (
-      <iframe
+      <embed
         src={officeUrl}
-        style={{ width: '100%', height: '80vh', border: 'none', borderRadius: 'var(--radius-md)' }}
-        title="Document Viewer"
+        type="application/octet-stream"
+        style={{ width: '100%', height: '80vh', borderRadius: 'var(--radius-md)' }}
       />
     );
   }
