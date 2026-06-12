@@ -9,6 +9,8 @@ interface ContentContextType {
   setEditMode: (val: boolean) => void;
   updateSection: (sectionKey: string, data: unknown) => void;
   updateReflection: (evidenceId: string, paragraphs: string[]) => void;
+  addReflection: (evidenceId: string) => void;
+  deleteReflection: (evidenceId: string) => void;
   resetSection: (sectionKey: string) => void;
   resetAllContent: () => void;
   isLoading: boolean;
@@ -41,6 +43,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   const updateRetrospection = api.section.updateRetrospection.useMutation();
   const updateContact = api.section.updateContact.useMutation();
   const updateReflectionMutation = api.section.updateReflection.useMutation();
+  const deleteReflectionMutation = api.section.deleteReflection.useMutation();
   const resetSectionMutation = api.section.resetSection.useMutation();
 
   const updateSection = useCallback((sectionKey: string, data: unknown) => {
@@ -75,6 +78,28 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     updateReflectionMutation.mutate({ evidenceId, paragraphs });
   }, [updateReflectionMutation]);
 
+  const addReflection = useCallback((evidenceId: string) => {
+    setContent((prev) => {
+      const reflections = (prev.reflections as Array<{ evidenceId: string; paragraphs: string[] }>) ?? [];
+      const exists = reflections.some((r) => r.evidenceId === evidenceId);
+      if (exists) return prev;
+      const updated = [...reflections, { evidenceId, paragraphs: [] }];
+      return { ...prev, reflections: updated };
+    });
+
+    updateReflectionMutation.mutate({ evidenceId, paragraphs: [] });
+  }, [updateReflectionMutation]);
+
+  const deleteReflection = useCallback((evidenceId: string) => {
+    setContent((prev) => {
+      const reflections = (prev.reflections as Array<{ evidenceId: string; paragraphs: string[] }>) ?? [];
+      const updated = reflections.filter((r) => r.evidenceId !== evidenceId);
+      return { ...prev, reflections: updated };
+    });
+
+    deleteReflectionMutation.mutate({ evidenceId });
+  }, [deleteReflectionMutation]);
+
   const resetSection = useCallback((sectionKey: string) => {
     resetSectionMutation.mutate({ section: sectionKey }, {
       onSuccess: () => {
@@ -102,6 +127,8 @@ export function ContentProvider({ children }: { children: ReactNode }) {
         setEditMode,
         updateSection,
         updateReflection,
+        addReflection,
+        deleteReflection,
         resetSection,
         resetAllContent,
         isLoading: isLoading || isFetching,

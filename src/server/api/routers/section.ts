@@ -259,6 +259,19 @@ export const sectionRouter = createTRPCRouter({
       });
     }),
 
+  // Delete a reflection
+  deleteReflection: publicProcedure
+    .input(z.object({ evidenceId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const existing = await ctx.db.reflection.findFirst({
+        where: { evidenceId: input.evidenceId },
+      });
+      if (existing) {
+        return ctx.db.reflection.delete({ where: { id: existing.id } });
+      }
+      return { success: true };
+    }),
+
   // Reset a section to defaults
   resetSection: publicProcedure
     .input(z.object({ section: z.string() }))
