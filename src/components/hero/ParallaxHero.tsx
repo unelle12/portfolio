@@ -114,20 +114,6 @@ export function ParallaxHero() {
         className="hero-content"
         style={{ opacity: contentOpacity }}
       >
-        {/* Navigation */}
-        <nav className="hero-nav" aria-label="Main navigation">
-          <a href="#" className="hero-nav-logo">
-            Portfolio
-          </a>
-          <div className="hero-nav-links">
-            <a href="#introduction" className="hero-nav-link">About</a>
-            <a href="#assessment" className="hero-nav-link">Assessment</a>
-            <a href="#evidence" className="hero-nav-link">Evidence</a>
-            <a href="#reflections" className="hero-nav-link">Reflections</a>
-            <a href="#contact" className="hero-nav-link">Contact</a>
-          </div>
-        </nav>
-
         {/* Main content area */}
         <div className="hero-main">
           <div className="hero-center-content">

@@ -1,6 +1,7 @@
 "use client";
 
 import { type ReactNode, useEffect } from "react";
+import { Navigation } from "./Navigation";
 import { Footer } from "./Footer";
 import { BackToTop } from "../common";
 import { useContent } from "~/context/ContentContext";
@@ -93,6 +94,7 @@ export function Layout({ children }: LayoutProps) {
       <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
+      <Navigation />
       <main id="main-content" className="app-main">
         {children}
       </main>
