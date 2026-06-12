@@ -1,4 +1,5 @@
 import { useEffect, useCallback, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X, ExternalLink } from 'lucide-react';
 
 interface FileViewerProps {
@@ -136,7 +137,7 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
 
   const viewerContent = getViewerContent(fileUrl, fileType, type);
 
-  return (
+  return createPortal(
     <div className={`file-viewer-overlay ${mounted ? 'mounted' : ''}`} onClick={onClose}>
       <div className="file-viewer-modal" onClick={(e) => e.stopPropagation()}>
         <div className="file-viewer-header">
@@ -220,7 +221,7 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
         .file-viewer-overlay {
           position: fixed;
           inset: 0;
-          z-index: 1000;
+          z-index: var(--z-modal, 500);
           background: rgba(0, 0, 0, 0.85);
           display: flex;
           align-items: center;
@@ -335,6 +336,7 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
           margin: 0;
         }
       `}</style>
-    </div>
+    </div>,
+    document.body
   );
 }
