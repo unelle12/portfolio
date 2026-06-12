@@ -39,22 +39,48 @@ function getViewerContent(fileUrl: string, fileType: string, type: string) {
   if (ext === 'pdf') {
     const pdfViewUrl = `/api/files/proxy?url=${encodeURIComponent(fileUrl)}`;
     return (
-      <embed
-        src={pdfViewUrl}
+      <object
+        data={pdfViewUrl}
         type="application/pdf"
         style={{ width: '100%', height: '80vh', borderRadius: 'var(--radius-md)' }}
-      />
+      >
+        <div className="file-viewer-fallback">
+          <p>Your browser cannot preview PDFs inline.</p>
+          <a
+            className="file-viewer-btn primary"
+            href={pdfViewUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <ExternalLink size={14} />
+            Open PDF
+          </a>
+        </div>
+      </object>
     );
   }
 
   if (['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'].includes(ext)) {
     const officeUrl = `/api/files/proxy?url=${encodeURIComponent(fileUrl)}`;
     return (
-      <embed
-        src={officeUrl}
+      <object
+        data={officeUrl}
         type="application/octet-stream"
         style={{ width: '100%', height: '80vh', borderRadius: 'var(--radius-md)' }}
-      />
+      >
+        <div className="file-viewer-fallback">
+          <p>Your browser cannot preview this document inline.</p>
+          <a
+            className="file-viewer-btn primary"
+            href={officeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <ExternalLink size={14} />
+            Open Document
+          </a>
+        </div>
+      </object>
     );
   }
 
@@ -133,10 +159,23 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
 
         <div className="file-viewer-content">
           {isGoogleDrive && !gdriveError ? (
-            <embed
-              src={`/api/files/proxy?url=${encodeURIComponent(fileUrl)}`}
+            <object
+              data={`/api/files/proxy?url=${encodeURIComponent(fileUrl)}`}
               style={{ width: '100%', height: '80vh', borderRadius: 'var(--radius-md)' }}
-            />
+            >
+              <div className="file-viewer-fallback">
+                <p>Unable to preview this Google Drive file.</p>
+                <a
+                  className="file-viewer-btn primary"
+                  href={fileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLink size={14} />
+                  Open in Google Drive
+                </a>
+              </div>
+            </object>
           ) : isGoogleDrive && gdriveError ? (
             <div className="file-viewer-fallback">
               <p>Unable to preview this Google Drive file.</p>

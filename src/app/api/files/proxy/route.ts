@@ -16,6 +16,33 @@ function extractGoogleDriveId(url: string): string | null {
   return null;
 }
 
+function extractFilename(fileUrl: string, contentType: string): string {
+  try {
+    const urlObj = new URL(fileUrl);
+    const pathParts = urlObj.pathname.split('/');
+    const raw = pathParts[pathParts.length - 1] ?? '';
+    const decoded = decodeURIComponent(raw);
+    const cleaned = decoded.replace(/-[a-z0-9]{12,}(\.\w+)?$/, '$1').replace(/\?.*$/, '');
+    if (cleaned && cleaned.includes('.')) return cleaned;
+  } catch {}
+
+  const extMap: Record<string, string> = {
+    'application/pdf': '.pdf',
+    'application/msword': '.doc',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '.docx',
+    'application/vnd.ms-powerpoint': '.ppt',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation': '.pptx',
+    'application/vnd.ms-excel': '.xls',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx',
+    'image/jpeg': '.jpg',
+    'image/png': '.png',
+    'image/gif': '.gif',
+    'video/mp4': '.mp4',
+  };
+  const ext = extMap[contentType] ?? '';
+  return `document${ext}`;
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const fileUrl = searchParams.get('url');
@@ -52,6 +79,7 @@ export async function GET(request: NextRequest) {
 
       const meta = await metaRes.json();
       const contentType = (meta.mimeType as string) ?? 'application/octet-stream';
+      const filename = (meta.name as string) ?? 'document';
 
       const fileUrlApi = `https://www.googleapis.com/drive/v3/files/${gdriveId}?alt=media&key=${apiKey}`;
       const fileRes = await fetch(fileUrlApi);
@@ -67,7 +95,7 @@ export async function GET(request: NextRequest) {
 
       const headers = new Headers();
       headers.set('Content-Type', contentType);
-      headers.set('Content-Disposition', 'inline');
+      headers.set('Content-Disposition', `inline; filename="${filename}"`);
       headers.set('Cache-Control', 'public, max-age=3600');
 
       return new NextResponse(fileRes.body, {
@@ -94,10 +122,11 @@ export async function GET(request: NextRequest) {
     }
 
     const contentType = response.headers.get('content-type') ?? 'application/octet-stream';
+    const filename = extractFilename(fileUrl, contentType);
 
     const headers = new Headers();
     headers.set('Content-Type', contentType);
-    headers.set('Content-Disposition', 'inline');
+    headers.set('Content-Disposition', `inline; filename="${filename}"`);
     headers.set('Cache-Control', 'public, max-age=31536000, immutable');
 
     return new NextResponse(response.body, {
