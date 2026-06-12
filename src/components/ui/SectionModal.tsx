@@ -1,4 +1,5 @@
 import { type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 
 interface SectionModalProps {
@@ -14,7 +15,7 @@ interface SectionModalProps {
 export function SectionModal({ isOpen, onClose, title, onSave, saveLabel = 'Save Changes', saveDisabled = false, children }: SectionModalProps) {
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <>
       <div className="section-modal-overlay" onClick={onClose}>
         <div className="section-modal" onClick={(e) => e.stopPropagation()}>
@@ -181,6 +182,7 @@ export function SectionModal({ isOpen, onClose, title, onSave, saveLabel = 'Save
           }
         }
       `}</style>
-    </>
+    </>,
+    document.body
   );
 }

@@ -122,8 +122,8 @@ function HomeContent() {
         }
         .content-container.content-visible {
           opacity: 1;
-          filter: blur(0);
-          transform: translateY(0);
+          filter: none;
+          transform: none;
         }
         @keyframes skeletonFadeOut {
           from { opacity: 1; }

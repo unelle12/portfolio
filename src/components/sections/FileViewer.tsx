@@ -137,7 +137,7 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
 
   const viewerContent = getViewerContent(fileUrl, fileType, type);
 
-  return (
+  return createPortal(
     <div className={`file-viewer-overlay ${mounted ? 'mounted' : ''}`} onClick={onClose}>
       <div className="file-viewer-modal" onClick={(e) => e.stopPropagation()}>
         <div className="file-viewer-header">
@@ -336,6 +336,7 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
           margin: 0;
         }
       `}</style>
-    </div>
+    </div>,
+    document.body
   );
 }
