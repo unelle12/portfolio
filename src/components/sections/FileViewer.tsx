@@ -81,6 +81,7 @@ function getExternalEmbedUrl(fileUrl: string): string | null {
 
 export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: FileViewerProps) {
   const [mounted, setMounted] = useState(false);
+  const [gdriveError, setGdriveError] = useState(false);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape') onClose();
@@ -89,6 +90,7 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
   useEffect(() => {
     if (isOpen) {
       requestAnimationFrame(() => setMounted(true));
+      setGdriveError(false);
       document.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden';
     }
@@ -130,12 +132,26 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
         </div>
 
         <div className="file-viewer-content">
-          {isGoogleDrive ? (
+          {isGoogleDrive && !gdriveError ? (
             <iframe
               src={`/api/files/proxy?url=${encodeURIComponent(fileUrl)}`}
               style={{ width: '100%', height: '80vh', border: 'none', borderRadius: 'var(--radius-md)' }}
               title="Google Drive Viewer"
+              onError={() => setGdriveError(true)}
             />
+          ) : isGoogleDrive && gdriveError ? (
+            <div className="file-viewer-fallback">
+              <p>Unable to preview this Google Drive file.</p>
+              <a
+                className="file-viewer-btn primary"
+                href={fileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ExternalLink size={14} />
+                Open in Google Drive
+              </a>
+            </div>
           ) : viewerContent ? (
             viewerContent
           ) : isEmbeddableExternal ? (
