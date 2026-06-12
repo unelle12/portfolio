@@ -151,7 +151,7 @@
     display: flex;
   }
 
-  .nav-links {
+  .nav-mobile {
     position: fixed;
     top: 0;
     right: 0;
@@ -171,18 +171,18 @@
     box-shadow: var(--shadow-xl);
   }
 
-  .nav-links.open {
+  .nav-mobile.open {
     transform: translateX(0);
   }
 
   /* Staggered mobile menu entrance */
-  .nav-links.open .nav-link:nth-child(1) { animation: staggerFadeIn 0.3s ease-out 0ms both; }
-  .nav-links.open .nav-link:nth-child(2) { animation: staggerFadeIn 0.3s ease-out 50ms both; }
-  .nav-links.open .nav-link:nth-child(3) { animation: staggerFadeIn 0.3s ease-out 100ms both; }
-  .nav-links.open .nav-link:nth-child(4) { animation: staggerFadeIn 0.3s ease-out 150ms both; }
-  .nav-links.open .nav-link:nth-child(5) { animation: staggerFadeIn 0.3s ease-out 200ms both; }
-  .nav-links.open .nav-link:nth-child(6) { animation: staggerFadeIn 0.3s ease-out 250ms both; }
-  .nav-links.open .nav-mobile-footer { animation: staggerFadeIn 0.3s ease-out 300ms both; }
+  .nav-mobile.open .nav-link:nth-child(1) { animation: staggerFadeIn 0.3s ease-out 0ms both; }
+  .nav-mobile.open .nav-link:nth-child(2) { animation: staggerFadeIn 0.3s ease-out 50ms both; }
+  .nav-mobile.open .nav-link:nth-child(3) { animation: staggerFadeIn 0.3s ease-out 100ms both; }
+  .nav-mobile.open .nav-link:nth-child(4) { animation: staggerFadeIn 0.3s ease-out 150ms both; }
+  .nav-mobile.open .nav-link:nth-child(5) { animation: staggerFadeIn 0.3s ease-out 200ms both; }
+  .nav-mobile.open .nav-link:nth-child(6) { animation: staggerFadeIn 0.3s ease-out 250ms both; }
+  .nav-mobile.open .nav-mobile-footer { animation: staggerFadeIn 0.3s ease-out 300ms both; }
 
   .nav-link {
     padding: var(--space-3) var(--space-4);

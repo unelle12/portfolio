@@ -49,7 +49,7 @@ export function Navigation() {
           Portfolio
         </a>
 
-        <div className="nav-desktop">
+        <div className="nav-links">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}

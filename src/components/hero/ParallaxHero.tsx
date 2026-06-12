@@ -1,8 +1,6 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { useReducedMotion } from '../../hooks';
 import { useContent } from '../../context/ContentContext';
-import { HeroModal } from './HeroModal';
-import { EditButton } from '../common/EditButton';
 
 export function ParallaxHero() {
   const heroRef = useRef(null);
@@ -10,10 +8,9 @@ export function ParallaxHero() {
   const [scrollY, setScrollY] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [activeId, setActiveId] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const touchHandled = useRef(false);
 
-  const { content, isEditMode } = useContent();
+  const { content } = useContent();
   const hero = content.hero as Record<string, string> | null;
   const selfAssessment = content.selfAssessment as { outcomes: Array<{
     id: string;
@@ -77,8 +74,6 @@ export function ParallaxHero() {
       style={{ position: 'relative' }}
       onMouseMove={handleMouseMove}
     >
-      {isEditMode && <EditButton onClick={() => setIsModalOpen(true)} label="Edit Hero" />}
-
       {/* Giant background text */}
       <div
         className="hero-text-layer"
@@ -204,8 +199,6 @@ export function ParallaxHero() {
           <div className="hero-scroll-line" />
         </div>
       </div>
-
-      <HeroModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 }
