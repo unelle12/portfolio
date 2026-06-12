@@ -133,11 +133,9 @@ export function FileViewer({ isOpen, onClose, title, fileUrl, fileType, type }: 
 
         <div className="file-viewer-content">
           {isGoogleDrive && !gdriveError ? (
-            <iframe
+            <embed
               src={`/api/files/proxy?url=${encodeURIComponent(fileUrl)}`}
-              style={{ width: '100%', height: '80vh', border: 'none', borderRadius: 'var(--radius-md)' }}
-              title="Google Drive Viewer"
-              onError={() => setGdriveError(true)}
+              style={{ width: '100%', height: '80vh', borderRadius: 'var(--radius-md)' }}
             />
           ) : isGoogleDrive && gdriveError ? (
             <div className="file-viewer-fallback">
