@@ -146,6 +146,10 @@
   transform: scale(0.95);
 }
 
+.nav-mobile {
+  display: none;
+}
+
 @media (max-width: 767px) {
   .nav-links {
     display: none;
