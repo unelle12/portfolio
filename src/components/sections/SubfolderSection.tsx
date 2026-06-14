@@ -574,6 +574,24 @@ export function SubfolderSection({
           color: var(--color-text-primary);
           background: var(--color-bg-secondary);
         }
+        @media (max-width: 767px) {
+          .subfolder-header {
+            padding: var(--space-2) var(--space-3);
+          }
+          .subfolder-actions {
+            gap: 0;
+          }
+          .evidence-actions {
+            flex-wrap: wrap;
+          }
+          .evidence-action-btn {
+            font-size: 0;
+            padding: var(--space-1) var(--space-2);
+          }
+          .evidence-action-btn svg {
+            margin: 0;
+          }
+        }
       `}</style>
     </>
   );

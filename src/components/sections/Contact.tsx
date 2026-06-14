@@ -263,6 +263,21 @@ export function Contact() {
         }
         .contact-social-text {
           min-width: 0;
+          overflow: hidden;
+        }
+        .contact-social-text p {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        @media (max-width: 767px) {
+          .contact-social-link {
+            padding: var(--space-2) var(--space-3);
+          }
+          .contact-social-icon {
+            width: 36px;
+            height: 36px;
+          }
         }
       `}</style>
     </section>

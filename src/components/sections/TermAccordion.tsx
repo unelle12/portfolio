@@ -314,6 +314,18 @@ export function TermAccordion({
           color: var(--color-text-primary);
           background: var(--color-bg-secondary);
         }
+        @media (max-width: 767px) {
+          .term-header {
+            padding: var(--space-3) var(--space-4);
+          }
+          .term-info {
+            min-width: 0;
+            overflow: hidden;
+          }
+          .term-name {
+            font-size: var(--text-base);
+          }
+        }
       `}</style>
     </div>
   );

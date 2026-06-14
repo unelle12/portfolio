@@ -256,6 +256,11 @@ export function SelfAssessment() {
           margin-left: var(--space-2);
           min-width: 30px;
         }
+        @media (max-width: 1023px) {
+          .assessment-chart-card {
+            position: static;
+          }
+        }
       `}</style>
     </section>
   );

@@ -166,7 +166,7 @@ html {
   .nav-mobile {
     display: flex;
     position: fixed;
-    top: 0;
+    top: 52px;
     right: 0;
     bottom: 0;
     width: 280px;
@@ -436,6 +436,11 @@ html {
   .back-to-top {
     bottom: var(--space-4);
     right: var(--space-4);
+    width: 44px;
+    height: 44px;
+  }
+
+  .back-to-top svg {
     width: 44px;
     height: 44px;
   }

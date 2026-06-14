@@ -172,10 +172,22 @@ export function SectionModal({ isOpen, onClose, title, onSave, saveLabel = 'Save
             animation: none;
           }
         }
-        @media (max-width: 640px) {
+        @media (max-width: 767px) {
           .section-modal {
             max-height: 100vh;
+            max-height: 100dvh;
             border-radius: 0;
+            width: 100%;
+            max-width: 100%;
+          }
+          .section-modal-header {
+            padding: var(--space-3) var(--space-4);
+          }
+          .section-modal-body {
+            padding: var(--space-4);
+          }
+          .section-modal-footer {
+            padding: var(--space-3) var(--space-4);
           }
           .modal-row {
             grid-template-columns: 1fr;
