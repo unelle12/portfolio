@@ -44,23 +44,25 @@ html {
   position: sticky;
   top: 0;
   z-index: var(--z-nav);
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border-bottom: 2px solid var(--color-teal);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: none;
   transition: all var(--motion-normal) var(--ease-snappy);
 }
 
 .nav-scrolled {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
   box-shadow: var(--glass-shadow);
-  border-bottom-color: var(--color-accent);
 }
 
 .nav-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-2) 0;
+  padding: var(--space-1) 0;
 }
 
 .nav-logo {
@@ -166,10 +168,10 @@ html {
   .nav-mobile {
     display: flex;
     position: fixed;
-    top: 52px;
+    top: 44px;
     right: 0;
     bottom: 0;
-    width: 280px;
+    width: 260px;
     flex-direction: column;
     align-items: stretch;
     gap: var(--space-1);
