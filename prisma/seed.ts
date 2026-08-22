@@ -62,6 +62,30 @@ async function main() {
     },
   });
 
+  // Seed Terms
+  const term1 = await prisma.term.upsert({
+    where: { id: 1 },
+    update: {},
+    create: { id: 1, name: 'Term 1', description: 'First term', order: 1 },
+  });
+  const term2 = await prisma.term.upsert({
+    where: { id: 2 },
+    update: {},
+    create: { id: 2, name: 'Term 2', description: 'Second term', order: 2 },
+  });
+  const term3 = await prisma.term.upsert({
+    where: { id: 3 },
+    update: {},
+    create: { id: 3, name: 'Term 3', description: 'Third term', order: 3 },
+  });
+
+  // Seed Subfolders for Term 1
+  await prisma.subfolder.upsert({
+    where: { id: 1 },
+    update: {},
+    create: { id: 1, name: 'Evidence', description: 'Portfolio evidence', order: 1, termId: 1 },
+  });
+
   // Seed Evidence
   for (const item of evidence.items) {
     await prisma.evidence.upsert({
